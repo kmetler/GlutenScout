@@ -1,0 +1,420 @@
+/* Shared components — specs from docs/DESIGN.md. Reuse these; don't add one-off variants. */
+
+/* Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--touch-target);
+  border-radius: var(--radius-md);
+  transition: background var(--motion-fast), transform var(--motion-fast);
+}
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+.btn--primary {
+  padding: 13px 26px;
+  background: var(--brand);
+  color: var(--on-brand);
+  font: 700 15px/1 var(--font-sans);
+}
+.btn--primary:active {
+  background: var(--brand-pressed);
+  transform: scale(0.98);
+}
+.btn--primary:disabled {
+  background: var(--brand-disabled);
+  color: rgba(255, 255, 255, 0.6);
+  cursor: not-allowed;
+  transform: none;
+}
+.btn--secondary {
+  padding: 11px 20px;
+  border: 1px solid var(--divider);
+  color: var(--ink);
+  font: 600 14px/1 var(--font-sans);
+}
+.btn--secondary:active {
+  background: var(--pressed);
+}
+.btn--ghost {
+  flex-direction: column;
+  gap: 2px;
+  width: 56px;
+  height: var(--touch-target);
+  border: 1px solid var(--divider);
+  color: var(--ink-secondary);
+  font: 600 10px/1 var(--font-sans);
+}
+.btn--ghost.is-selected {
+  color: var(--brand-ink);
+}
+.btn--ghost.is-selected .icon {
+  fill: currentColor;
+}
+
+/* PrecautionBadge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-pill);
+  font: 600 13px/1 var(--font-sans);
+  white-space: nowrap;
+}
+.badge .icon {
+  stroke-width: 2.2;
+}
+.badge--confirmed {
+  background: var(--evidence-confirmed-bg);
+  color: var(--evidence-confirmed);
+}
+.badge--conflict {
+  background: var(--evidence-conflict-bg);
+  color: var(--evidence-conflict);
+}
+.badge--unverified {
+  background: var(--evidence-unverified-bg);
+  color: var(--evidence-unverified);
+}
+
+/* SafetyProfile */
+.safety {
+  padding: var(--space-4);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-md);
+}
+.safety__date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: var(--space-1) 0 var(--space-3);
+  color: var(--ink-secondary);
+}
+.safety__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.safety__sources {
+  margin-top: var(--space-3);
+}
+.safety__sources b {
+  font-weight: 700;
+}
+.safety__note {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: 10px var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--evidence-conflict-bg);
+  color: var(--ink);
+}
+.safety__note .icon {
+  margin-top: 2px;
+  color: var(--evidence-conflict);
+  stroke-width: 2.2;
+}
+.safety__action {
+  margin-top: var(--space-3);
+}
+
+/* StarRating */
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.stars__row {
+  display: flex;
+  gap: 2px;
+}
+.stars__row svg {
+  display: block;
+}
+.stars__fill {
+  fill: var(--star);
+}
+.stars__empty {
+  fill: var(--star-empty);
+}
+
+/* ReviewerTag */
+.reviewer-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 3px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--brand-tint);
+  color: var(--reviewer-tag-ink);
+  font: 700 11px/1 var(--font-sans);
+  vertical-align: middle;
+}
+
+/* ReviewCard */
+.review {
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--divider);
+}
+.review__who {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--space-10);
+  height: var(--space-10);
+  border-radius: var(--radius-circle);
+  background: var(--brand-deep);
+  color: var(--on-brand);
+  font: 700 15px/1 var(--font-sans);
+}
+.review__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: var(--space-3) 0 var(--space-2);
+}
+.review__body.is-clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+.review__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-4);
+  margin-top: var(--space-2);
+}
+.review__action {
+  min-height: var(--touch-target);
+  color: var(--ink-secondary);
+  font: 600 12px/1.4 var(--font-sans);
+}
+.review__action.is-chosen {
+  color: var(--brand-ink);
+}
+
+/* FilterChip */
+.chips {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: var(--space-1) var(--space-4);
+  margin: 0 calc(var(--space-4) * -1);
+  scrollbar-width: none;
+}
+.chips::-webkit-scrollbar {
+  display: none;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px var(--space-4);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font: 600 13px/1 var(--font-sans);
+  white-space: nowrap;
+  transition: background var(--motion-fast);
+}
+.chip .icon {
+  color: var(--brand-ink);
+}
+.chip.is-selected {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: var(--on-brand);
+}
+.chip.is-selected .icon {
+  color: var(--on-brand);
+}
+
+/* MealCard */
+.meal-card {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--divider);
+}
+.meal-card:active {
+  background: var(--pressed);
+}
+.meal-card__photo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--space-16);
+  height: var(--space-16);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink-secondary);
+}
+.meal-card__main {
+  flex: 1;
+  min-width: 0;
+}
+.meal-card__main > * + * {
+  margin-top: var(--space-1);
+}
+.meal-card__date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-secondary);
+}
+.meal-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-top: var(--space-1);
+}
+
+/* ScreenHeader */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--space-12);
+  padding: 0 var(--space-2);
+  border-bottom: 1px solid var(--divider);
+  background: var(--canvas);
+}
+.header__title {
+  flex: 1;
+  min-width: 0;
+  padding: 0 var(--space-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.icon-btn {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  border-radius: var(--radius-circle);
+  color: var(--ink);
+}
+.icon-btn:active {
+  background: var(--pressed);
+}
+
+/* TabBar */
+.tab-bar {
+  display: flex;
+  flex: none;
+  height: var(--tab-bar-height);
+  border-top: 1px solid var(--divider);
+  background: var(--canvas);
+}
+.tab-bar__item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: var(--touch-target);
+  color: var(--ink-secondary);
+  font: 600 10px/1 var(--font-sans);
+}
+.tab-bar__item.is-active {
+  color: var(--brand-ink);
+}
+
+/* ListRow — tappable row used for section links and settings */
+.list-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--divider);
+}
+.list-row:active {
+  background: var(--pressed);
+}
+.list-row__icon {
+  color: var(--brand-ink);
+}
+.list-row__main {
+  flex: 1;
+  min-width: 0;
+}
+.list-row__title,
+.list-row__detail {
+  display: block;
+}
+.list-row__chevron {
+  color: var(--ink-secondary);
+}
+
+/* Modal (lo-fi disclosure) */
+.modal-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  background: var(--scrim);
+}
+.modal {
+  width: 100%;
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-sheet);
+}
+.modal > * + * {
+  margin-top: var(--space-3);
+}
+.modal__list {
+  padding-left: var(--space-5);
+  list-style: disc;
+}
+.modal__action {
+  margin-top: var(--space-5);
+}
+
+/* Lo-fi notice strip (reopens the disclosure) */
+.lofi-note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface);
+  color: var(--ink-secondary);
+  text-align: left;
+}
+
+/* Wordmark */
+.wordmark {
+  color: var(--brand-deep);
+  font: 800 24px/1.2 var(--font-sans);
+}
+:root[data-theme='dark'] .wordmark {
+  color: var(--brand-ink);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .wordmark {
+    color: var(--brand-ink);
+  }
+}
