@@ -4,12 +4,14 @@ import PrecautionBadge from './PrecautionBadge.jsx'
 
 // The combined safety summary. Every claim shows a date; conflicts are stated in words.
 // precautions: [{ label, state }]   sources: [{ label, detail }]
+// Pass mealId so "Call ahead" opens the call-ahead script for that meal.
 export default function SafetyProfile({
+  mealId,
   lastVerified,
   precautions = [],
   sources = [],
   conflictNote,
-  callAheadTo = '/contribute',
+  callAheadTo = mealId ? `/contribute/call/${mealId}` : '/contribute/call',
 }) {
   const needsCall = Boolean(conflictNote) || precautions.some((p) => p.state !== 'confirmed')
   return (

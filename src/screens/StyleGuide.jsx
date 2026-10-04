@@ -1,15 +1,22 @@
 import { useState } from 'react'
 import {
   Button,
+  Checkbox,
   GhostButton,
   FilterChip,
   FilterChips,
   MealCard,
+  Notice,
   PrecautionBadge,
+  ReportStatus,
   ReviewCard,
   SafetyProfile,
   ScreenHeader,
+  StarInput,
   StarRating,
+  StepHeader,
+  TextArea,
+  TextField,
 } from '../components'
 import { meals, reports } from '../data/sample.js'
 
@@ -19,6 +26,9 @@ const CHIPS = ['Celiac reports', 'Dedicated fryer', 'Within 2 mi', 'Verified thi
 export default function StyleGuide() {
   const [selected, setSelected] = useState(['Celiac reports'])
   const [saved, setSaved] = useState(false)
+  const [stars, setStars] = useState(4)
+  const [notes, setNotes] = useState('')
+  const [agreed, setAgreed] = useState(false)
   const meal = meals[0]
 
   const toggleChip = (chip) =>
@@ -92,6 +102,7 @@ export default function StyleGuide() {
 
       <div className="section">
         <SafetyProfile
+          mealId={meal.id}
           lastVerified={meal.lastVerified}
           precautions={meal.precautions}
           sources={meal.sources}
@@ -112,7 +123,7 @@ export default function StyleGuide() {
 
       <div className="section">
         <h2 className="t-section-header">Reports</h2>
-        {reports.map((r) => (
+        {reports.slice(0, 2).map((r) => (
           <ReviewCard
             key={r.id}
             name={r.name}
@@ -125,6 +136,44 @@ export default function StyleGuide() {
             {r.body}
           </ReviewCard>
         ))}
+      </div>
+
+      <div className="band" />
+
+      <div className="section stack-3">
+        <h2 className="t-section-header">Report status</h2>
+        <div className="claims">
+          <ReportStatus status="pending" matches={1} />
+          <ReportStatus status="confirmed" matches={2} />
+          <ReportStatus status="conflict" />
+        </div>
+      </div>
+
+      <div className="band" />
+
+      <div className="section stack-4">
+        <h2 className="t-section-header">Forms</h2>
+        <StepHeader step={2} total={5} title="Step header">
+          Optional helper text under the title.
+        </StepHeader>
+        <TextField label="Text field" placeholder="Placeholder" />
+        <TextField label="With an error" type="date" value="2030-01-01" readOnly error="The visit date can't be in the future." />
+        <TextArea
+          label="Text area"
+          hint="Hint text"
+          maxLength={500}
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+        />
+        <StarInput value={stars} onChange={setStars} />
+        <Checkbox checked={agreed} onChange={setAgreed}>
+          Checkbox with a 44px touch target
+        </Checkbox>
+        <Notice>Notice — a calm, neutral explanation.</Notice>
+        <p className="t-caption ink-secondary">
+          ActionBar (not shown here) pins a screen's main button to the bottom — see any report
+          step in Contribute.
+        </p>
       </div>
 
       <div className="band" />

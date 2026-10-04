@@ -1,9 +1,10 @@
 import Icon from './Icon.jsx'
 
 // Wrap a set of chips in <FilterChips> for the horizontal-scroll row.
-export function FilterChips({ label = 'Filters', children }) {
+// Use wrap for answer chips inside forms, so every option is visible at once.
+export function FilterChips({ label = 'Filters', wrap = false, children }) {
   return (
-    <div className="chips" role="group" aria-label={label}>
+    <div className={`chips${wrap ? ' chips--wrap' : ''}`} role="group" aria-label={label}>
       {children}
     </div>
   )

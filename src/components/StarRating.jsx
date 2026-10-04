@@ -2,6 +2,29 @@ import { useId } from 'react'
 
 const STAR = 'M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.8-6.2 3.8 1.6-7L2 9.2l7.1-.6z'
 
+// Tap-to-rate input (whole stars). Tapping the current value again clears it.
+export function StarInput({ value, onChange, label = 'Food rating' }) {
+  return (
+    <div className="star-input" role="radiogroup" aria-label={label}>
+      {[1, 2, 3, 4, 5].map((i) => (
+        <button
+          key={i}
+          type="button"
+          role="radio"
+          aria-checked={value === i}
+          aria-label={`${i} star${i > 1 ? 's' : ''}`}
+          className="star-input__star"
+          onClick={() => onChange(value === i ? null : i)}
+        >
+          <svg width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
+            <path className={value >= i ? 'stars__fill' : 'stars__empty'} d={STAR} />
+          </svg>
+        </button>
+      ))}
+    </div>
+  )
+}
+
 // Stars rate food and experience only — never gluten safety.
 // size: 22 | 18 | 15 | 14. Always paired with the count.
 export default function StarRating({ value, count, size = 15 }) {
