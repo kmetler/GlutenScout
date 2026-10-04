@@ -1,16 +1,8 @@
 import { useState } from 'react'
-import {
-  ActionBar,
-  Button,
-  Checkbox,
-  FilterChip,
-  FilterChips,
-  Icon,
-  Notice,
-  ScreenHeader,
-} from '../../components'
-import { REVIEWER_TYPES } from '../../data/practices.js'
+import { Link } from 'react-router-dom'
+import { ActionBar, Button, Checkbox, Icon, Notice, ScreenHeader } from '../../components'
 import { MATCHES_NEEDED, useStore, VERIFIER_TYPES } from '../../data/store.jsx'
+import { ReviewerTypeSetting } from './shared.jsx'
 
 const GUIDELINES = [
   'Only report what you saw or were told on your own visit.',
@@ -60,22 +52,16 @@ export default function BecomeVerifier() {
       <div className="band" />
 
       <div className="section stack-3">
-        <h2 className="t-card-header">1. How do you eat gluten-free?</h2>
-        <FilterChips label="Reviewer type" wrap>
-          {REVIEWER_TYPES.map((type) => (
-            <FilterChip
-              key={type}
-              selected={reviewerType === type}
-              onClick={() => actions.setReviewerType(type)}
-            >
-              {type}
-            </FilterChip>
-          ))}
-        </FilterChips>
-        {!eligible && (
+        <h2 className="t-card-header">1. Your reviewer type</h2>
+        <ReviewerTypeSetting label="How do you eat gluten-free?" />
+        {reviewerType && !eligible && (
           <Notice>
             Verifiers are celiac or strict gluten-free diners, because they check kitchens most
-            closely. You can still write reports and flag conflicts.
+            closely. You can still write reports and flag conflicts. If your profile is wrong,{' '}
+            <Link className="link" to="/account">
+              change it in Account
+            </Link>
+            .
           </Notice>
         )}
       </div>
@@ -96,11 +82,13 @@ export default function BecomeVerifier() {
 
       <ActionBar
         note={
-          !eligible
-            ? 'Choose Celiac or Strict GF to continue.'
-            : !agreed
-              ? 'Tick the box to agree to the guidelines.'
-              : null
+          !reviewerType
+            ? 'Choose how you eat gluten-free.'
+            : !eligible
+              ? 'Verifiers need a Celiac or Strict GF profile.'
+              : !agreed
+                ? 'Tick the box to agree to the guidelines.'
+                : null
         }
       >
         <Button

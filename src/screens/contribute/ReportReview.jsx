@@ -26,6 +26,7 @@ export default function ReportReview() {
   const navigate = useNavigate()
   const draft = state.draft
   if (!draft) return <Navigate to="/contribute/report/meal" replace />
+  if (!state.currentUser.reviewerType) return <Navigate to="/contribute/report/visit" replace />
 
   const meal = findMeal(draft.mealId)
   const claims = claimsFromAnswers(draft.practices, 'visit')
@@ -60,7 +61,7 @@ export default function ReportReview() {
 
         <SummaryBlock title="Visit" editTo="/contribute/report/visit">
           <p className="t-body">
-            {formatISO(draft.visitDate)} · {draft.reviewerType}
+            {formatISO(draft.visitDate)} · {state.currentUser.reviewerType}
           </p>
         </SummaryBlock>
 

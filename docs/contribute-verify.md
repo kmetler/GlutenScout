@@ -11,7 +11,7 @@ How reports are written, checked and confirmed in the GlutenScout prototype, and
 ## Decisions
 
 ### 1. Reports are written step by step, not on one long form
-**Chosen:** 5 short steps — meal → kitchen practices → visit date and reviewer type → food rating and notes → check and submit.
+**Chosen:** 5 short steps — meal → kitchen practices → visit date (plus reviewer type, only if the profile has none — see decision 8) → food rating and notes → check and submit.
 **Considered:** one scrolling form.
 **Why:** Each step asks one kind of question, so there's less to hold in mind, and the summary step lets people catch mistakes before submitting (error prevention, recognition over recall). It also gives usability testers clear points to comment on.
 
@@ -42,6 +42,12 @@ How reports are written, checked and confirmed in the GlutenScout prototype, and
 **Chosen:** Food rating is optional, and the screen says stars are for the food, not gluten safety.
 **Why:** Design-system rule — stars never signal safety. Kitchen practices carry the gluten information.
 
+### 8. Reviewer type is a profile setting, not a per-report answer
+**Chosen:** Reviewer type (Celiac / Strict GF / Gluten-sensitive) belongs to the person's profile, which Account (Section D) owns. Contribute only asks for it if the profile doesn't have one yet: once, in step 3 of the report or on Become a verifier, and the answer is saved to the profile. After that it's shown read-only as "Posting as *Celiac* · Change in Account".
+**Considered:** choosing it on every report (the first version of this flow).
+**Why:** Asking every time is redundant, and it would let someone post as Celiac on one report and Gluten-sensitive on the next. That weakens the signal the peer-review rule depends on (only Celiac/Strict GF verifiers confirm reports). Asking once when it's missing means testers can still use Contribute before Account is built.
+The choice chips stay open for the rest of the visit to that screen, so a mis-tap can be fixed. Later changes go through Account.
+
 ---
 
 ## Behavior
@@ -65,7 +71,8 @@ Status is never stored. `reportStatus()` in `store.jsx` works it out from the vo
 | Verifier (Celiac / Strict GF) | ✓ | ✓ | ✓ Counts toward confirmed | ✓ |
 
 - You can't vote on your own reports. Your vote can be undone.
-- To become a verifier: reviewer type Celiac or Strict GF, plus agreeing to the guidelines (report only your own visit, date every visit, never call a meal "safe", flag rather than guess).
+- To become a verifier: a profile reviewer type of Celiac or Strict GF, plus agreeing to the guidelines (report only your own visit, date every visit, never call a meal "safe", flag rather than guess). Gluten-sensitive profiles are told why they can't verify and pointed to Account in case the profile is wrong.
+- Every report and vote takes its reviewer type from the profile at the time it's made.
 - Non-verifiers looking at a report see why their match won't count, and the main button becomes *Become a verifier*.
 
 ### How answers become claim badges
@@ -94,7 +101,7 @@ Answers are saved as people tap, so switching to the phone app and back loses no
 - Discarding a draft and resetting example data both ask for confirmation.
 
 ### Reset example data
-*My reports → Reset example data* clears your reports, votes, call answers, draft and verifier status, and brings back the seeded examples. Use it between usability-test sessions. Changes teammates make to `sample.js` only show up after a reset, because saved state takes priority.
+*My reports → Reset example data* clears your reports, votes, call answers, draft, reviewer type and verifier status, and brings back the seeded examples. Use it between usability-test sessions. Changes teammates make to `sample.js` only show up after a reset, because saved state takes priority.
 
 ### Seeded example states (for testing)
 | Report | Meal | Starts as | Try |
@@ -114,7 +121,7 @@ Answers are saved as people tap, so switching to the phone app and back loses no
 | 1 | `/contribute` | Contribute hub |
 | 2 | `/contribute/report/meal` | Step 1 · pick the meal (`?meal=<id>` skips to step 2) |
 | 3 | `/contribute/report/practices` | Step 2 · what did you see |
-| 4 | `/contribute/report/visit` | Step 3 · visit date and reviewer type |
+| 4 | `/contribute/report/visit` | Step 3 · visit date (asks reviewer type only if the profile has none) |
 | 5 | `/contribute/report/rating` | Step 4 · food rating and notes |
 | 6 | `/contribute/report/review` | Step 5 · check and submit |
 | 7 | `/contribute/report/submitted?id=<id>` | Submitted — what happens next |
@@ -140,7 +147,9 @@ Steps 2–5 send you back to step 1 if there's no draft. Unknown `/contribute/..
 - The *View this meal* button after submitting links to `/meals/{mealId}`, so please use that route for meal detail.
 
 **Section D — Account & community**
-- The profile's reviewer type is `state.currentUser.reviewerType` (Celiac / Strict GF / Gluten-sensitive); change it with `actions.setReviewerType(type)`. Submitting a report also updates it.
+- **Account owns reviewer type.** It's `state.currentUser.reviewerType` — `'Celiac'`, `'Strict GF'`, `'Gluten-sensitive'`, or `null` if not set yet. Set it with `actions.setReviewerType(type)` (profile setup and settings).
+- Contribute's "Change in Account" links go to `/account`, so the reviewer-type setting should be reachable from there.
+- Contribute only writes reviewer type when it's `null` (asking once). If profile setup always sets it, Contribute never asks.
 - Verifier status is `state.currentUser.isVerifier`; link to `/contribute/verifier` to change it.
 - "My reports" lives at `/contribute/mine` if you want to link to it from the profile.
 

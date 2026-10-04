@@ -29,7 +29,9 @@ export function reportStatus(reportVotes = []) {
 
 function initialState() {
   return {
-    currentUser: { name: 'You', location: 'Provo, UT', reviewerType: 'Celiac', isVerifier: false },
+    // reviewerType is a profile setting (Section D). null until the person picks one;
+    // Contribute asks once if it's missing, then only shows it.
+    currentUser: { name: 'You', location: 'Provo, UT', reviewerType: null, isVerifier: false },
     reports: seedReports,
     votes: seedVotes,
     draft: null,
@@ -47,8 +49,8 @@ function load() {
   }
 }
 
-export function newDraft(mealId, reviewerType) {
-  return { mealId, practices: {}, visitDate: todayISO(), reviewerType, rating: null, notes: '' }
+export function newDraft(mealId) {
+  return { mealId, practices: {}, visitDate: todayISO(), rating: null, notes: '' }
 }
 
 function myReportCount(state) {
@@ -58,7 +60,7 @@ function myReportCount(state) {
 function reducer(state, action) {
   switch (action.type) {
     case 'startDraft':
-      return { ...state, draft: newDraft(action.mealId, state.currentUser.reviewerType) }
+      return { ...state, draft: newDraft(action.mealId) }
     case 'updateDraft':
       return { ...state, draft: { ...state.draft, ...action.patch } }
     case 'discardDraft':
@@ -71,7 +73,7 @@ function reducer(state, action) {
         author: 'me',
         source: 'visit',
         name: state.currentUser.name,
-        reviewerType: d.reviewerType,
+        reviewerType: state.currentUser.reviewerType,
         location: state.currentUser.location,
         reportCount: myReportCount(state),
         date: formatISO(d.visitDate),
@@ -82,8 +84,6 @@ function reducer(state, action) {
       return {
         ...state,
         reports: [report, ...state.reports],
-        // Your reviewer type is part of your profile, so the latest choice sticks.
-        currentUser: { ...state.currentUser, reviewerType: d.reviewerType },
         draft: null,
       }
     }

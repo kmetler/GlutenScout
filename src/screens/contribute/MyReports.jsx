@@ -34,8 +34,8 @@ export default function MyReports() {
         {confirmReset ? (
           <>
             <p className="t-body">
-              This clears your reports, votes, call answers, draft and verifier status, and restores
-              the example data.
+              This clears your reports, votes, call answers, draft, reviewer type and verifier
+              status, and restores the example data.
             </p>
             <div className="row">
               <button

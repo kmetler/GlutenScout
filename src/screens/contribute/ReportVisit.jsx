@@ -1,20 +1,11 @@
 import { Navigate, useNavigate } from 'react-router-dom'
-import {
-  ActionBar,
-  Button,
-  FilterChip,
-  FilterChips,
-  ScreenHeader,
-  StepHeader,
-  TextField,
-} from '../../components'
+import { ActionBar, Button, ScreenHeader, StepHeader, TextField } from '../../components'
 import { findMeal } from '../../data/sample.js'
-import { REVIEWER_TYPES } from '../../data/practices.js'
 import { todayISO } from '../../data/dates.js'
 import { useStore } from '../../data/store.jsx'
-import { REPORT_STEPS } from './shared.jsx'
+import { REPORT_STEPS, ReviewerTypeSetting } from './shared.jsx'
 
-// Step 3. Every report carries a date and the reviewer's type.
+// Step 3. Every report carries a date and the reviewer's type (from the profile).
 export default function ReportVisit() {
   const { state, actions } = useStore()
   const navigate = useNavigate()
@@ -28,6 +19,7 @@ export default function ReportVisit() {
     : draft.visitDate > today
       ? "The visit date can't be in the future."
       : null
+  const typeMissing = !state.currentUser.reviewerType
 
   return (
     <>
@@ -44,30 +36,13 @@ export default function ReportVisit() {
           error={dateError}
           onChange={(e) => actions.updateDraft({ visitDate: e.target.value })}
         />
-        <fieldset className="fieldset-plain stack-2">
-          <legend className="t-card-header">How do you eat gluten-free?</legend>
-          <p className="t-body ink-secondary">
-            Shown next to your name so readers can weigh your report. This also updates your
-            profile.
-          </p>
-          <FilterChips label="Reviewer type" wrap>
-            {REVIEWER_TYPES.map((type) => (
-              <FilterChip
-                key={type}
-                selected={draft.reviewerType === type}
-                onClick={() => actions.updateDraft({ reviewerType: type })}
-              >
-                {type}
-              </FilterChip>
-            ))}
-          </FilterChips>
-        </fieldset>
+        <ReviewerTypeSetting />
       </div>
-      <ActionBar note={dateError}>
+      <ActionBar note={dateError ?? (typeMissing ? 'Choose how you eat gluten-free.' : null)}>
         <Button
           variant="primary"
           block
-          disabled={Boolean(dateError)}
+          disabled={Boolean(dateError) || typeMissing}
           onClick={() => navigate('/contribute/report/rating')}
         >
           Next
