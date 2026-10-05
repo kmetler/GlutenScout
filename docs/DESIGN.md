@@ -2,6 +2,7 @@
 
 > Source of truth: the GlutenScout design system (https://claude.ai/artifact/PWYaC62nFk9q7Ghd9rE5kM).
 > This file is the in-repo copy for people and AI agents. If the two disagree, the design system wins — update this file to match.
+> In code: tokens in `src/styles/tokens.css`, components in `src/components/`, shared app state (reports, votes, current user) in `src/data/store.jsx`.
 
 GlutenScout helps gluten-sensitive and celiac diners find restaurants nearby, inspect dated safety evidence, and prepare questions before they visit. Every screen answers: **"Can I eat here safely, and how sure are we?"** — name, safety profile, last verified date, precaution badges, then ratings and reviews.
 
@@ -28,6 +29,7 @@ GlutenScout helps gluten-sensitive and celiac diners find restaurants nearby, in
 2. **Inspect gluten-safety information** — restaurant answers + celiac/strict reviews + precaution badges → combined **safety profile** with last verified date.
 3. **Call ahead when unsure** — call-ahead script: which meals are available, staff practices (glove changes, clean utensils), food prep (separate stations), decide whether to order.
 4. **Keep reports trustworthy** — anyone can submit a dated report → reviewer type shown (celiac / strictness filter) → peer review checks claims and conflicts → moderation team validates flagged details.
+   Report statuses: **Pending** (n of 2 matches) → **Confirmed** (2 Celiac/Strict GF verifiers match) or **Conflict** (anyone saw something different → moderation). Full rules: [contribute-verify.md](contribute-verify.md).
 
 ---
 
@@ -110,6 +112,20 @@ Font: **Open Sans** (Google Fonts, weights 400/600/700/800). Fallback: `-apple-s
 **StarRating** — five stars, `star` / `star-empty`, 2px gap, half-star steps only. Sizes 22 / 18 / 15 / 14. Always paired with the count: "4.5 · 3,812 reviews".
 
 **FilterChip** — `surface` fill, 1px `divider`, `radius-pill`, `chip` text, 9×16 padding, optional 15px glyph in `brand-ink`. Selected: `brand` fill, `on-brand` text. Horizontal scroll, 10px gap. Examples: Celiac reports · Dedicated fryer · Within 2 mi · Verified this month.
+
+**ReportStatus** — peer-review state of a report, built on the PrecautionBadge styles. Pending = clock + "Pending · n of 2 matches" on `evidence-unverified-bg`; Confirmed = check + "Confirmed by 2 verifiers" on `evidence-confirmed-bg`; Conflict = triangle + "Conflict · sent to moderation" on `evidence-conflict-bg`.
+
+**StepHeader** — top of each step in a multi-step flow: "Step n of N" in `meta` `ink-secondary` → 4px progress track (`divider` track, `brand-ink` fill, `radius-pill`) → `section-header` title → optional `body` `ink-secondary` helper.
+
+**TextField / TextArea** — `meta` label above; input with `surface` fill, 1px `divider`, `radius-md`, 10×12 padding, min height 44 (text area 120). Placeholder `ink-tertiary`. Error: `status-closed` border plus triangle icon and words in `caption` below. Optional character counter in `caption` `ink-secondary`.
+
+**Checkbox** — native checkbox (20px, `accent-color: brand`) with a `body` label; whole row is a 44px touch target.
+
+**StarInput** — tap-to-rate food rating: five 44px buttons with 32px stars (`star` / `star-empty`), whole stars, tapping the current value clears it. Always labelled as a food rating.
+
+**ActionBar** — sticky bottom area for the screen's main action: `canvas` background, top 1px `divider`, `space-3`×`space-4` padding, sits at the bottom even on short screens. Holds the one primary button plus any secondary buttons, and an optional `caption` note explaining why the primary is disabled.
+
+**Notice** — neutral explanation box: `surface` fill, `radius-md`, 10×12 padding, info icon in `ink-secondary`, `body` text. For disagreement between reports use the SafetyProfile conflict note instead.
 
 **Page layout** — restaurant page order: photo header → name, stars, hours → `band` → SafetyProfile → `band` → call-ahead → `band` → reports. Bands (8px `band`), not bordered cards, separate sections.
 

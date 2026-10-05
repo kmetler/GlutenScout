@@ -65,8 +65,14 @@ button {
 }
 
 .app__screen {
+  display: flex;
   flex: 1;
+  flex-direction: column;
   overflow-y: auto;
+}
+
+.app__screen > * {
+  flex-shrink: 0;
 }
 
 /* Page layout */

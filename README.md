@@ -55,6 +55,11 @@ Other commands:
 - A Home screen linking to all four sections
 - A placeholder screen for each section, listing what it will contain
 
+### Section C — Contribute & verify
+15 screens under `/contribute`: a 5-step report flow, a call-ahead script built from each meal's evidence, a peer-review queue where reports go from Pending to Confirmed or Conflict, My reports, and Become a verifier. Reports and votes are saved in the browser; **My reports → Reset example data** restores the starting state between test sessions.
+
+Decisions, rules and how other sections link in: [docs/contribute-verify.md](docs/contribute-verify.md).
+
 ## Who builds what
 
 | Section | Owner | Branch | Route |
@@ -69,8 +74,8 @@ The planned screens and research tie-in for each section are in [docs/Instructio
 ## Building your section
 
 1. Branch off `main`: `git checkout -b feature/your-section`
-2. Add your screens in `src/screens/`.
-3. In [src/App.jsx](src/App.jsx), replace your section's placeholder route with your screens.
+2. Add your screens in a folder under `src/screens/` (see `src/screens/contribute/` for an example).
+3. In [src/App.jsx](src/App.jsx), add your section's routes to `SECTION_SCREENS`.
 4. Open a pull request back into `main`.
 
 Rules that keep the app consistent:
@@ -80,6 +85,7 @@ Rules that keep the app consistent:
 - **One green button per screen.**
 - **Never write "safe", "celiac-safe", "100% gluten-free" or "guaranteed".** Every safety claim shows a date; every report shows its reviewer type.
 - **Reuse the example data** in [src/data/sample.js](src/data/sample.js), and add to it there rather than inside a screen.
+- **Read and write shared data through `useStore()`** ([src/data/store.jsx](src/data/store.jsx)) — reports, votes and the current user's reviewer type — rather than keeping copies in your screens.
 - **Don't add unrelated features** (messaging, payments, loyalty points). The rubric penalizes them.
 
 The full design rules are in [docs/DESIGN.md](docs/DESIGN.md).
@@ -87,11 +93,15 @@ The full design rules are in [docs/DESIGN.md](docs/DESIGN.md).
 ## Project layout
 
 ```
-docs/               Assignment instructions and design system rules
+docs/               Assignment instructions, design system rules, section specs
 src/
   components/       Shared components
-  screens/          One file per screen; sections.js lists the four sections
-  data/sample.js    Example meals and reports
+  screens/          Screens; sections.js lists the four sections
+    contribute/     Section C screens
+  data/
+    sample.js       Example meals, reports and peer-review votes
+    practices.js    Kitchen practices, their questions and answer options
+    store.jsx       Shared state saved in the browser (useStore)
   styles/           tokens.css, base.css (layout and type), components.css
   App.jsx           Routes, disclosure modal, theme toggle
 ```

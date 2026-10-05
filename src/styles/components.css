@@ -239,6 +239,13 @@
 .chip.is-selected .icon {
   color: var(--on-brand);
 }
+/* Answer chips that wrap instead of scrolling (forms). */
+.chips--wrap {
+  flex-wrap: wrap;
+  overflow: visible;
+  margin: 0;
+  padding: var(--space-1) 0;
+}
 
 /* MealCard */
 .meal-card {
@@ -417,4 +424,182 @@
   :root:not([data-theme='light']) .wordmark {
     color: var(--brand-ink);
   }
+}
+
+/* ReportStatus reuses .badge. Claims row: */
+.claims {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* StepHeader */
+.step > * + * {
+  margin-top: var(--space-2);
+}
+.step__track {
+  height: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--divider);
+  overflow: hidden;
+}
+.step__fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--brand-ink);
+  transition: width var(--motion-slow);
+}
+
+/* TextField / TextArea */
+.field__label {
+  display: block;
+  margin-bottom: var(--space-1);
+}
+.field__input {
+  display: block;
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 10px var(--space-3);
+  border: 1px solid var(--divider);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+}
+.field__input::placeholder {
+  color: var(--ink-tertiary);
+}
+.field__input[aria-invalid='true'] {
+  border-color: var(--status-closed);
+}
+.field__input--area {
+  min-height: 120px;
+  resize: vertical;
+}
+.field__help {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+}
+.field__error {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--status-closed);
+}
+
+/* Checkbox */
+.check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  padding: 10px 0;
+  cursor: pointer;
+}
+.check-row input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: var(--brand);
+}
+
+/* StarInput */
+.star-input {
+  display: flex;
+  gap: var(--space-1);
+}
+.star-input__star {
+  display: grid;
+  place-items: center;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  border-radius: var(--radius-md);
+}
+.star-input__star:active {
+  background: var(--pressed);
+}
+
+/* ActionBar */
+.action-bar {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto; /* sits at the bottom of the screen even when content is short */
+  z-index: 1;
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--divider);
+  background: var(--canvas);
+}
+.action-bar__note {
+  margin-bottom: var(--space-2);
+}
+.action-bar__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Notice */
+.notice {
+  display: flex;
+  gap: var(--space-2);
+  padding: 10px var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink);
+}
+.notice > .icon {
+  margin-top: 3px;
+  color: var(--ink-secondary);
+}
+
+/* Form and summary helpers */
+.fieldset-plain {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.summary-block {
+  padding: var(--space-3) 0 var(--space-4);
+  border-bottom: 1px solid var(--divider);
+}
+.summary-block > * + * {
+  margin-top: var(--space-2);
+}
+.list-plain {
+  padding-left: var(--space-5);
+  list-style: disc;
+}
+.list-numbered {
+  padding-left: var(--space-5);
+  list-style: decimal;
+}
+.success-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.success-title > .icon {
+  color: var(--brand-ink);
+}
+.text-conflict {
+  color: var(--evidence-conflict);
+}
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Text-style button (inline actions like "Edit", "Discard draft") */
+.text-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-target);
+  color: var(--link);
+  font: 600 13px/1.4 var(--font-sans);
+}
+.text-btn:active {
+  text-decoration: underline;
 }

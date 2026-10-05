@@ -8,11 +8,24 @@ export function ReviewerTag({ type }) {
 
 const ACTIONS = ['Helpful', 'Matches my visit', 'Report conflict']
 
-export default function ReviewCard({ name, reviewerType, location, reportCount, date, rating, children }) {
+// rating is optional (phone-call reports have none). Set showActions={false} where the
+// screen provides its own peer-review buttons, e.g. the Contribute review screen.
+export default function ReviewCard({
+  name,
+  reviewerType,
+  location,
+  reportCount,
+  date,
+  dateLabel = 'Visited',
+  rating,
+  showActions = true,
+  children,
+}) {
   const [expanded, setExpanded] = useState(false)
   const [chosen, setChosen] = useState([])
   const initials = name
     .split(' ')
+    .filter((part) => /^[A-Za-z]/.test(part))
     .map((part) => part[0])
     .join('')
     .slice(0, 2)
@@ -39,16 +52,20 @@ export default function ReviewCard({ name, reviewerType, location, reportCount, 
         </div>
       </div>
       <div className="review__meta">
-        <StarRating value={rating} size={15} />
-        <span className="t-caption ink-secondary">Visited {date}</span>
+        {rating != null ? <StarRating value={rating} size={15} /> : <span />}
+        <span className="t-caption ink-secondary">
+          {dateLabel} {date}
+        </span>
       </div>
-      <p className={`review__body t-body${isLong && !expanded ? ' is-clamped' : ''}`}>{children}</p>
+      {children && (
+        <p className={`review__body t-body${isLong && !expanded ? ' is-clamped' : ''}`}>{children}</p>
+      )}
       {isLong && !expanded && (
         <button type="button" className="t-caption link" onClick={() => setExpanded(true)}>
           Read more
         </button>
       )}
-      <div className="review__actions">
+      {showActions && <div className="review__actions">
         {ACTIONS.map((action) => (
           <button
             key={action}
@@ -60,7 +77,7 @@ export default function ReviewCard({ name, reviewerType, location, reportCount, 
             {action}
           </button>
         ))}
-      </div>
+      </div>}
     </article>
   )
 }

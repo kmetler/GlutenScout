@@ -4,26 +4,16 @@ import { DisclosureModal, TabBar } from './components'
 import Home from './screens/Home.jsx'
 import SectionPlaceholder from './screens/SectionPlaceholder.jsx'
 import StyleGuide from './screens/StyleGuide.jsx'
+import ContributeRoutes from './screens/contribute/index.jsx'
 import { SECTIONS } from './screens/sections.js'
+import { readStored, writeStored } from './data/storage.js'
 
 const DISCLOSURE_KEY = 'gs-disclosure-seen'
 const THEME_KEY = 'gs-theme'
 
-// localStorage can throw in private windows; the app must still work without it.
-function readStored(key) {
-  try {
-    return localStorage.getItem(key)
-  } catch {
-    return null
-  }
-}
-
-function writeStored(key, value) {
-  try {
-    localStorage.setItem(key, value)
-  } catch {
-    // ignore
-  }
+// Sections that are built. Owners: add yours here; the rest show SectionPlaceholder.
+const SECTION_SCREENS = {
+  '/contribute': <ContributeRoutes />,
 }
 
 export default function App() {
@@ -61,12 +51,11 @@ export default function App() {
               <Home onShowDisclosure={() => setShowDisclosure(true)} onToggleTheme={toggleTheme} />
             }
           />
-          {/* Section owners: replace the placeholder element with your screens. */}
           {SECTIONS.map((section) => (
             <Route
               key={section.to}
               path={`${section.to}/*`}
-              element={<SectionPlaceholder section={section} />}
+              element={SECTION_SCREENS[section.to] ?? <SectionPlaceholder section={section} />}
             />
           ))}
           <Route path="/styleguide" element={<StyleGuide />} />
