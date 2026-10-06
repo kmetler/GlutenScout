@@ -138,6 +138,18 @@ function reducer(state, action) {
     }
     case 'setReviewerType':
       return { ...state, currentUser: { ...state.currentUser, reviewerType: action.reviewerType } }
+    // Account (Section D): the name and home area shown on new reports.
+    case 'updateProfile': {
+      const { name, location } = action.patch
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          ...(name !== undefined && { name }),
+          ...(location !== undefined && { location }),
+        },
+      }
+    }
     case 'becomeVerifier':
       return { ...state, currentUser: { ...state.currentUser, isVerifier: true } }
     case 'resetDemo':
@@ -177,6 +189,8 @@ export function StoreProvider({ children }) {
       unvote: (reportId) => dispatch({ type: 'unvote', reportId }),
       setReviewerType: (reviewerType) => dispatch({ type: 'setReviewerType', reviewerType }),
       becomeVerifier: () => dispatch({ type: 'becomeVerifier' }),
+      // Account (Section D): updateProfile({ name, location })
+      updateProfile: (patch) => dispatch({ type: 'updateProfile', patch }),
       resetDemo: () => {
         removeStored(STORAGE_KEY)
         dispatch({ type: 'resetDemo' })
