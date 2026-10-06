@@ -1,0 +1,39 @@
+/* Section D layout helpers — tokens only, no new colors or sizes. */
+.person {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.verifier-line {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.verifier-line > .icon {
+  color: var(--brand-ink);
+}
+.choice__title,
+.choice__detail {
+  display: block;
+}
+/* A saved meal: the shared MealCard plus a line about how current its evidence is */
+.saved-item {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--divider);
+}
+.saved-item .meal-card {
+  border-bottom: 0;
+  padding-bottom: var(--space-2);
+}
+.saved-item__status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.saved-item__status > .icon {
+  margin-top: 2px;
+  color: var(--evidence-conflict);
+}
+.saved-item__status.is-current > .icon {
+  color: var(--ink-secondary);
+}

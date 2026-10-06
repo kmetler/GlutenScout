@@ -5,6 +5,7 @@ import Home from './screens/Home.jsx'
 import SectionPlaceholder from './screens/SectionPlaceholder.jsx'
 import StyleGuide from './screens/StyleGuide.jsx'
 import ContributeRoutes from './screens/contribute/index.jsx'
+import AccountRoutes from './screens/account/index.jsx'
 import { SECTIONS } from './screens/sections.js'
 import { readStored, writeStored } from './data/storage.js'
 
@@ -14,6 +15,7 @@ const THEME_KEY = 'gs-theme'
 // Sections that are built. Owners: add yours here; the rest show SectionPlaceholder.
 const SECTION_SCREENS = {
   '/contribute': <ContributeRoutes />,
+  '/account': <AccountRoutes />,
 }
 
 export default function App() {
