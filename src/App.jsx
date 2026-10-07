@@ -4,6 +4,7 @@ import { DisclosureModal, TabBar } from './components'
 import Home from './screens/Home.jsx'
 import SectionPlaceholder from './screens/SectionPlaceholder.jsx'
 import StyleGuide from './screens/StyleGuide.jsx'
+import MealRoutes from './screens/meals/index.jsx'
 import ContributeRoutes from './screens/contribute/index.jsx'
 import AccountRoutes from './screens/account/index.jsx'
 import { SECTIONS } from './screens/sections.js'
@@ -14,6 +15,7 @@ const THEME_KEY = 'gs-theme'
 
 // Sections that are built. Owners: add yours here; the rest show SectionPlaceholder.
 const SECTION_SCREENS = {
+  '/meals': <MealRoutes />,
   '/contribute': <ContributeRoutes />,
   '/account': <AccountRoutes />,
 }

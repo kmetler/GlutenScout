@@ -55,6 +55,11 @@ Other commands:
 - A Home screen linking to all four sections
 - A placeholder screen for each section, listing what it will contain
 
+### Section B — Meal trust detail
+6 screens under `/meals`: the meal page built around the safety profile, an evidence screen for each kitchen practice (who saw it, who was only told, who saw otherwise), the last verified date with its history, and the meal's reports with reviewer type and peer-review status on each one.
+
+Decisions, rules and how other sections link in: [docs/meal-trust-detail.md](docs/meal-trust-detail.md).
+
 ### Section C — Contribute & verify
 15 screens under `/contribute`: a 5-step report flow, a call-ahead script built from each meal's evidence, a peer-review queue where reports go from Pending to Confirmed or Conflict, My reports, and Become a verifier. Reports and votes are saved in the browser; **My reports → Reset example data** restores the starting state between test sessions.
 
@@ -97,6 +102,7 @@ docs/               Assignment instructions, design system rules, section specs
 src/
   components/       Shared components
   screens/          Screens; sections.js lists the four sections
+    meals/          Section B screens
     contribute/     Section C screens
   data/
     sample.js       Example meals, reports and peer-review votes
