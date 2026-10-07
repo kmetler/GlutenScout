@@ -1,0 +1,62 @@
+/* Section B layout helpers — tokens only, no new colors or sizes. */
+
+/* Photo header: a gray box, like the photo on MealCard */
+.meal-photo {
+  display: grid;
+  place-items: center;
+  height: calc(var(--space-16) * 2);
+  background: var(--surface);
+  color: var(--ink-secondary);
+}
+.meal-title {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.stale-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.stale-note > .icon {
+  margin-top: 2px;
+  color: var(--evidence-conflict);
+}
+
+/* A report on a meal: the shared ReviewCard plus its claims and peer-review status */
+.report-item {
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--divider);
+}
+.report-item .review {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.report-item__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-4);
+}
+
+/* One dated piece of evidence: icon, then who / when / what */
+.event {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--divider);
+}
+.event > .icon {
+  margin-top: 2px;
+  color: var(--evidence-unverified);
+}
+.event--confirmed > .icon {
+  color: var(--evidence-confirmed);
+}
+.event--conflict > .icon {
+  color: var(--evidence-conflict);
+}
+.event__main > * + * {
+  margin-top: var(--space-1);
+}
