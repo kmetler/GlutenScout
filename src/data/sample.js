@@ -4,6 +4,7 @@
 export const meals = [
   {
     id: 'gf-burger',
+    restaurantId: 'juniper-grill',
     name: 'Gluten-free bun cheeseburger',
     restaurant: 'Juniper Grill',
     phone: '(801) 555-0142',
@@ -24,6 +25,7 @@ export const meals = [
   },
   {
     id: 'corn-tacos',
+    restaurantId: 'casa-verde',
     name: 'Corn tortilla street tacos',
     restaurant: 'Casa Verde',
     phone: '(801) 555-0187',
@@ -42,6 +44,7 @@ export const meals = [
   },
   {
     id: 'rice-bowl',
+    restaurantId: 'koji-kitchen',
     name: 'Teriyaki rice bowl (tamari)',
     restaurant: 'Koji Kitchen',
     phone: '(801) 555-0119',
@@ -55,10 +58,128 @@ export const meals = [
     ],
     sources: [{ label: 'Restaurant answers', detail: 'updated Mar 3, 2026' }],
   },
+  {
+    id: 'salmon-plate',
+    restaurantId: 'juniper-grill',
+    name: 'Grilled salmon with roasted potatoes',
+    restaurant: 'Juniper Grill',
+    phone: '(801) 555-0142',
+    distance: '0.8 mi',
+    lastVerified: 'Sep 30, 2026',
+    rating: 4.5,
+    reviewCount: 64,
+    precautions: [
+      { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
+      { key: 'utensils', label: 'Clean utensils', state: 'confirmed' },
+      { key: 'gloves', label: 'Gloves changed', state: 'confirmed' },
+    ],
+    sources: [
+      { label: 'Restaurant answers', detail: 'updated Aug 30, 2026' },
+      { label: '3 celiac / strict reports', detail: 'newest Sep 30, 2026' },
+    ],
+  },
+  {
+    id: 'carnitas-bowl',
+    restaurantId: 'casa-verde',
+    name: 'Carnitas burrito bowl',
+    restaurant: 'Casa Verde',
+    phone: '(801) 555-0187',
+    distance: '1.4 mi',
+    lastVerified: 'Aug 2, 2026',
+    rating: 4,
+    reviewCount: 57,
+    precautions: [
+      { key: 'gloves', label: 'Gloves changed', state: 'confirmed' },
+      { key: 'utensils', label: 'Clean utensils', state: 'unverified' },
+    ],
+    sources: [
+      { label: 'Restaurant answers', detail: 'updated Sep 2, 2026' },
+      { label: '1 celiac / strict report', detail: 'newest Aug 2, 2026' },
+    ],
+  },
+  {
+    id: 'pad-thai',
+    restaurantId: 'lotus-thai',
+    name: 'Pad thai with rice noodles',
+    restaurant: 'Lotus Thai Kitchen',
+    phone: '(801) 555-0163',
+    distance: '3.2 mi',
+    lastVerified: 'Sep 20, 2026',
+    rating: 4.5,
+    reviewCount: 133,
+    precautions: [
+      { key: 'sauce', label: 'Tamari on request', state: 'confirmed' },
+      { key: 'wok', label: 'Shared wok?', state: 'conflict' },
+    ],
+    sources: [
+      { label: 'Restaurant answers', detail: 'updated Jul 14, 2026' },
+      { label: '3 celiac / strict reports', detail: 'newest Sep 20, 2026' },
+    ],
+    conflictNote: '1 report says the noodles went in a wok just used for wheat noodles; 2 saw a cleaned wok.',
+  },
+  {
+    id: 'gf-pizza',
+    restaurantId: 'slice-society',
+    name: 'Gluten-free crust margherita pizza',
+    restaurant: 'Slice Society',
+    phone: '(801) 555-0175',
+    distance: '4.6 mi',
+    lastVerified: 'May 18, 2026',
+    rating: 3.5,
+    reviewCount: 96,
+    precautions: [
+      { key: 'prep', label: 'Separate prep area', state: 'unverified' },
+      { key: 'utensils', label: 'Clean utensils?', state: 'conflict' },
+    ],
+    sources: [
+      { label: 'Restaurant answers', detail: 'updated May 18, 2026' },
+      { label: '2 celiac / strict reports', detail: 'newest Apr 29, 2026' },
+    ],
+    conflictNote: '2 reports disagree about whether the same pizza cutter is used on regular pizzas.',
+  },
+  {
+    id: 'breakfast-hash',
+    restaurantId: 'sunrise-cafe',
+    name: 'Sweet potato breakfast hash',
+    restaurant: 'Sunrise Café',
+    phone: '(801) 555-0128',
+    distance: '0.5 mi',
+    lastVerified: 'Oct 2, 2026',
+    rating: 4,
+    reviewCount: 39,
+    precautions: [
+      { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
+      { key: 'gloves', label: 'Gloves changed', state: 'confirmed' },
+      { key: 'utensils', label: 'Clean utensils', state: 'confirmed' },
+    ],
+    sources: [
+      { label: 'Restaurant answers', detail: 'updated Sep 10, 2026' },
+      { label: '5 celiac / strict reports', detail: 'newest Oct 2, 2026' },
+    ],
+  },
 ]
 
 export function findMeal(id) {
   return meals.find((meal) => meal.id === id)
+}
+
+// Restaurants, for Discover's restaurant list. GlutenScout never scores a restaurant as a whole:
+// each meal keeps its own evidence, so a restaurant page is just a list of its meals.
+export const restaurants = [
+  { id: 'sunrise-cafe', name: 'Sunrise Café', cuisine: 'Breakfast', distance: '0.5 mi', phone: '(801) 555-0128', address: '210 N University Ave, Provo' },
+  { id: 'juniper-grill', name: 'Juniper Grill', cuisine: 'American', distance: '0.8 mi', phone: '(801) 555-0142', address: '48 W Center St, Provo' },
+  { id: 'casa-verde', name: 'Casa Verde', cuisine: 'Mexican', distance: '1.4 mi', phone: '(801) 555-0187', address: '1150 N 900 E, Provo' },
+  { id: 'koji-kitchen', name: 'Koji Kitchen', cuisine: 'Japanese', distance: '2.1 mi', phone: '(801) 555-0119', address: '560 E 1860 S, Provo' },
+  { id: 'lotus-thai', name: 'Lotus Thai Kitchen', cuisine: 'Thai', distance: '3.2 mi', phone: '(801) 555-0163', address: '75 S State St, Orem' },
+  { id: 'slice-society', name: 'Slice Society', cuisine: 'Pizza', distance: '4.6 mi', phone: '(801) 555-0175', address: '1300 S Main St, Springville' },
+]
+
+export function findRestaurant(id) {
+  return restaurants.find((r) => r.id === id)
+}
+
+export function mealsAt(restaurantId) {
+  return meals.filter((meal) => meal.restaurantId === restaurantId)
 }
 
 // Reports from other diners. `author: 'other'` keeps them out of "My reports".

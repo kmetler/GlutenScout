@@ -1,0 +1,92 @@
+/* Section A layout helpers — tokens only, no new colors or sizes. */
+
+/* A meal in a results list: the shared MealCard plus one evidence line in words. */
+.meal-result {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--divider);
+}
+.meal-result .meal-card {
+  border-bottom: 0;
+  padding-bottom: var(--space-2);
+}
+.meal-result__evidence {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.meal-result__evidence > .icon {
+  margin-top: 2px;
+}
+.meal-result__evidence.is-confirmed > .icon {
+  color: var(--evidence-confirmed);
+}
+.meal-result__evidence.is-conflict > .icon {
+  color: var(--evidence-conflict);
+}
+.meal-result__evidence.is-unverified > .icon {
+  color: var(--evidence-unverified);
+}
+
+/* A link styled like the shared search field (TextField input styles). */
+.search-link.field__input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-tertiary);
+}
+.search-link > .icon {
+  color: var(--ink-secondary);
+}
+
+/* Search input with a leading icon */
+.search-box {
+  position: relative;
+}
+.search-box > .icon {
+  position: absolute;
+  top: 50%;
+  left: var(--space-3);
+  transform: translateY(-50%);
+  color: var(--ink-secondary);
+  pointer-events: none;
+}
+.search-box .field__input {
+  padding-left: var(--space-10);
+}
+
+.result-count {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.tour-art {
+  display: grid;
+  place-items: center;
+  height: calc(var(--space-16) * 2);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--ink-secondary);
+}
+
+.example-row {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--divider);
+}
+.example-row > * + * {
+  margin-top: var(--space-2);
+}
+
+/* ListRow look on a <button> (pick-one lists) */
+.list-row--button {
+  width: 100%;
+  text-align: left;
+}
+
+/* Radio rows with a description (same as Account's choice list) */
+.choice__title,
+.choice__detail {
+  display: block;
+}
