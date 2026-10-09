@@ -1,5 +1,6 @@
 import { Link, Navigate } from 'react-router-dom'
 import {
+  ActionBar,
   Button,
   GhostButton,
   Icon,
@@ -8,8 +9,10 @@ import {
   ScreenHeader,
   StarRating,
 } from '../../components'
+import { findRestaurant } from '../../data/sample.js'
 import { useAccount } from '../account/accountStore.js'
 import { applyReportOrder, reportOrderLabel } from '../account/shared.jsx'
+import { openDirections } from '../discover/shared.jsx'
 import { mealEvidence, mealSources } from './evidence.js'
 import { datedAgo, ReportItem, StaleNote, useMeal } from './shared.jsx'
 
@@ -17,19 +20,21 @@ const PREVIEW_REPORTS = 2
 
 // The core screen: what the kitchen does for this meal, when that was last verified, and
 // who says so. Evidence comes before the reports; the food rating stays small.
+// Writing a report sits in the ActionBar so it's in reach without scrolling.
 export default function MealDetail() {
   const { meal, reports, votes } = useMeal()
   const { account, toggleSaved } = useAccount()
-  if (!meal) return <Navigate to="/meals" replace />
+  if (!meal) return <Navigate to="/discover" replace />
 
   const saved = account.saved.includes(meal.id)
+  const restaurant = findRestaurant(meal.restaurantId)
   const practiceCount = Object.keys(mealEvidence(meal, reports, votes)).length
   const visible = applyReportOrder(reports, account.reportOrder)
   const hidden = reports.length - visible.length
 
   return (
     <>
-      <ScreenHeader title={meal.restaurant} backTo="/meals" />
+      <ScreenHeader title={meal.restaurant} fallbackTo="/discover" />
 
       <div className="meal-photo" aria-hidden="true">
         <Icon name="image" size={22} />
@@ -49,6 +54,14 @@ export default function MealDetail() {
             selected={saved}
             onClick={() => toggleSaved(meal.id)}
           />
+          {restaurant && (
+            <GhostButton
+              icon="directions"
+              label="Directions"
+              aria-label={`Directions to ${meal.restaurant} (opens maps)`}
+              onClick={() => openDirections(restaurant)}
+            />
+          )}
         </div>
         <StarRating value={meal.rating} count={meal.reviewCount} />
         <p className="t-caption ink-secondary">Stars rate the food, not how gluten is handled.</p>
@@ -65,16 +78,34 @@ export default function MealDetail() {
           sources={mealSources(meal, reports)}
           conflictNote={meal.conflictNote}
         />
+      </div>
+
+      <div className="band" />
+
+      {/* The same evidence three ways, each saying what question it answers. */}
+      <div className="section stack-2">
+        <h2 className="t-section-header">Look closer</h2>
+        <p className="t-body ink-secondary">
+          The safety profile sums up the evidence. Look at it by practice, by date, or by diner.
+        </p>
         <nav aria-label="Evidence for this meal">
           <ListRow
             to={`/meals/${meal.id}/practices`}
-            title="How each practice was checked"
-            detail={`${practiceCount} kitchen practices · who saw what, and when`}
+            icon="check"
+            title="By practice"
+            detail={`How each of ${practiceCount} kitchen practices was checked, and by whom`}
           />
           <ListRow
             to={`/meals/${meal.id}/history`}
-            title="Verification history"
-            detail={`Last verified ${meal.lastVerified}`}
+            icon="clock"
+            title="By date"
+            detail={`What set “last verified ${meal.lastVerified}”, and what didn’t`}
+          />
+          <ListRow
+            to={`/meals/${meal.id}/reports`}
+            icon="person"
+            title="By diner"
+            detail={`Every report in the diner’s own words · ${visible.length} shown`}
           />
         </nav>
       </div>
@@ -83,7 +114,7 @@ export default function MealDetail() {
 
       <div className="section stack-3">
         <div className="stack-2">
-          <h2 className="t-section-header">Reports</h2>
+          <h2 className="t-section-header">Latest reports</h2>
           <p className="t-meta ink-secondary">
             {reportOrderLabel(account.reportOrder)} ·{' '}
             <Link className="link" to="/account/settings">
@@ -116,10 +147,13 @@ export default function MealDetail() {
             See all {visible.length} reports
           </Button>
         )}
+      </div>
+
+      <ActionBar>
         <Button variant="primary" block to={`/contribute/report/meal?meal=${meal.id}`}>
           Ate this? Write a report
         </Button>
-      </div>
+      </ActionBar>
     </>
   )
 }

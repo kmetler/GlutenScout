@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Icon, MealCard, Notice, ScreenHeader } from '../../components'
+import { Button, ConfirmDialog, Icon, MealCard, Notice } from '../../components'
 import { findMeal } from '../../data/sample.js'
 import { PRACTICES } from '../../data/practices.js'
 import { useAccount } from './accountStore.js'
@@ -27,44 +27,42 @@ export function needsCheck(meal) {
   return savedStatus(meal) != null
 }
 
-export default function SavedMeals() {
+// Saved meals, shown on the My Meals tab. Meals worth a check come first, so they're not missed.
+export function SavedMealList() {
   const { account, toggleSaved } = useAccount()
   const [removed, setRemoved] = useState(null)
+  const [confirming, setConfirming] = useState(null)
   const meals = account.saved.map(findMeal).filter(Boolean)
-  // Meals worth a check come first, so they're not missed.
   const ordered = [...meals.filter(needsCheck), ...meals.filter((m) => !needsCheck(m))]
 
   const remove = (meal) => {
     toggleSaved(meal.id)
     setRemoved(meal)
+    setConfirming(null)
   }
 
   return (
     <>
-      <ScreenHeader title="Saved meals" backTo="/account" />
-
       {removed && (
-        <div className="section">
-          <Notice icon="check">
-            <div className="row row--between row--wrap">
-              <span>Removed {removed.name}.</span>
-              <button
-                type="button"
-                className="text-btn"
-                onClick={() => {
-                  toggleSaved(removed.id)
-                  setRemoved(null)
-                }}
-              >
-                Undo
-              </button>
-            </div>
-          </Notice>
-        </div>
+        <Notice icon="check">
+          <div className="row row--between row--wrap">
+            <span>Removed {removed.name}.</span>
+            <button
+              type="button"
+              className="text-btn"
+              onClick={() => {
+                toggleSaved(removed.id)
+                setRemoved(null)
+              }}
+            >
+              Undo
+            </button>
+          </div>
+        </Notice>
       )}
 
       {ordered.length > 0 ? (
-        <div className="section">
+        <div>
           <p className="t-body ink-secondary">
             Meals with old or disputed evidence are listed first.
           </p>
@@ -91,7 +89,7 @@ export default function SavedMeals() {
                     type="button"
                     className="text-btn"
                     aria-label={`Remove ${meal.name} from saved`}
-                    onClick={() => remove(meal)}
+                    onClick={() => setConfirming(meal)}
                   >
                     Remove
                   </button>
@@ -101,16 +99,24 @@ export default function SavedMeals() {
           })}
         </div>
       ) : (
-        <div className="section stack-3">
-          <h2 className="t-section-header">No saved meals yet</h2>
+        <div className="stack-3">
           <p className="t-body ink-secondary">
             Save a meal from its page to keep it here. We'll point out when its evidence gets old
             or reports start to disagree.
           </p>
-          <Button variant="primary" block to="/discover">
-            Find meals
-          </Button>
         </div>
+      )}
+
+      {confirming && (
+        <ConfirmDialog
+          title={`Remove ${confirming.name}?`}
+          confirmLabel="Yes, remove it"
+          cancelLabel="No, keep it"
+          onConfirm={() => remove(confirming)}
+          onCancel={() => setConfirming(null)}
+        >
+          It will no longer be in your saved meals. You can save it again from its page.
+        </ConfirmDialog>
       )}
     </>
   )

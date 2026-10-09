@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { ActionBar, Button, Icon, ScreenHeader, StepHeader } from '../../components'
 import { useDiscover } from './discoverStore.js'
 
-// Tour step 1 of 3. Optional: offered on Discover, skippable on every step.
+// Tour step 1 of 3. Optional: offered on Home, skippable on every step.
 export function SkipTour() {
   const navigate = useNavigate()
   const { finishTour } = useDiscover()
@@ -23,7 +23,7 @@ export function SkipTour() {
 export default function TourWelcome() {
   return (
     <>
-      <ScreenHeader title="Quick tour" backTo="/discover" action={<SkipTour />} />
+      <ScreenHeader title="Quick tour" backTo="/" action={<SkipTour />} />
 
       <div className="section stack-4">
         <StepHeader step={1} total={3} title="Rate meals, not restaurants">

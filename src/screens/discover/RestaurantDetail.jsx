@@ -3,7 +3,7 @@ import { Button, Icon, Notice, ScreenHeader } from '../../components'
 import { findRestaurant, mealsAt } from '../../data/sample.js'
 import { useDiscover } from './discoverStore.js'
 import { sortMeals } from './evidence.js'
-import { MealResult } from './shared.jsx'
+import { MealResult, openDirections } from './shared.jsx'
 
 // One restaurant: its details, then every meal with that meal's own evidence.
 export default function RestaurantDetail() {
@@ -15,7 +15,7 @@ export default function RestaurantDetail() {
 
   return (
     <>
-      <ScreenHeader title={restaurant.name} />
+      <ScreenHeader title={restaurant.name} fallbackTo="/discover/restaurants" />
 
       <div className="section stack-2">
         <div className="tour-art" aria-hidden="true">
@@ -31,6 +31,10 @@ export default function RestaurantDetail() {
             <Icon name="phone" />
             Call {restaurant.phone}
           </a>
+          <Button onClick={() => openDirections(restaurant)}>
+            <Icon name="directions" />
+            Directions
+          </Button>
         </div>
       </div>
 

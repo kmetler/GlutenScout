@@ -1,5 +1,5 @@
 import { Navigate, useSearchParams } from 'react-router-dom'
-import { Button, Icon, ReportStatus, ScreenHeader } from '../../components'
+import { ActionBar, Button, Icon, ReportStatus, ScreenHeader } from '../../components'
 import { findMeal } from '../../data/sample.js'
 import { MATCHES_NEEDED, useStore } from '../../data/store.jsx'
 import { ReportClaims } from './shared.jsx'
@@ -46,15 +46,17 @@ export default function ReportSubmitted() {
             checks the details. Both reports stay visible.
           </li>
         </ol>
-        <div className="stack-2">
-          <Button block to="/contribute/mine">
-            See my reports
-          </Button>
-          <Button block to={`/meals/${meal.id}`}>
-            View this meal
-          </Button>
-        </div>
       </div>
+
+      {/* A clear next step, so the flow doesn't end here. */}
+      <ActionBar>
+        <Button variant="primary" block to={`/meals/${meal.id}`}>
+          See it on the meal
+        </Button>
+        <Button block to="/my-meals">
+          See my reports
+        </Button>
+      </ActionBar>
     </>
   )
 }

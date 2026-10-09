@@ -14,7 +14,7 @@ export default function CallPick() {
         </Notice>
         <div>
           {meals.map((meal) => (
-            <MealCard key={meal.id} meal={meal} to={`/contribute/call/${meal.id}`} />
+            <MealCard key={meal.id} meal={meal} to={`/contribute/call/${meal.id}`} compact />
           ))}
         </div>
       </div>

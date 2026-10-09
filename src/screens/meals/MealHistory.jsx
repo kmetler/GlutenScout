@@ -95,14 +95,14 @@ function Event({ event }) {
 // (research insight #2: recency matters as much as the verification itself).
 export default function MealHistory() {
   const { meal, reports, votes } = useMeal()
-  if (!meal) return <Navigate to="/meals" replace />
+  if (!meal) return <Navigate to="/discover" replace />
 
   const { ago } = freshness(meal.lastVerified)
   const events = mealHistory(meal, reports, votes)
 
   return (
     <>
-      <ScreenHeader title="Verification history" backTo={`/meals/${meal.id}`} />
+      <ScreenHeader title="Evidence by date" backTo={`/meals/${meal.id}`} />
 
       <div className="section stack-3">
         <div className="stack-2">

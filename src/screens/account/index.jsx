@@ -4,7 +4,6 @@ import SetupAbout from './SetupAbout.jsx'
 import SetupType from './SetupType.jsx'
 import SetupOrder from './SetupOrder.jsx'
 import SetupDone from './SetupDone.jsx'
-import SavedMeals from './SavedMeals.jsx'
 import Community from './Community.jsx'
 import ReviewerProfile from './ReviewerProfile.jsx'
 import Settings from './Settings.jsx'
@@ -23,7 +22,7 @@ export default function AccountRoutes() {
       <Route path="setup/type" element={<SetupType />} />
       <Route path="setup/order" element={<SetupOrder />} />
       <Route path="setup/done" element={<SetupDone />} />
-      <Route path="saved" element={<SavedMeals />} />
+      <Route path="saved" element={<Navigate to="/my-meals" replace />} />
       <Route path="community" element={<Community />} />
       <Route path="community/:reviewerId" element={<ReviewerProfile />} />
       <Route path="settings" element={<Settings />} />

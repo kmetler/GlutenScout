@@ -1,5 +1,4 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
-import MealsHub from './MealsHub.jsx'
 import MealDetail from './MealDetail.jsx'
 import MealPractices from './MealPractices.jsx'
 import PracticeDetail from './PracticeDetail.jsx'
@@ -11,13 +10,13 @@ import './meals.css'
 export default function MealRoutes() {
   return (
     <Routes>
-      <Route index element={<MealsHub />} />
+      <Route index element={<Navigate to="/discover" replace />} />
       <Route path=":mealId" element={<MealDetail />} />
       <Route path=":mealId/practices" element={<MealPractices />} />
       <Route path=":mealId/practices/:practiceKey" element={<PracticeDetail />} />
       <Route path=":mealId/history" element={<MealHistory />} />
       <Route path=":mealId/reports" element={<MealReports />} />
-      <Route path="*" element={<Navigate to="/meals" replace />} />
+      <Route path="*" element={<Navigate to="/discover" replace />} />
     </Routes>
   )
 }

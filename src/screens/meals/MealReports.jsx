@@ -15,7 +15,7 @@ export default function MealReports() {
   const { meal, reports } = useMeal()
   const { account } = useAccount()
   const [type, setType] = useState(ALL)
-  if (!meal) return <Navigate to="/meals" replace />
+  if (!meal) return <Navigate to="/discover" replace />
 
   const visible = applyReportOrder(reports, account.reportOrder)
   const hidden = reports.length - visible.length
@@ -24,7 +24,7 @@ export default function MealReports() {
 
   return (
     <>
-      <ScreenHeader title="Reports" backTo={`/meals/${meal.id}`} />
+      <ScreenHeader title="Evidence by diner" backTo={`/meals/${meal.id}`} />
 
       <div className="section stack-3">
         <div className="stack-2">

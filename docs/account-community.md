@@ -33,8 +33,12 @@ How profiles, saved meals, community and help work in the GlutenScout prototype,
 **Why:** A report records one visit by one person at one time. Both edit screens say so.
 
 ### 6. Saved meals point out old or disputed evidence
-**Chosen:** A line under each saved meal: evidence older than 90 days, or practices that reports disagree about, with a *Call ahead* button. Those meals are listed first. Removing a meal shows *Undo*.
+**Chosen:** A line under each saved meal: evidence older than 90 days, or practices that reports disagree about, with a *Call ahead* button. Those meals are listed first. *Remove* asks yes/no first (`ConfirmDialog`), then shows *Undo*.
 **Why:** Insight #2. A meal saved months ago may not be made the same way today.
+
+### 6a. Saved meals and your reports have their own tab
+**Chosen:** A **My Meals** tab (`/my-meals`) shows saved meals and your latest reports, with *Find meals to save* and *Write a report*. Account keeps profile, community, settings and help. `/account/saved` redirects to My Meals.
+**Why:** Team feedback: checking saved meals is a main action and shouldn't be nested in Account; Account reads as settings.
 
 ### 7. Community shows who is behind reports, without chat
 **Chosen:** Reviewers near you with type, report count, verifier status and newest report, filterable by type. A reviewer's page shows their reports and the reports they checked. The only social action is *Follow*, which lists that person first.
@@ -60,10 +64,10 @@ How profiles, saved meals, community and help work in the GlutenScout prototype,
 | 3 | `/account/setup/type` | Setup step 2 · reviewer type |
 | 4 | `/account/setup/order` | Setup step 3 · whose reports come first |
 | 5 | `/account/setup/done` | Profile saved · how your name appears on reports |
-| 6 | `/account/saved` | Saved meals · old/disputed evidence first · undo remove |
+| 6 | `/my-meals` | My Meals tab · saved meals (old/disputed first, confirm + undo remove) · my reports |
 | 7 | `/account/community` | Reviewers near you · filter by type |
 | 8 | `/account/community/:reviewerId` | Reviewer profile · follow · reports · reports checked |
-| 9 | `/account/settings` | Settings · report order · alerts · reset account data |
+| 9 | `/account/settings` | Settings · report order · alerts · reset account data · delete account |
 | 10 | `/account/settings/type` | Change reviewer type (verifier warning) |
 | 11 | `/account/profile` | Edit name and home area |
 | 12 | `/account/help` | Help and FAQ · search |
@@ -75,7 +79,8 @@ Unknown `/account/...` paths go to the hub. Later setup steps send you back to s
 - *Next* / *Save* stay disabled until the screen is complete, with a note saying what's missing.
 - The name is required (24 characters at most) and the error says so in words.
 - *Save reviewer type* and *Save changes* stay disabled until something changes.
-- Removing a saved meal shows *Undo*; resetting account data asks first.
+- Removing a saved meal asks yes/no, then shows *Undo*; resetting account data asks first.
+- *Delete my account* (Settings) asks yes/no, then clears the profile, your reports and votes, saved meals, follows, settings and Discover state on this device, and returns Home. Other people's reports stay.
 - Settings that save on tap say so.
 
 ## Test sessions
@@ -104,7 +109,7 @@ const { account, toggleSaved, toggleFollow } = useAccount()
 ---
 
 ## Left out on purpose
-- Login, passwords, email, account deletion — there are no real accounts.
+- Login, passwords, email — there are no real accounts. (*Delete account* clears this device's data.)
 - Messaging, comments, groups, friend requests, profile photos, points or rankings.
 - Real alerts (the toggles are saved, nothing is sent).
 - A theme setting (the switch is on Home).

@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import {
   ActionBar,
   Button,
+  ConfirmDialog,
   Icon,
   Notice,
   ReportStatus,
@@ -48,6 +50,7 @@ export default function ReviewReport() {
   const { reportId } = useParams()
   const navigate = useNavigate()
   const { state, actions, findReport, statusOf } = useStore()
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const report = findReport(reportId)
   if (!report) return <Navigate to="/contribute/review" replace />
 
@@ -61,7 +64,12 @@ export default function ReviewReport() {
   let actionArea
   if (isMine) {
     actionArea = (
-      <Notice>This is your report. Verifiers who eat here will compare it with their visit.</Notice>
+      <div className="stack-2">
+        <Notice>This is your report. Verifiers who eat here will compare it with their visit.</Notice>
+        <button type="button" className="text-btn" onClick={() => setConfirmDelete(true)}>
+          Delete this report
+        </button>
+      </div>
     )
   } else if (myVote) {
     actionArea = (
@@ -104,7 +112,10 @@ export default function ReviewReport() {
 
   return (
     <>
-      <ScreenHeader title="Report" backTo={isMine ? '/contribute/mine' : '/contribute/review'} />
+      <ScreenHeader
+        title="Report"
+        fallbackTo={isMine ? '/contribute/mine' : '/contribute/review'}
+      />
       <div className="section stack-2">
         <h2 className="t-section-header">{meal.name}</h2>
         <p className="t-meta ink-secondary">
@@ -146,6 +157,22 @@ export default function ReviewReport() {
       </div>
 
       {isMine ? <div className="section">{actionArea}</div> : actionArea}
+
+      {confirmDelete && (
+        <ConfirmDialog
+          title="Delete this report?"
+          confirmLabel="Yes, delete it"
+          cancelLabel="No, keep it"
+          onConfirm={() => {
+            actions.deleteReport(report.id)
+            navigate('/my-meals', { replace: true })
+          }}
+          onCancel={() => setConfirmDelete(false)}
+        >
+          Your report on {meal.name} and any matches or conflicts on it will be removed. This
+          can't be undone.
+        </ConfirmDialog>
+      )}
     </>
   )
 }

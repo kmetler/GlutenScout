@@ -1,5 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom'
 import {
+  ActionBar,
   Button,
   FilterChip,
   FilterChips,
@@ -58,6 +59,10 @@ export default function CallScript() {
   const answers = state.calls[mealId] ?? {}
   const { flagged, standard } = buildCallScript(meal)
   const answer = (key) => (value) => actions.setCallAnswer(mealId, key, value)
+  const total = flagged.length + standard.length
+  const answered = [...flagged, ...standard].filter((q) => answers[q.key]).length
+  // One green button per screen: Call until every question is answered, then Done.
+  const complete = answered === total
 
   return (
     <>
@@ -67,7 +72,10 @@ export default function CallScript() {
         <p className="t-meta ink-secondary">
           About: {meal.name} · {meal.phone}
         </p>
-        <a className="btn btn--primary btn--block" href={`tel:${meal.phone.replace(/\D/g, '')}`}>
+        <a
+          className={`btn ${complete ? 'btn--secondary' : 'btn--primary'} btn--block`}
+          href={`tel:${meal.phone.replace(/\D/g, '')}`}
+        >
           <Icon name="phone" />
           Call {meal.restaurant}
         </a>
@@ -95,10 +103,23 @@ export default function CallScript() {
         {standard.map((q) => (
           <Question key={q.key} question={q} value={answers[q.key]} onAnswer={answer(q.key)} />
         ))}
-        <Button block to={`/contribute/call/${mealId}/result`}>
+      </div>
+
+      <ActionBar
+        note={
+          complete
+            ? `All ${total} questions answered.`
+            : `${answered} of ${total} answered. You can review now or keep going.`
+        }
+      >
+        <Button
+          variant={complete ? 'primary' : 'secondary'}
+          block
+          to={`/contribute/call/${mealId}/result`}
+        >
           Done — review answers
         </Button>
-      </div>
+      </ActionBar>
     </>
   )
 }
