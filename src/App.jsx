@@ -8,6 +8,7 @@ import DiscoverRoutes from './screens/discover/index.jsx'
 import MealRoutes from './screens/meals/index.jsx'
 import ContributeRoutes from './screens/contribute/index.jsx'
 import AccountRoutes from './screens/account/index.jsx'
+import MyMeals from './screens/account/MyMeals.jsx'
 import { SECTIONS } from './screens/sections.js'
 import { readStored, writeStored } from './data/storage.js'
 
@@ -49,7 +50,8 @@ export default function App() {
 
   return (
     <div className="app">
-      <main className="app__screen" ref={screenRef}>
+      {/* Keyed by path so each new screen plays the short enter animation (timely feedback). */}
+      <main key={pathname} className="app__screen" ref={screenRef}>
         <Routes>
           <Route
             path="/"
@@ -64,6 +66,7 @@ export default function App() {
               element={SECTION_SCREENS[section.to] ?? <SectionPlaceholder section={section} />}
             />
           ))}
+          <Route path="/my-meals" element={<MyMeals />} />
           <Route path="/styleguide" element={<StyleGuide />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

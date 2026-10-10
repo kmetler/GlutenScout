@@ -127,6 +127,16 @@ Font: **Open Sans** (Google Fonts, weights 400/600/700/800). Fallback: `-apple-s
 
 **Notice** — neutral explanation box: `surface` fill, `radius-md`, 10×12 padding, info icon in `ink-secondary`, `body` text. For disagreement between reports use the SafetyProfile conflict note instead.
 
+**MealCard** — photo, meal name, restaurant · distance, dated evidence line, up to 2 PrecautionBadges, then StarRating with a *See details ›* affordance in `link` on the right (the whole card opens). Optional `evidence` line (icon + words + tone, must include the date) replaces the plain "Last verified" line. `compact`: photo, meal, restaurant and a chevron only, for pick-a-meal lists.
+
+**ConfirmDialog** — yes/no check before removing or deleting. Modal styles (`surface-raised`, `radius-lg`, `shadow-sheet` on `scrim`), `section-header` title as a question, `body` explanation, primary "Yes, …" and secondary "No, keep it". Focus starts on the safe choice; Escape cancels.
+
+**ScreenHeader** — back button + title. `backTo` for fixed steps in a flow; `fallbackTo` for screens reachable from many places (Back returns the way you came; the fallback is used only when there's no history).
+
+**Screen transitions** — a new screen slides 12px and fades in over `motion-slow` (300ms ease-out); off under `prefers-reduced-motion`.
+
+**Navigation** — tab bar: Home · Discover (also active on meal pages) · My Meals · Contribute · Account.
+
 **Page layout** — restaurant page order: photo header → name, stars, hours → `band` → SafetyProfile → `band` → call-ahead → `band` → reports. Bands (8px `band`), not bordered cards, separate sections.
 
 ---

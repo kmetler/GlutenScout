@@ -61,7 +61,7 @@ function EvidenceRow({ item, practice, tone, icon }) {
 export default function PracticeDetail() {
   const { practiceKey } = useParams()
   const { meal, reports, votes } = useMeal()
-  if (!meal) return <Navigate to="/meals" replace />
+  if (!meal) return <Navigate to="/discover" replace />
 
   const row = practiceRows(meal, mealEvidence(meal, reports, votes)).find(
     (r) => r.key === practiceKey,

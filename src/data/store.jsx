@@ -132,6 +132,14 @@ function reducer(state, action) {
       }
       return { ...state, votes: { ...state.votes, [action.reportId]: [...others, vote] } }
     }
+    // Only your own reports can be deleted. Votes on it go with it.
+    case 'deleteReport': {
+      const report = state.reports.find((r) => r.id === action.reportId)
+      if (!report || report.author !== 'me') return state
+      const votes = { ...state.votes }
+      delete votes[action.reportId]
+      return { ...state, reports: state.reports.filter((r) => r.id !== action.reportId), votes }
+    }
     case 'unvote': {
       const others = (state.votes[action.reportId] ?? []).filter((v) => v.by !== 'me')
       return { ...state, votes: { ...state.votes, [action.reportId]: others } }
@@ -187,6 +195,7 @@ export function StoreProvider({ children }) {
       },
       vote: (reportId, kind, details = {}) => dispatch({ type: 'vote', reportId, kind, ...details }),
       unvote: (reportId) => dispatch({ type: 'unvote', reportId }),
+      deleteReport: (reportId) => dispatch({ type: 'deleteReport', reportId }),
       setReviewerType: (reviewerType) => dispatch({ type: 'setReviewerType', reviewerType }),
       becomeVerifier: () => dispatch({ type: 'becomeVerifier' }),
       // Account (Section D): updateProfile({ name, location })

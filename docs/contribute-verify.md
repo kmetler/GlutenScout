@@ -92,13 +92,18 @@ Practices and their questions are defined once in [src/data/practices.js](../src
 1. **Ask about these first:** the meal's practices marked *conflict* ("Reports disagree") or *unverified* ("Not confirmed yet").
 2. **Then ask:** "Can you make the {meal} today?", then the remaining practices.
 
-Answers are saved as people tap, so switching to the phone app and back loses nothing. The "Will you order it?" choice on the results screen is not saved or shared — it's only there to prompt the decision.
+Answers are saved as people tap, so switching to the phone app and back loses nothing. *Done — review answers* sits in the `ActionBar` with "n of N answered"; it stays usable with partial answers, and turns green (primary) once every question is answered — at which point *Call* drops to secondary, so there's still one green button. The meal picker uses `MealCard`'s compact form (photo, meal, restaurant). The "Will you order it?" choice on the results screen is not saved or shared — it's only there to prompt the decision.
 
 ### Error prevention
 - *Next* stays disabled until each step is complete, with a note saying what's missing.
 - Visit dates can't be in the future.
 - A conflict needs at least one chosen claim and a description before *Send to moderation* is enabled.
 - Discarding a draft and resetting example data both ask for confirmation.
+- Your own reports can be deleted from their review screen (*Delete this report*), after a yes/no `ConfirmDialog`. Votes on it are removed with it.
+
+### No dead ends
+- *Report submitted* ends with a green *See it on the meal* and a secondary *See my reports* (My Meals tab).
+- *My reports* always has a sticky green *Write a report*.
 
 ### Reset example data
 *My reports → Reset example data* clears your reports, votes, call answers, draft, reviewer type and verifier status, and brings back the seeded examples. Use it between usability-test sessions. Changes teammates make to `sample.js` only show up after a reset, because saved state takes priority.
@@ -144,7 +149,7 @@ Steps 2–5 send you back to step 1 if there's no draft. Unknown `/contribute/..
 - "Write a report" → link to `/contribute/report/meal?meal={meal.id}`.
 - Pass `mealId` to `SafetyProfile` and its *Call ahead* button opens `/contribute/call/{mealId}`. Without `mealId` it opens the meal picker.
 - Report statuses: `const { state, statusOf } = useStore()`, then `state.reports.filter(r => r.mealId === id)` and `statusOf(report)` → `{ status, matches }`. Show them with `<ReportStatus />`.
-- The *View this meal* button after submitting links to `/meals/{mealId}`, so please use that route for meal detail.
+- The *See it on the meal* button after submitting links to `/meals/{mealId}`, so please use that route for meal detail.
 
 **Section D — Account & community**
 - **Account owns reviewer type.** It's `state.currentUser.reviewerType` — `'Celiac'`, `'Strict GF'`, `'Gluten-sensitive'`, or `null` if not set yet. Set it with `actions.setReviewerType(type)` (profile setup and settings).

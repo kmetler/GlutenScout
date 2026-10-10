@@ -1,8 +1,7 @@
-import { useNavigate } from 'react-router-dom'
-import { FilterChip, FilterChips, ListRow, ScreenHeader } from '../../components'
+import { ListRow } from '../../components'
 import { mealsAt, restaurants } from '../../data/sample.js'
 import { evidenceOf, miles } from './evidence.js'
-import { LocationRow, SearchLink } from './shared.jsx'
+import { DiscoverTop } from './shared.jsx'
 
 // Restaurants near you. No overall score: the row counts meals and points out disagreements,
 // and the restaurant page lists each meal with its own evidence.
@@ -16,28 +15,10 @@ export function restaurantSummary(restaurant) {
 }
 
 export default function Restaurants() {
-  const navigate = useNavigate()
   const sorted = [...restaurants].sort((a, b) => miles(a) - miles(b))
   return (
     <>
-      <ScreenHeader title="Discover" back={false} />
-
-      <div className="section stack-3">
-        <h2 className="t-section-header">Find meals you can check before you go</h2>
-        <SearchLink />
-        <LocationRow />
-      </div>
-
-      <div className="section">
-        <FilterChips label="Show">
-          <FilterChip icon="meal" onClick={() => navigate('/discover')}>
-            Meals
-          </FilterChip>
-          <FilterChip selected icon="grid">
-            Restaurants
-          </FilterChip>
-        </FilterChips>
-      </div>
+      <DiscoverTop view="restaurants" />
 
       <div className="band" />
 

@@ -1,13 +1,14 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Button, FilterChip, FilterChips, Icon, ScreenHeader } from '../../components'
+import { Button, FilterChip, FilterChips } from '../../components'
 import { useDiscover } from './discoverStore.js'
 import { activeFilterCount, filterSummary, findMeals, sortLabel } from './evidence.js'
-import { LocationRow, MealResult, SearchLink } from './shared.jsx'
+import { DiscoverTop, MealResult } from './shared.jsx'
 
 // Discover tab root: meals near you, ranked by evidence, with quick filters one tap away.
+// The top is kept compact so the meals themselves start above the fold.
 export default function DiscoverHub() {
   const navigate = useNavigate()
-  const { discover, patchFilters, clearFilters, finishTour } = useDiscover()
+  const { discover, patchFilters, clearFilters } = useDiscover()
   const { filters, sort } = discover
   const results = findMeals(filters, sort)
   const count = activeFilterCount(filters)
@@ -15,43 +16,9 @@ export default function DiscoverHub() {
 
   return (
     <>
-      <ScreenHeader title="Discover" back={false} />
+      <DiscoverTop view="meals" />
 
-      <div className="section stack-3">
-        <h2 className="t-section-header">Find meals you can check before you go</h2>
-        <SearchLink />
-        <LocationRow />
-      </div>
-
-      {!discover.tourDone && (
-        <div className="section">
-          <div className="notice t-body">
-            <Icon name="info" />
-            <div className="grow stack-2">
-              <p>
-                <b>New here?</b> See how GlutenScout shows evidence for each dish, in 3 short
-                screens.
-              </p>
-              <div className="row row--wrap">
-                <Button to="/discover/welcome">Take the tour</Button>
-                <button type="button" className="text-btn" onClick={finishTour}>
-                  Not now
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="section">
-        <FilterChips label="Show">
-          <FilterChip selected icon="meal">
-            Meals
-          </FilterChip>
-          <FilterChip icon="grid" onClick={() => navigate('/discover/restaurants')}>
-            Restaurants
-          </FilterChip>
-        </FilterChips>
+      <div className="discover-chips">
         <FilterChips label="Sort and filter">
           <FilterChip icon="grid" onClick={() => navigate('/discover/filters')}>
             {count ? `Filters (${count})` : 'Filters'}

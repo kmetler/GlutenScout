@@ -14,8 +14,9 @@ How a meal's evidence is shown in the GlutenScout prototype, and why. This is th
 ## Decisions
 
 ### 1. The meal page leads with the safety profile, not the reviews
-**Chosen:** Photo → name and food rating → **Safety profile** (last verified date, precaution badges, sources, conflict in words, Call ahead) → links to the practice and history screens → reports. This is the page order in DESIGN.md.
+**Chosen:** Photo → name, food rating, *Save* and *Directions* → **Safety profile** (last verified date, precaution badges, sources, conflict in words, Call ahead) → **Look closer** (the same evidence *by practice*, *by date* or *by diner*) → latest reports. *Ate this? Write a report* is in the sticky `ActionBar`, so it's visible without scrolling. This is the page order in DESIGN.md.
 **Why:** Every screen answers "can I eat here, and how sure are we?". The evidence is the answer; reports are the support for it. The food rating stays small and says "Stars rate the food, not how gluten is handled."
+Team feedback said "How each practice was checked", "Verification history" and "Reports" felt similar and unclear. They are the same evidence sorted three ways, so the page now says exactly that, and each sub-screen is titled to match (*Evidence by practice / by date / by diner*).
 
 ### 2. Each kitchen practice has its own evidence screen
 **Chosen:** *How each practice was checked* lists every practice asked about for the meal (the 4 core ones plus any specific to the dish). Tapping one shows every dated piece of evidence about it, grouped by **how it's known**: *Diners saw otherwise* → *Diners saw it happen* → *Staff said so*.
@@ -68,22 +69,22 @@ Nothing is stored for this section. `evidence.js` reads the shared reports and v
 
 | # | Route | Screen |
 |---|---|---|
-| 1 | `/meals` | Meals · pick a meal |
+| 1 | `/meals` | Redirects to Discover (one tab for finding meals) |
 | 2 | `/meals/:mealId` | Meal detail · safety profile · first reports · save |
 | 3 | `/meals/:mealId/practices` | How each practice was checked |
 | 4 | `/meals/:mealId/practices/:practiceKey` | One practice · evidence grouped by how it's known |
 | 5 | `/meals/:mealId/history` | Last verified date and history |
 | 6 | `/meals/:mealId/reports` | All reports · filter by reviewer type |
 
-Unknown meals go to `/meals`; unknown practices go to the meal's practice list.
+Unknown meals go to `/discover`; unknown practices go to the meal's practice list. Back on the meal page returns the way you came (e.g. to a reviewer's profile), falling back to Discover when opened from a link.
 
 ## Links to other sections
 - **Contribute:** Write a report (`/contribute/report/meal?meal={id}`), Call ahead (`/contribute/call/{id}`), and each report's review screen (`/contribute/review/{reportId}`).
 - **Account:** Save button (`toggleSaved`), report order (`applyReportOrder`), reviewer profiles (`/account/community/{id}`), Settings, and the badges help topic.
-- **Discover:** "Find more meals" on the Meals tab. Discover's cards should link to `/meals/{meal.id}`.
+- **Discover:** Discover's cards link to `/meals/{meal.id}`. Directions use Discover's `openDirections()`.
 
 ## Left out on purpose
-- Ingredient lists, menus, prices, hours, photos, directions and sharing — insight #4 puts prep before ingredients, and the rest is ordinary restaurant-app content.
+- Ingredient lists, menus, prices, hours, photos and sharing — insight #4 puts prep before ingredients, and the rest is ordinary restaurant-app content.
 - An overall score or a "safe / not safe" verdict. The page shows evidence, dates and sources; the diner decides.
 - Voting on reports from this section (see decision 8), comments and replies.
 - Sorting reports by anything other than the Account setting.

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, ScreenHeader } from '../../components'
+import { ActionBar, Button, ScreenHeader } from '../../components'
 import { useStore } from '../../data/store.jsx'
 import { ReportRow } from './shared.jsx'
 
@@ -16,14 +16,9 @@ export default function MyReports() {
           <ReportRow key={r.id} report={r} />
         ))}
         {!mine.length && (
-          <div className="stack-3">
-            <p className="t-body ink-secondary">
-              You haven't written a report yet. Reports from your visits help others decide.
-            </p>
-            <Button variant="primary" block to="/contribute/report/meal">
-              Write a report
-            </Button>
-          </div>
+          <p className="t-body ink-secondary">
+            You haven't written a report yet. Reports from your visits help others decide.
+          </p>
         )}
       </div>
 
@@ -59,6 +54,13 @@ export default function MyReports() {
           </button>
         )}
       </div>
+
+      {/* The main thing to do here, whether or not you've written one yet. */}
+      <ActionBar>
+        <Button variant="primary" block to="/contribute/report/meal">
+          Write a report
+        </Button>
+      </ActionBar>
     </>
   )
 }

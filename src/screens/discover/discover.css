@@ -1,32 +1,5 @@
 /* Section A layout helpers — tokens only, no new colors or sizes. */
 
-/* A meal in a results list: the shared MealCard plus one evidence line in words. */
-.meal-result {
-  padding-bottom: var(--space-3);
-  border-bottom: 1px solid var(--divider);
-}
-.meal-result .meal-card {
-  border-bottom: 0;
-  padding-bottom: var(--space-2);
-}
-.meal-result__evidence {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-2);
-}
-.meal-result__evidence > .icon {
-  margin-top: 2px;
-}
-.meal-result__evidence.is-confirmed > .icon {
-  color: var(--evidence-confirmed);
-}
-.meal-result__evidence.is-conflict > .icon {
-  color: var(--evidence-conflict);
-}
-.meal-result__evidence.is-unverified > .icon {
-  color: var(--evidence-unverified);
-}
-
 /* A link styled like the shared search field (TextField input styles). */
 .search-link.field__input {
   display: flex;
@@ -36,6 +9,34 @@
 }
 .search-link > .icon {
   color: var(--ink-secondary);
+}
+
+/* Compact top of Discover: heading, sticky search bar, location line, one chip row. */
+.discover-top {
+  padding: var(--space-3) var(--space-4) var(--space-2);
+}
+.discover-search {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: var(--space-2) var(--space-4);
+  background: var(--canvas);
+}
+.discover-where {
+  padding: 0 var(--space-4);
+}
+.discover-chips {
+  padding: 0 var(--space-4) var(--space-2);
+}
+/* The search bar is the main action on Discover, so it stands out: green outline and icon,
+   raised like the sticky search bar in DESIGN.md. */
+.search-link--hero.field__input {
+  border-color: var(--brand-ink);
+  box-shadow: var(--shadow-raised);
+  color: var(--ink-secondary);
+}
+.search-link--hero > .icon {
+  color: var(--brand-ink);
 }
 
 /* Search input with a leading icon */

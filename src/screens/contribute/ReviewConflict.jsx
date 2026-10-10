@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
   ActionBar,
   Button,
@@ -18,6 +18,7 @@ import { useStore } from '../../data/store.jsx'
 export default function ReviewConflict() {
   const { reportId } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
   const { actions, findReport } = useStore()
   const [chosen, setChosen] = useState([])
   const [note, setNote] = useState('')
@@ -39,7 +40,10 @@ export default function ReviewConflict() {
 
   const send = () => {
     actions.vote(report.id, 'dispute', { claims: chosen, note: note.trim(), date })
-    navigate(`/contribute/review/${report.id}`, { replace: true })
+    // Step back to the report this was opened from, so Back afterwards keeps returning the way
+    // you came; replace only if this screen was opened directly.
+    if (location.key === 'default') navigate(`/contribute/review/${report.id}`, { replace: true })
+    else navigate(-1)
   }
 
   return (

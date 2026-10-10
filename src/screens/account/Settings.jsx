@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { Checkbox, ListRow, Notice, ScreenHeader } from '../../components'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Checkbox, ConfirmDialog, ListRow, Notice, ScreenHeader } from '../../components'
 import { useStore } from '../../data/store.jsx'
+import { discoverActions } from '../discover/discoverStore.js'
 import { useAccount } from './accountStore.js'
 import { isActiveVerifier, ReportOrderPicker } from './shared.jsx'
 
@@ -12,7 +13,9 @@ const ALERTS = [
 ]
 
 export default function Settings() {
-  const { state } = useStore()
+  const { state, actions } = useStore()
+  const navigate = useNavigate()
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const { account, setReportOrder, setAlert, reset } = useAccount()
   const { state: navState } = useLocation()
   const [confirmReset, setConfirmReset] = useState(false)
@@ -119,7 +122,42 @@ export default function Settings() {
           title="Reset reports and reviewer type"
           detail="At the bottom of My reports"
         />
+        <ListRow
+          to="/styleguide"
+          title="Component reference"
+          detail="For the team: every shared component in one place"
+        />
       </div>
+
+      <div className="band" />
+
+      <div className="section stack-2">
+        <h2 className="t-section-header">Delete account</h2>
+        <p className="t-body ink-secondary">
+          Removes your profile, reports, saved meals and settings from this device.
+        </p>
+        <button type="button" className="text-btn" onClick={() => setConfirmDelete(true)}>
+          Delete my account
+        </button>
+      </div>
+
+      {confirmDelete && (
+        <ConfirmDialog
+          title="Delete your account?"
+          confirmLabel="Yes, delete my account"
+          cancelLabel="No, keep it"
+          onConfirm={() => {
+            actions.resetDemo()
+            reset()
+            discoverActions.reset()
+            navigate('/', { replace: true })
+          }}
+          onCancel={() => setConfirmDelete(false)}
+        >
+          Your name, reviewer type, verifier status, reports, matches, saved meals, follows and
+          settings will be removed. Other people's reports stay. This can't be undone.
+        </ConfirmDialog>
+      )}
     </>
   )
 }

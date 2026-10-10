@@ -7,13 +7,13 @@ import { useMeal } from './shared.jsx'
 // #1 and #4: show the "how", and put cross-contamination before ingredients).
 export default function MealPractices() {
   const { meal, reports, votes } = useMeal()
-  if (!meal) return <Navigate to="/meals" replace />
+  if (!meal) return <Navigate to="/discover" replace />
 
   const rows = practiceRows(meal, mealEvidence(meal, reports, votes))
 
   return (
     <>
-      <ScreenHeader title="Kitchen practices" backTo={`/meals/${meal.id}`} />
+      <ScreenHeader title="Evidence by practice" backTo={`/meals/${meal.id}`} />
 
       <div className="section stack-2">
         <h2 className="t-section-header">{meal.name}</h2>

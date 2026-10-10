@@ -24,7 +24,7 @@ export default function ReviewerProfile() {
 
   return (
     <>
-      <ScreenHeader title={reviewer.name} backTo="/account/community" />
+      <ScreenHeader title={reviewer.name} fallbackTo="/account/community" />
 
       <div className="section stack-3">
         <PersonHeader

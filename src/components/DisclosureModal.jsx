@@ -27,6 +27,18 @@ export default function DisclosureModal({ onClose }) {
           <li>Photos are gray boxes and some buttons don't do anything yet.</li>
           <li>Please don't use anything here to decide what to eat.</li>
         </ul>
+        <div className="notice t-body">
+          <div className="stack-2">
+            <p>
+              <b>Your goal:</b> you eat gluten-free and want dinner out tonight. Find a meal near
+              you, check how it was verified, and decide whether to call ahead first.
+            </p>
+            <p className="ink-secondary">
+              There's more than one way to get there — Home, search or the tabs. The tour is
+              optional.
+            </p>
+          </div>
+        </div>
         <p className="t-body">Tap around freely — you can't break anything.</p>
         <div className="modal__action">
           <Button ref={buttonRef} variant="primary" block onClick={onClose}>

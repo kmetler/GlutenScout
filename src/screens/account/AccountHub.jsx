@@ -1,19 +1,14 @@
 import { Button, ListRow, Notice, ScreenHeader } from '../../components'
-import { findMeal } from '../../data/sample.js'
 import { useStore } from '../../data/store.jsx'
-import { needsCheck } from './SavedMeals.jsx'
 import { useAccount } from './accountStore.js'
 import { isActiveVerifier, PersonHeader } from './shared.jsx'
 
 export default function AccountHub() {
   const { state } = useStore()
   const { account } = useAccount()
-  const { saved, following } = account
-  const { currentUser, reports } = state
+  const { following } = account
+  const { currentUser } = state
   const hasProfile = Boolean(currentUser.reviewerType)
-  const savedMeals = saved.map(findMeal).filter(Boolean)
-  const toCheck = savedMeals.filter(needsCheck).length
-  const mine = reports.filter((r) => r.author === 'me').length
 
   return (
     <>
@@ -51,17 +46,7 @@ export default function AccountHub() {
       <div className="band" />
 
       <div className="section">
-        <nav aria-label="Your things">
-          <ListRow
-            to="/account/saved"
-            icon="bookmark"
-            title="Saved meals"
-            detail={
-              savedMeals.length
-                ? `${savedMeals.length} saved${toCheck ? ` · ${toCheck} worth checking before you go` : ''}`
-                : 'Nothing saved yet'
-            }
-          />
+        <nav aria-label="Community">
           <ListRow
             to="/account/community"
             icon="person"
@@ -71,12 +56,6 @@ export default function AccountHub() {
                 ? `Following ${following.length} · see who reports near you`
                 : 'See who reports on meals near you'
             }
-          />
-          <ListRow
-            to="/contribute/mine"
-            icon="plus"
-            title="My reports"
-            detail={mine ? `${mine} submitted` : 'Nothing submitted yet'}
           />
         </nav>
       </div>
