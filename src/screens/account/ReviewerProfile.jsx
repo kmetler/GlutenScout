@@ -41,8 +41,12 @@ export default function ReviewerProfile() {
         </Button>
         <p className="t-caption ink-secondary">
           {following
-            ? `${firstName} is listed first in Community.`
-            : `People you follow are listed first in Community.`}
+            ? `You're following ${firstName}. They're at the top of your `
+            : `Follow ${firstName} to keep them at the top of your `}
+          <Link className="link" to="/account/community">
+            Community list
+          </Link>
+          .
         </p>
       </div>
 

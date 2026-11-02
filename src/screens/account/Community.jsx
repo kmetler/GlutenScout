@@ -60,7 +60,7 @@ export default function Community() {
 
   return (
     <>
-      <ScreenHeader title="Community" backTo="/account" />
+      <ScreenHeader title="Community" fallbackTo="/account" />
 
       <div className="section stack-3">
         <h2 className="t-section-header">Reviewers near {location}</h2>
