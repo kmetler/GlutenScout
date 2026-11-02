@@ -33,7 +33,7 @@ function Event({ event }) {
       </>
     )
   } else if (kind === 'report') {
-    const { status, matches } = statusOf(report)
+    const { status, matches, matchVotes } = statusOf(report)
     tone = status === 'pending' ? 'unverified' : status
     body = (
       <>
@@ -44,7 +44,7 @@ function Event({ event }) {
             : 'ate this and reported on it.'}
         </p>
         <p>
-          <ReportStatus status={status} matches={matches} />
+          <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
         </p>
         <Link className="text-btn" to={`/contribute/review/${report.id}`}>
           Read the report

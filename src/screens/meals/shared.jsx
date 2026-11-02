@@ -39,7 +39,7 @@ export function StaleNote({ date }) {
 // reported, and where it stands in peer review. Checking it happens in Contribute.
 export function ReportItem({ report }) {
   const { state, statusOf } = useStore()
-  const { status, matches } = statusOf(report)
+  const { status, matches, matchVotes } = statusOf(report)
   const disputes = (state.votes[report.id] ?? []).filter((v) => v.kind === 'dispute')
   const reviewerId = reviewerIdFor(report.name)
   const isMine = report.author === 'me'
@@ -60,7 +60,7 @@ export function ReportItem({ report }) {
       </ReviewCard>
       <ReportClaims claims={report.claims} />
       <div>
-        <ReportStatus status={status} matches={matches} />
+        <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
       </div>
       {disputes.map((vote) => (
         <p key={vote.by} className="t-body">

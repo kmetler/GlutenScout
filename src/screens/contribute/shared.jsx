@@ -62,7 +62,7 @@ export const REPORT_STEPS = 5
 export function ReportRow({ report }) {
   const { statusOf } = useStore()
   const meal = findMeal(report.mealId)
-  const { status, matches } = statusOf(report)
+  const { status, matches, matchVotes } = statusOf(report)
   return (
     <Link className="list-row" to={`/contribute/review/${report.id}`}>
       <span className="list-row__main stack-2">
@@ -72,7 +72,7 @@ export function ReportRow({ report }) {
           <ReviewerTag type={report.reviewerType} /> · {report.date}
         </span>
         <span>
-          <ReportStatus status={status} matches={matches} />
+          <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
         </span>
       </span>
       <span className="list-row__chevron">

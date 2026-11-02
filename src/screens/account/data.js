@@ -1,15 +1,8 @@
-// Example data used only by Section D (Account & Community). Made-up people.
-// Reports match reviewers by `name`; peer-review votes match by `id` (the vote's `by`).
-// reportCount covers all meals, not just the three in this prototype.
-export const reviewers = [
-  { id: 'maya', name: 'Maya R.', reviewerType: 'Celiac', location: 'Provo, UT', reportCount: 23, verifier: true, memberSince: 'Mar 2025' },
-  { id: 'alex', name: 'Alex P.', reviewerType: 'Celiac', location: 'Provo, UT', reportCount: 31, verifier: true, memberSince: 'Oct 2024' },
-  { id: 'jordan', name: 'Jordan L.', reviewerType: 'Strict GF', location: 'American Fork, UT', reportCount: 17, verifier: true, memberSince: 'Feb 2025' },
-  { id: 'priya', name: 'Priya S.', reviewerType: 'Strict GF', location: 'Lehi, UT', reportCount: 11, verifier: true, memberSince: 'Jan 2026' },
-  { id: 'sam', name: 'Sam K.', reviewerType: 'Celiac', location: 'Springville, UT', reportCount: 8, verifier: true, memberSince: 'Nov 2025' },
-  { id: 'marcus', name: 'Marcus W.', reviewerType: 'Celiac', location: 'Provo, UT', reportCount: 3, verifier: false, memberSince: 'Aug 2026' },
-  { id: 'devin', name: 'Devin T.', reviewerType: 'Gluten-sensitive', location: 'Orem, UT', reportCount: 5, verifier: false, memberSince: 'Jul 2026' },
-]
+// Section D (Account & Community) helpers. The people themselves live in data/sample.js,
+// so every report author has a profile.
+import { people } from '../../data/sample.js'
+
+export const reviewers = people
 
 export function findReviewer(id) {
   return reviewers.find((r) => r.id === id)

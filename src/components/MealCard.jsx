@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import Icon from './Icon.jsx'
 import StarRating from './StarRating.jsx'
 import PrecautionBadge from './PrecautionBadge.jsx'
+import { useStore } from '../data/store.jsx'
 
 // Meal / restaurant card, reused on browse, detail and saved screens.
 // Shows the dated evidence before the food rating, and says it can be opened ("See details").
@@ -9,6 +10,7 @@ import PrecautionBadge from './PrecautionBadge.jsx'
 //   words that replaces the plain "Last verified" line. The text must include the date.
 // compact: photo, meal and restaurant only, for pick-a-meal lists.
 export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, compact = false }) {
+  const { rating, count } = useStore().ratingOf(meal.id)
   if (compact) {
     return (
       <Link className="meal-card meal-card--compact" to={to}>
@@ -55,7 +57,7 @@ export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, com
           ))}
         </div>
         <div className="meal-card__foot">
-          <StarRating value={meal.rating} count={meal.reviewCount} size={14} />
+          <StarRating value={rating} count={count} size={14} />
           <span className="meal-card__more t-meta">
             See details
             <Icon name="chevron" size={16} />

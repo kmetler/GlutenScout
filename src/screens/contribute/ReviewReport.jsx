@@ -55,7 +55,7 @@ export default function ReviewReport() {
   if (!report) return <Navigate to="/contribute/review" replace />
 
   const meal = findMeal(report.mealId)
-  const { status, matches } = statusOf(report)
+  const { status, matches, matchVotes } = statusOf(report)
   const votes = state.votes[report.id] ?? []
   const myVote = votes.find((v) => v.by === 'me')
   const isMine = report.author === 'me'
@@ -121,7 +121,7 @@ export default function ReviewReport() {
         <p className="t-meta ink-secondary">
           {meal.restaurant} · {meal.distance}
         </p>
-        <ReportStatus status={status} matches={matches} />
+        <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
         {status === 'conflict' && (
           <p className="t-body">
             Someone saw something different. Both reports stay visible while the moderation team

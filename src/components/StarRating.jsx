@@ -26,9 +26,16 @@ export function StarInput({ value, onChange, label = 'Food rating' }) {
 }
 
 // Stars rate food and experience only — never gluten safety.
-// size: 22 | 18 | 15 | 14. Always paired with the count.
+// size: 22 | 18 | 15 | 14. Always paired with the count. value null → "No ratings yet".
 export default function StarRating({ value, count, size = 15 }) {
   const id = useId()
+  if (value == null) {
+    return (
+      <span className="stars t-meta ink-secondary">
+        No ratings yet{count ? ` · ${count.toLocaleString()} review${count > 1 ? 's' : ''}` : ''}
+      </span>
+    )
+  }
   const rounded = Math.round(value * 2) / 2
   return (
     <span className="stars">

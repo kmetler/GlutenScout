@@ -1,12 +1,17 @@
 import { Link } from 'react-router-dom'
 import { Icon, MealCard } from '../../components'
+import { useStore } from '../../data/store.jsx'
+import { NAMES_TYPES, typeBreakdown } from '../../data/variant.js'
+import { mealEvidence, mealReports } from '../meals/evidence.js'
 import { ageText, evidenceOf } from './evidence.js'
 import { useDiscover } from './discoverStore.js'
 
 // The shared MealCard with one line saying, in words, how strong and how current the evidence
 // is. Order: disagreement first (a risk someone saw), then old evidence, then the count.
 // Every version of the line carries the age, so the date is never dropped.
-export function mealEvidenceLine(meal) {
+// `confirmers` are the reports that saw a confirmed practice happen (named in version B of the
+// "Who verified it" test, data/variant.js).
+export function mealEvidenceLine(meal, confirmers = []) {
   const ev = evidenceOf(meal)
   const age = `verified ${ev.age == null ? meal.lastVerified : ageText(ev.age)}`
   if (ev.disputed.length) {
@@ -33,12 +38,28 @@ export function mealEvidenceLine(meal) {
   return {
     tone: 'confirmed',
     icon: 'check',
-    text: `${ev.confirmed} of ${ev.total} practices confirmed by diners · ${age}`,
+    text: NAMES_TYPES && confirmers.length
+      ? `${ev.confirmed} of ${ev.total} practices confirmed by ${typeBreakdown(confirmers)} diners · ${age}`
+      : `${ev.confirmed} of ${ev.total} practices verified by diners · ${age}`,
   }
 }
 
+// Reports in which a diner saw one of the meal's confirmed practices happen.
+function confirmingReports(meal, reports, votes) {
+  const evidence = mealEvidence(meal, mealReports(reports, meal.id), votes)
+  const found = new Map()
+  for (const p of meal.precautions.filter((p) => p.state === 'confirmed')) {
+    for (const item of evidence[p.key] ?? []) {
+      if (item.how === 'saw') found.set(item.report.id, item.report)
+    }
+  }
+  return [...found.values()]
+}
+
 export function MealResult({ meal }) {
-  return <MealCard meal={meal} to={`/meals/${meal.id}`} evidence={mealEvidenceLine(meal)} />
+  const { state } = useStore()
+  const evidence = mealEvidenceLine(meal, confirmingReports(meal, state.reports, state.votes))
+  return <MealCard meal={meal} to={`/meals/${meal.id}`} evidence={evidence} />
 }
 
 // Looks like a search field, opens the search screen (one place to type).

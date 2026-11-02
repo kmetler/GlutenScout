@@ -1,6 +1,6 @@
 import { Link, Navigate } from 'react-router-dom'
 import { Button, Icon, PrecautionBadge, ScreenHeader } from '../../components'
-import { evidenceSummary, mealEvidence, practiceRows, STATE_WORDS } from './evidence.js'
+import { evidenceSummary, mealEvidence, practiceRows, stateWords } from './evidence.js'
 import { useMeal } from './shared.jsx'
 
 // Every kitchen practice for one meal and how well it has been checked (research insights
@@ -33,7 +33,7 @@ export default function MealPractices() {
               <span>
                 <PrecautionBadge state={row.state}>{row.label}</PrecautionBadge>
               </span>
-              <span className="list-row__title t-meta">{STATE_WORDS[row.state]}</span>
+              <span className="list-row__title t-meta">{stateWords(row)}</span>
               <span className="list-row__detail t-meta ink-secondary">
                 {evidenceSummary(row.items)}
               </span>

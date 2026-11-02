@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useReducer } from 'react'
-import { findMeal, reports as seedReports, votes as seedVotes } from './sample.js'
+import { findMeal, mealRating, reports as seedReports, votes as seedVotes } from './sample.js'
 import { claimsFromAnswers, PRACTICES } from './practices.js'
 import { formatISO, todayISO } from './dates.js'
 import { readStored, removeStored, writeStored } from './storage.js'
@@ -8,7 +8,8 @@ import { readStored, removeStored, writeStored } from './storage.js'
 // Read and write it with useStore() — don't keep separate copies in screens.
 // Full behavior: docs/contribute-verify.md
 
-const STORAGE_KEY = 'gs-store-v1'
+// Bump the version when the example reports change, so returning browsers pick them up.
+const STORAGE_KEY = 'gs-store-v2'
 
 export const VERIFIER_TYPES = ['Celiac', 'Strict GF']
 export const MATCHES_NEEDED = 2
@@ -17,14 +18,15 @@ export const MATCHES_NEEDED = 2
 // - Any dispute → 'conflict' (sent to the moderation team). A risk someone saw is never outvoted.
 // - Otherwise 2+ "Matches my visit" votes from different Celiac or Strict GF verifiers → 'confirmed'.
 // - Otherwise → 'pending'. Matches from anyone else are recorded but don't count.
+// `matchVotes` are the counted votes, one per verifier, so the badge can say who they were.
 export function reportStatus(reportVotes = []) {
-  const matches = new Set(
-    reportVotes
-      .filter((v) => v.kind === 'match' && v.verifier && VERIFIER_TYPES.includes(v.reviewerType))
-      .map((v) => v.by),
-  ).size
-  if (reportVotes.some((v) => v.kind === 'dispute')) return { status: 'conflict', matches }
-  return { status: matches >= MATCHES_NEEDED ? 'confirmed' : 'pending', matches }
+  const counted = reportVotes.filter(
+    (v) => v.kind === 'match' && v.verifier && VERIFIER_TYPES.includes(v.reviewerType),
+  )
+  const matchVotes = [...new Map(counted.map((v) => [v.by, v])).values()]
+  const matches = matchVotes.length
+  if (reportVotes.some((v) => v.kind === 'dispute')) return { status: 'conflict', matches, matchVotes }
+  return { status: matches >= MATCHES_NEEDED ? 'confirmed' : 'pending', matches, matchVotes }
 }
 
 function initialState() {
@@ -211,7 +213,9 @@ export function StoreProvider({ children }) {
   const value = useMemo(() => {
     const statusOf = (report) => reportStatus(state.votes[report.id])
     const findReport = (id) => state.reports.find((r) => r.id === id)
-    return { state, actions, statusOf, findReport }
+    // { rating, count } worked out from the reports, so the count always matches what's listed.
+    const ratingOf = (mealId) => mealRating(mealId, state.reports)
+    return { state, actions, statusOf, findReport, ratingOf }
   }, [state, actions])
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>

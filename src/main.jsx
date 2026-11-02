@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
 import Clarity from '@microsoft/clarity'
 import App from './App.jsx'
+import { VERIFIED_BY } from './data/variant.js'
 import { StoreProvider } from './data/store.jsx'
 import './styles/tokens.css'
 import './styles/base.css'
@@ -11,7 +12,11 @@ import './styles/components.css'
 // Session recordings + heatmaps. Only runs in production builds so local
 // dev sessions don't pollute the data. VITE_CLARITY_PROJECT_ID is set in Vercel.
 const clarityId = import.meta.env.VITE_CLARITY_PROJECT_ID
-if (import.meta.env.PROD && clarityId) Clarity.init(clarityId)
+if (import.meta.env.PROD && clarityId) {
+  Clarity.init(clarityId)
+  // Filter recordings by "Who verified it" version (A or B) in Clarity's Custom tags.
+  Clarity.setTag('verifiedBy', VERIFIED_BY)
+}
 
 // HashRouter keeps deep links working on static hosts without server rewrites.
 ReactDOM.createRoot(document.getElementById('root')).render(

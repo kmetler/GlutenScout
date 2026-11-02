@@ -12,7 +12,7 @@ export default function ReportSubmitted() {
   if (!report) return <Navigate to="/contribute/mine" replace />
 
   const meal = findMeal(report.mealId)
-  const { status, matches } = statusOf(report)
+  const { status, matches, matchVotes } = statusOf(report)
 
   return (
     <>
@@ -26,7 +26,7 @@ export default function ReportSubmitted() {
           <p className="t-body">
             {meal.name} · {meal.restaurant} · {report.date}
           </p>
-          <ReportStatus status={status} matches={matches} />
+          <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
         </div>
         <ReportClaims claims={report.claims} />
       </div>

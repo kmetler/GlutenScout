@@ -55,7 +55,7 @@ export default function ReviewerProfile() {
         </div>
         {theirReports.map((report) => {
           const meal = findMeal(report.mealId)
-          const { status, matches } = statusOf(report)
+          const { status, matches, matchVotes } = statusOf(report)
           return (
             <div key={report.id} className="summary-block">
               <Link className="t-card-header link" to={`/meals/${report.mealId}`}>
@@ -66,7 +66,7 @@ export default function ReviewerProfile() {
                 {report.name}
                 <ReviewerTag type={report.reviewerType} /> · Visited {report.date}
               </p>
-              <ReportStatus status={status} matches={matches} />
+              <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
               <ReportClaims claims={report.claims} />
               {report.rating != null && <StarRating value={report.rating} size={14} />}
               <p className="t-body">{report.body}</p>

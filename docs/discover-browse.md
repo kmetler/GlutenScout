@@ -23,7 +23,7 @@ How people find meals in the GlutenScout prototype, and why it works that way.
 **Why:** Pyper asked for exactly this. The rule is simple enough to explain in one sentence on the *How is this sorted?* screen, so nobody has to trust a hidden score.
 
 ### 3. Every result says its evidence in words
-**Chosen:** Inside each shared `MealCard` (its `evidence` line, in place of the plain "Last verified" line), one line with icon + words: a disagreement first ("Reports disagree about the fryer · verified 24 days ago"), then old evidence ("Last verified 217 days ago — call ahead before you go"), then nothing confirmed ("Only the restaurant's word so far · verified …"), otherwise "3 of 3 practices confirmed by diners · verified 4 days ago". Every version carries the age.
+**Chosen:** Inside each shared `MealCard` (its `evidence` line, in place of the plain "Last verified" line), one line with icon + words: a disagreement first ("Reports disagree about the fryer · verified 24 days ago"), then old evidence ("Last verified 217 days ago — call ahead before you go"), then nothing confirmed ("Only the restaurant's word so far · verified …"), otherwise "3 of 3 practices verified by diners · verified 4 days ago" (version B of the [Who verified it test](ab-test-verified-by.md) names the diners: "confirmed by 4 celiac and 2 strict GF diners"). Every version carries the age.
 **Why:** `MealCard` only shows 2 badges, so a disputed third practice could be missed. The line makes the most important fact visible without opening the meal, and never relies on color alone (design rule 5). Putting it inside the card (instead of under it) removed one line per result after team feedback that cards felt busy.
 
 ### 4. Disagreements are never hidden

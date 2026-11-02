@@ -9,7 +9,8 @@ import {
 } from '../../components'
 import { PRACTICES } from '../../data/practices.js'
 import { useStore } from '../../data/store.jsx'
-import { evidenceSummary, mealEvidence, practiceRows, STATE_WORDS } from './evidence.js'
+import { NAMES_TYPES } from '../../data/variant.js'
+import { evidenceSummary, mealEvidence, practiceRows, stateWords } from './evidence.js'
 import { useMeal } from './shared.jsx'
 
 // What's known is grouped by how it's known: something a diner watched happen is stronger
@@ -30,14 +31,14 @@ function what(item, practice) {
 
 function EvidenceRow({ item, practice, tone, icon }) {
   const { statusOf } = useStore()
-  const { status, matches } = statusOf(item.report)
+  const { status, matches, matchVotes } = statusOf(item.report)
   return (
     <li className={`event event--${tone}`}>
       <Icon name={icon} />
       <div className="event__main grow">
         <p className="t-reviewer-name">
           {item.name}
-          <ReviewerTag type={item.reviewerType} />
+          {NAMES_TYPES && <ReviewerTag type={item.reviewerType} />}
         </p>
         <p className="t-caption ink-secondary">
           {item.dateLabel} {item.date}
@@ -46,7 +47,7 @@ function EvidenceRow({ item, practice, tone, icon }) {
         {item.note && <p className="t-body">“{item.note}”</p>}
         {item.how !== 'different' && (
           <p>
-            <ReportStatus status={status} matches={matches} />
+            <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
           </p>
         )}
         <Link className="text-btn" to={`/contribute/review/${item.report.id}`}>
@@ -86,7 +87,7 @@ export default function PracticeDetail() {
           </p>
         </div>
         <div>
-          <PrecautionBadge state={row.state}>{STATE_WORDS[row.state]}</PrecautionBadge>
+          <PrecautionBadge state={row.state}>{stateWords(row)}</PrecautionBadge>
         </div>
         <p className="t-meta">{evidenceSummary(row.items)}</p>
         <p className="t-body ink-secondary">

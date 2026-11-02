@@ -13,6 +13,7 @@ import { findRestaurant } from '../../data/sample.js'
 import { useAccount } from '../account/accountStore.js'
 import { applyReportOrder, reportOrderLabel } from '../account/shared.jsx'
 import { openDirections } from '../discover/shared.jsx'
+import { useStore } from '../../data/store.jsx'
 import { mealEvidence, mealSources } from './evidence.js'
 import { datedAgo, ReportItem, StaleNote, useMeal } from './shared.jsx'
 
@@ -24,8 +25,10 @@ const PREVIEW_REPORTS = 2
 export default function MealDetail() {
   const { meal, reports, votes } = useMeal()
   const { account, toggleSaved } = useAccount()
+  const { ratingOf } = useStore()
   if (!meal) return <Navigate to="/discover" replace />
 
+  const { rating, count } = ratingOf(meal.id)
   const saved = account.saved.includes(meal.id)
   const restaurant = findRestaurant(meal.restaurantId)
   const practiceCount = Object.keys(mealEvidence(meal, reports, votes)).length
@@ -63,7 +66,7 @@ export default function MealDetail() {
             />
           )}
         </div>
-        <StarRating value={meal.rating} count={meal.reviewCount} />
+        <StarRating value={rating} count={count} />
         <p className="t-caption ink-secondary">Stars rate the food, not how gluten is handled.</p>
       </div>
 

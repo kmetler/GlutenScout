@@ -1,5 +1,6 @@
 import { PRACTICES, practicesForMeal } from '../../data/practices.js'
 import { VERIFIER_TYPES } from '../../data/store.jsx'
+import { NAMES_TYPES, typeBreakdown } from '../../data/variant.js'
 import { daysSince, reviewers } from '../account/data.js'
 import { STALE_AFTER_DAYS } from '../account/SavedMeals.jsx'
 
@@ -86,10 +87,24 @@ export function mealEvidence(meal, reports, votes) {
   return byKey
 }
 
-export const STATE_WORDS = {
-  confirmed: 'Confirmed by diners',
+const STATE_WORDS = {
   conflict: 'Reports disagree',
   unverified: 'Not confirmed yet',
+}
+
+// "3 diners", or in version B of the "Who verified it" test, "2 celiac and 1 strict GF diners".
+export function dinerCount(items) {
+  const who = NAMES_TYPES ? typeBreakdown(items) : items.length
+  return `${who} diner${items.length > 1 ? 's' : ''}`
+}
+
+// How a practice row's state is put into words. Who verified it depends on the A/B test
+// (data/variant.js): A says "Verified by diners", B names the types of diners who saw it.
+export function stateWords(row) {
+  if (row.state !== 'confirmed') return STATE_WORDS[row.state]
+  const saw = row.items.filter((item) => item.how === 'saw')
+  if (!NAMES_TYPES || !saw.length) return 'Verified by diners'
+  return `Confirmed by ${dinerCount(saw)}`
 }
 
 const STATE_ORDER = ['conflict', 'unverified', 'confirmed']
@@ -112,12 +127,16 @@ export function practiceRows(meal, evidence) {
 }
 
 // "1 saw it · 1 told by staff · 2 saw otherwise · newest Sep 20, 2026"
+// Version B of the A/B test names who saw: "2 celiac and 1 strict GF saw it".
 export function evidenceSummary(items) {
   if (!items.length) return 'No reports yet'
-  const count = (...hows) => items.filter((item) => hows.includes(item.how)).length
-  const saw = count('saw')
-  const told = count('staff', 'restaurant')
-  const otherwise = count('not', 'different')
+  const who = (...hows) => {
+    const matching = items.filter((item) => hows.includes(item.how))
+    return matching.length && NAMES_TYPES ? typeBreakdown(matching) : matching.length
+  }
+  const saw = who('saw')
+  const told = items.filter((item) => ['staff', 'restaurant'].includes(item.how)).length
+  const otherwise = who('not', 'different')
   return [
     saw && `${saw} saw it`,
     told && `${told} told by staff`,
@@ -129,9 +148,20 @@ export function evidenceSummary(items) {
 }
 
 // Source lines for the SafetyProfile, counted from the reports actually listed below it.
+// Version A of the A/B test counts every diner's report without naming types.
 export function mealSources(meal, reports) {
-  const strict = reports.filter((r) => VERIFIER_TYPES.includes(r.reviewerType))
   const sources = meal.sources.filter((s) => s.label === 'Restaurant answers')
+  if (!NAMES_TYPES) {
+    const diners = reports.filter((r) => r.source === 'visit')
+    if (diners.length) {
+      sources.push({
+        label: `${diners.length} diner report${diners.length > 1 ? 's' : ''}`,
+        detail: `newest ${diners[0].date}`,
+      })
+    }
+    return sources
+  }
+  const strict = reports.filter((r) => VERIFIER_TYPES.includes(r.reviewerType))
   if (strict.length) {
     sources.push({
       label: `${strict.length} celiac / strict report${strict.length > 1 ? 's' : ''}`,
