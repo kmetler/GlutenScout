@@ -4,6 +4,7 @@ import { Checkbox, ConfirmDialog, ListRow, Notice, ScreenHeader } from '../../co
 import { useStore } from '../../data/store.jsx'
 import { discoverActions } from '../discover/discoverStore.js'
 import { useAccount } from './accountStore.js'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { isActiveVerifier, ReportOrderPicker } from './shared.jsx'
 
 const ALERTS = [
@@ -52,14 +53,18 @@ export default function Settings() {
         />
       </div>
 
-      <div className="band" />
+      {NAMES_TYPES && (
+        <>
+          <div className="band" />
 
-      <div className="section stack-2">
-        <h2 className="t-section-header">Whose reports come first</h2>
-        <p className="t-body ink-secondary">Used when you read reports about a meal.</p>
-        <ReportOrderPicker value={account.reportOrder} onChange={setReportOrder} />
-        <p className="t-caption ink-secondary">Changes save as soon as you tap.</p>
-      </div>
+          <div className="section stack-2">
+            <h2 className="t-section-header">Whose reports come first</h2>
+            <p className="t-body ink-secondary">Used when you read reports about a meal.</p>
+            <ReportOrderPicker value={account.reportOrder} onChange={setReportOrder} />
+            <p className="t-caption ink-secondary">Changes save as soon as you tap.</p>
+          </div>
+        </>
+      )}
 
       <div className="band" />
 
@@ -86,7 +91,7 @@ export default function Settings() {
         {confirmReset ? (
           <>
             <p className="t-body">
-              This resets your saved meals, follows, report order and alerts to the examples.
+              This resets your saved meals, follows, {NAMES_TYPES && 'report order '}and alerts to the examples.
             </p>
             <div className="row">
               <button

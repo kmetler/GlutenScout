@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { ActionBar, Button, ScreenHeader, StepHeader } from '../../components'
 import { useStore } from '../../data/store.jsx'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { useAccount } from './accountStore.js'
 import { ReportOrderPicker, SETUP_STEPS } from './shared.jsx'
 
@@ -11,6 +12,7 @@ export default function SetupOrder() {
   const { account, setReportOrder } = useAccount()
   const navigate = useNavigate()
   const [order, setOrder] = useState(account.reportOrder)
+  if (!NAMES_TYPES) return <Navigate to="/account/setup/done" replace />
   if (!state.currentUser.reviewerType) return <Navigate to="/account/setup/type" replace />
 
   const save = () => {

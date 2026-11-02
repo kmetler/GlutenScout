@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { ActionBar, Button, Notice, ScreenHeader, StepHeader } from '../../components'
 import { useStore, VERIFIER_TYPES } from '../../data/store.jsx'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { ReviewerTypePicker, SETUP_STEPS, TypeChangeNotice } from './shared.jsx'
 
 // Step 2. Reviewer type: the trust signal on every report (research insight #3).
@@ -14,7 +15,7 @@ export default function SetupType() {
 
   const next = () => {
     actions.setReviewerType(type)
-    navigate('/account/setup/order')
+    navigate(NAMES_TYPES ? '/account/setup/order' : '/account/setup/done')
   }
 
   return (

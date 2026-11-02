@@ -14,7 +14,9 @@
 | Evidence by diner | No type filters, newest first | Type filters, ordered by the Settings choice |
 | Tour | "which diner wrote it" | "Celiac, Strict GF or Gluten-sensitive" |
 
-Community, reviewer profile headers, profile setup, Settings and Help show reviewer types in both versions.
+| "Whose reports come first?" | Not asked: no setup step, Settings section or Help topic | Asked in setup, changeable in Settings |
+
+Community, reviewer profile headers and choosing your own reviewer type in setup show types in both versions. Choosing a type is core to GlutenScout and stays long term; this test checks whether showing it to other diners makes a difference.
 
 ## How participants get a version
 

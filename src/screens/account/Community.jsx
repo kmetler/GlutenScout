@@ -4,6 +4,7 @@ import { FilterChip, FilterChips, ListRow, ReviewerTag, ScreenHeader } from '../
 import { REVIEWER_TYPES } from '../../data/practices.js'
 import { AREAS, isNearby } from '../../data/sample.js'
 import { useStore } from '../../data/store.jsx'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { useDiscover } from '../discover/discoverStore.js'
 import { useAccount } from './accountStore.js'
 import { reviewers } from './data.js'
@@ -78,12 +79,14 @@ export default function Community() {
             </FilterChip>
           ))}
         </FilterChips>
-        <p className="t-meta ink-secondary">
-          Order: {reportOrderLabel(order)} ·{' '}
-          <Link className="link" to="/account/settings">
-            Change in Settings
-          </Link>
-        </p>
+        {NAMES_TYPES && (
+          <p className="t-meta ink-secondary">
+            Order: {reportOrderLabel(order)} ·{' '}
+            <Link className="link" to="/account/settings">
+              Change in Settings
+            </Link>
+          </p>
+        )}
       </div>
 
       {followed.length > 0 && (

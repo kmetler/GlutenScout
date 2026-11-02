@@ -2,6 +2,7 @@ import { Navigate } from 'react-router-dom'
 import { Button, Icon, Notice, ReviewCard, ScreenHeader } from '../../components'
 import { formatISO, todayISO } from '../../data/dates.js'
 import { useStore, VERIFIER_TYPES } from '../../data/store.jsx'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { useAccount } from './accountStore.js'
 import { isActiveVerifier, reportOrderLabel } from './shared.jsx'
 
@@ -33,9 +34,11 @@ export default function SetupDone() {
         >
           Your notes about the meal and the kitchen go here.
         </ReviewCard>
-        <p className="t-meta ink-secondary">
-          Reports on meals: {reportOrderLabel(account.reportOrder)}
-        </p>
+        {NAMES_TYPES && (
+          <p className="t-meta ink-secondary">
+            Reports on meals: {reportOrderLabel(account.reportOrder)}
+          </p>
+        )}
         {canVerify && (
           <Notice>
             As a {user.reviewerType} diner, you can become a verifier and help confirm other

@@ -4,7 +4,8 @@ import { Icon, Notice, ReviewerTag } from '../../components'
 import { REVIEWER_TYPES } from '../../data/practices.js'
 import { VERIFIER_TYPES } from '../../data/store.jsx'
 
-export const SETUP_STEPS = 3
+// Version A of the "Who verified it" test skips the report-order step.
+export const SETUP_STEPS = NAMES_TYPES ? 3 : 2
 
 // Matches only count from Celiac / Strict GF verifiers (reportStatus in store.jsx), so a
 // verifier who changes to another type is shown as not verifying.

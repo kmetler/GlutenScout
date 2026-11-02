@@ -1,3 +1,4 @@
+import { NAMES_TYPES } from '../../data/variant.js'
 import { Link } from 'react-router-dom'
 import { PrecautionBadge, ReportStatus, ReviewerTag } from '../../components'
 import { MATCHES_NEEDED } from '../../data/store.jsx'
@@ -5,7 +6,7 @@ import { STALE_AFTER_DAYS } from './SavedMeals.jsx'
 import { TYPE_DESCRIPTIONS } from './shared.jsx'
 
 // Help topics. `keywords` widen search; `related` lists other topic ids.
-export const HELP_TOPICS = [
+const ALL_TOPICS = [
   {
     id: 'badges',
     title: 'What do the badges mean?',
@@ -77,7 +78,7 @@ export const HELP_TOPICS = [
   },
   {
     id: 'types',
-    title: 'Why does every report show a reviewer type?',
+    title: NAMES_TYPES ? 'Why does every report show a reviewer type?' : 'What do the reviewer types mean?',
     summary: 'So you know who wrote it and how strictly they avoid gluten.',
     keywords: 'celiac strict gluten-sensitive restaurant tag profile trust',
     related: ['order', 'confirmed'],
@@ -224,6 +225,9 @@ export const HELP_TOPICS = [
     ),
   },
 ]
+
+// Version A of the "Who verified it" test has no report-order setting to explain.
+export const HELP_TOPICS = ALL_TOPICS.filter((topic) => NAMES_TYPES || topic.id !== 'order')
 
 export function findTopic(id) {
   return HELP_TOPICS.find((t) => t.id === id)
