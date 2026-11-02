@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Button, FilterChip, FilterChips } from '../../components'
-import { useDiscover } from './discoverStore.js'
+import { NO_FILTERS, useDiscover } from './discoverStore.js'
 import { activeFilterCount, filterSummary, findMeals, sortLabel } from './evidence.js'
 import { DiscoverTop, MealResult } from './shared.jsx'
 
@@ -10,7 +10,8 @@ export default function DiscoverHub() {
   const navigate = useNavigate()
   const { discover, patchFilters, clearFilters } = useDiscover()
   const { filters, sort } = discover
-  const results = findMeals(filters, sort)
+  const results = findMeals(filters, sort, discover.location)
+  const nearby = findMeals(NO_FILTERS, sort, discover.location).length
   const count = activeFilterCount(filters)
   const fryer = filters.practices.includes('fryer')
 
@@ -77,6 +78,13 @@ export default function DiscoverHub() {
 
         {results.length > 0 ? (
           results.map((meal) => <MealResult key={meal.id} meal={meal} />)
+        ) : nearby === 0 ? (
+          <div className="stack-3">
+            <p className="t-body ink-secondary">
+              Nobody has reported on meals near {discover.location} yet.
+            </p>
+            <Button to="/discover/location">Change location</Button>
+          </div>
         ) : (
           <div className="stack-3">
             <p className="t-body ink-secondary">

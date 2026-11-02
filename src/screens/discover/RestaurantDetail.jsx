@@ -1,7 +1,7 @@
 import { Navigate, useParams } from 'react-router-dom'
 import { Button, Icon, Notice, ScreenHeader } from '../../components'
 import { findRestaurant, mealsAt } from '../../data/sample.js'
-import { useDiscover } from './discoverStore.js'
+import { useDiscover, useDistance } from './discoverStore.js'
 import { sortMeals } from './evidence.js'
 import { MealResult, openDirections } from './shared.jsx'
 
@@ -9,9 +9,10 @@ import { MealResult, openDirections } from './shared.jsx'
 export default function RestaurantDetail() {
   const { restaurantId } = useParams()
   const { discover } = useDiscover()
+  const distance = useDistance()
   const restaurant = findRestaurant(restaurantId)
   if (!restaurant) return <Navigate to="/discover/restaurants" replace />
-  const list = sortMeals(mealsAt(restaurant.id), discover.sort === 'distance' ? 'evidence' : discover.sort)
+  const list = sortMeals(mealsAt(restaurant.id), discover.sort === 'distance' ? 'evidence' : discover.sort, discover.location)
 
   return (
     <>
@@ -23,7 +24,7 @@ export default function RestaurantDetail() {
         </div>
         <h2 className="t-business-name">{restaurant.name}</h2>
         <p className="t-meta ink-secondary">
-          {restaurant.cuisine} · {restaurant.distance} · {restaurant.address}
+          {restaurant.cuisine} · {distance(restaurant)} · {restaurant.address}
         </p>
         <div className="row row--wrap">
           {/* Same classes as the shared secondary Button; a real link so the phone app opens. */}

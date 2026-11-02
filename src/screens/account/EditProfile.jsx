@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ActionBar, Button, ScreenHeader, TextField } from '../../components'
+import { matchArea } from '../../data/sample.js'
 import { useStore } from '../../data/store.jsx'
+import { discoverActions } from '../discover/discoverStore.js'
 import { NAME_MAX, nameError } from './SetupAbout.jsx'
 
 export default function EditProfile() {
@@ -15,6 +17,8 @@ export default function EditProfile() {
 
   const save = () => {
     actions.updateProfile({ name: name.trim(), location: location.trim() || user.location })
+    const area = matchArea(location)
+    if (area && location.trim() !== user.location) discoverActions.setLocation(area)
     navigate('/account/settings', { state: { saved: 'Name and home area saved.' } })
   }
 

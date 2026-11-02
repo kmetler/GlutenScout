@@ -1,4 +1,4 @@
-import { meals } from '../../data/sample.js'
+import { isNearby, meals, milesFrom } from '../../data/sample.js'
 import { PRACTICES } from '../../data/practices.js'
 import { daysSince } from '../account/data.js'
 
@@ -39,10 +39,6 @@ export function sortLabel(value) {
   return SORTS.find((s) => s.value === value)?.label ?? SORTS[0].label
 }
 
-export function miles(item) {
-  return parseFloat(item.distance)
-}
-
 export function evidenceOf(meal) {
   const confirmed = meal.precautions.filter((p) => p.state === 'confirmed')
   const disputed = meal.precautions.filter((p) => p.state === 'conflict')
@@ -80,8 +76,8 @@ export function ageText(age) {
   return `${age} days ago`
 }
 
-export function matchesFilters(meal, filters) {
-  if (filters.maxMiles != null && miles(meal) > filters.maxMiles) return false
+export function matchesFilters(meal, filters, area) {
+  if (filters.maxMiles != null && milesFrom(meal, area) > filters.maxMiles) return false
   if (filters.verifiedWithin != null) {
     const age = daysSince(meal.lastVerified)
     if (age == null || age > filters.verifiedWithin) return false
@@ -93,19 +89,21 @@ export function matchesFilters(meal, filters) {
   return true
 }
 
-export function sortMeals(list, sort) {
+export function sortMeals(list, sort, area) {
   const byRecent = (a, b) => (evidenceOf(a).age ?? 9999) - (evidenceOf(b).age ?? 9999)
   const sorted = [...list]
-  if (sort === 'distance') sorted.sort((a, b) => miles(a) - miles(b) || byRecent(a, b))
+  if (sort === 'distance') sorted.sort((a, b) => milesFrom(a, area) - milesFrom(b, area) || byRecent(a, b))
   else if (sort === 'recent') sorted.sort(byRecent)
   else sorted.sort((a, b) => evidenceOf(b).score - evidenceOf(a).score || byRecent(a, b))
   return sorted
 }
 
-export function findMeals(filters, sort) {
+// Meals near the area that pass the filters.
+export function findMeals(filters, sort, area) {
   return sortMeals(
-    meals.filter((meal) => matchesFilters(meal, filters)),
+    meals.filter((meal) => isNearby(meal, area) && matchesFilters(meal, filters, area)),
     sort,
+    area,
   )
 }
 

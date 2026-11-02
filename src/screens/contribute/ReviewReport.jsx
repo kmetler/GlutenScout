@@ -13,6 +13,7 @@ import {
 } from '../../components'
 import { findMeal } from '../../data/sample.js'
 import { useStore, VERIFIER_TYPES } from '../../data/store.jsx'
+import { useDistance } from '../discover/discoverStore.js'
 import { ReportClaims } from './shared.jsx'
 
 function VoteList({ votes }) {
@@ -47,6 +48,7 @@ function VoteList({ votes }) {
 }
 
 export default function ReviewReport() {
+  const distance = useDistance()
   const { reportId } = useParams()
   const navigate = useNavigate()
   const { state, actions, findReport, statusOf } = useStore()
@@ -119,7 +121,7 @@ export default function ReviewReport() {
       <div className="section stack-2">
         <h2 className="t-section-header">{meal.name}</h2>
         <p className="t-meta ink-secondary">
-          {meal.restaurant} · {meal.distance}
+          {meal.restaurant} · {distance(meal)}
         </p>
         <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
         {status === 'conflict' && (

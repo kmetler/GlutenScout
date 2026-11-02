@@ -12,6 +12,7 @@ import {
 import { findRestaurant } from '../../data/sample.js'
 import { useAccount } from '../account/accountStore.js'
 import { applyReportOrder, reportOrderLabel } from '../account/shared.jsx'
+import { useDistance } from '../discover/discoverStore.js'
 import { openDirections } from '../discover/shared.jsx'
 import { useStore } from '../../data/store.jsx'
 import { mealEvidence, mealSources } from './evidence.js'
@@ -26,6 +27,7 @@ export default function MealDetail() {
   const { meal, reports, votes } = useMeal()
   const { account, toggleSaved } = useAccount()
   const { ratingOf } = useStore()
+  const distance = useDistance()
   if (!meal) return <Navigate to="/discover" replace />
 
   const { rating, count } = ratingOf(meal.id)
@@ -48,7 +50,7 @@ export default function MealDetail() {
           <div className="grow stack-2">
             <h2 className="t-business-name">{meal.name}</h2>
             <p className="t-meta ink-secondary">
-              {meal.restaurant} · {meal.distance}
+              {meal.restaurant} · {distance(meal)}
             </p>
           </div>
           <GhostButton

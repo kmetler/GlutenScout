@@ -3,6 +3,7 @@ import Icon from './Icon.jsx'
 import StarRating from './StarRating.jsx'
 import PrecautionBadge from './PrecautionBadge.jsx'
 import { useStore } from '../data/store.jsx'
+import { useDistance } from '../screens/discover/discoverStore.js'
 
 // Meal / restaurant card, reused on browse, detail and saved screens.
 // Shows the dated evidence before the food rating, and says it can be opened ("See details").
@@ -11,6 +12,7 @@ import { useStore } from '../data/store.jsx'
 // compact: photo, meal and restaurant only, for pick-a-meal lists.
 export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, compact = false }) {
   const { rating, count } = useStore().ratingOf(meal.id)
+  const distance = useDistance()
   if (compact) {
     return (
       <Link className="meal-card meal-card--compact" to={to}>
@@ -36,7 +38,7 @@ export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, com
       <div className="meal-card__main">
         <h3 className="t-card-header">{meal.name}</h3>
         <p className="t-meta ink-secondary">
-          {meal.restaurant} · {meal.distance}
+          {meal.restaurant} · {distance(meal)}
         </p>
         {evidence ? (
           <p className={`meal-card__evidence t-meta is-${evidence.tone}`}>

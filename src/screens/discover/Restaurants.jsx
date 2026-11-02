@@ -1,21 +1,25 @@
-import { ListRow } from '../../components'
-import { mealsAt, restaurants } from '../../data/sample.js'
-import { evidenceOf, miles } from './evidence.js'
+import { Button, ListRow } from '../../components'
+import { distanceText, isNearby, mealsAt, milesFrom, restaurants } from '../../data/sample.js'
+import { useDiscover } from './discoverStore.js'
+import { evidenceOf } from './evidence.js'
 import { DiscoverTop } from './shared.jsx'
 
 // Restaurants near you. No overall score: the row counts meals and points out disagreements,
 // and the restaurant page lists each meal with its own evidence.
-export function restaurantSummary(restaurant) {
+export function restaurantSummary(restaurant, area) {
   const list = mealsAt(restaurant.id)
   const disputed = list.filter((m) => evidenceOf(m).disputed.length).length
-  const parts = [`${restaurant.cuisine} · ${restaurant.distance}`]
+  const parts = [`${restaurant.cuisine} · ${distanceText(restaurant, area)}`]
   parts.push(`${list.length} ${list.length === 1 ? 'meal' : 'meals'} reported`)
   if (disputed) parts.push(`${disputed} with disagreements`)
   return parts.join(' · ')
 }
 
 export default function Restaurants() {
-  const sorted = [...restaurants].sort((a, b) => miles(a) - miles(b))
+  const { location } = useDiscover().discover
+  const sorted = restaurants
+    .filter((r) => isNearby(r, location))
+    .sort((a, b) => milesFrom(a, location) - milesFrom(b, location))
   return (
     <>
       <DiscoverTop view="restaurants" />
@@ -35,10 +39,11 @@ export default function Restaurants() {
               to={`/discover/restaurants/${r.id}`}
               icon="meal"
               title={r.name}
-              detail={restaurantSummary(r)}
+              detail={restaurantSummary(r, location)}
             />
           ))}
         </nav>
+        {!sorted.length && <Button to="/discover/location">Change location</Button>}
       </div>
     </>
   )

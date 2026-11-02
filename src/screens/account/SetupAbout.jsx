@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ActionBar, Button, ScreenHeader, StepHeader, TextField } from '../../components'
+import { matchArea } from '../../data/sample.js'
 import { useStore } from '../../data/store.jsx'
+import { discoverActions } from '../discover/discoverStore.js'
 import { SETUP_STEPS } from './shared.jsx'
 
 export const NAME_MAX = 24
@@ -25,6 +27,8 @@ export default function SetupAbout() {
 
   const next = () => {
     actions.updateProfile({ name: name.trim(), location: location.trim() || user.location })
+    const area = matchArea(location)
+    if (area && location.trim() !== user.location) discoverActions.setLocation(area)
     navigate('/account/setup/type')
   }
 

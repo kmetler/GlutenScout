@@ -46,7 +46,7 @@ How people find meals in the GlutenScout prototype, and why it works that way.
 **Chosen:** The search bar on Discover opens the Search screen. Search matches dish, restaurant, cuisine and practice names ("fryer" finds meals with a fryer badge). Recent searches and suggestions are tappable chips (recognition over recall). Results use the current sort.
 
 ### 8. Location is a simple area picker
-**Chosen:** *Use my current location* or pick/type an area. A notice says the example meals and distances are the same for every area in this prototype.
+**Chosen:** *Use my current location* or pick/type an area. Distances are worked out from the chosen area, and only places within 15 miles are listed, so an area like Salt Lake City has no meals yet. Community follows the same area, and saving a known home area in the profile moves Discover there.
 **Why:** Being honest that it's lo-fi, without building map or GPS features that aren't the core idea.
 
 ### 9. Section A keeps its own saved state
@@ -90,7 +90,7 @@ Unknown `/discover/...` paths go to Discover. Unknown restaurant ids go to the r
 - Link to Discover with search filled in: `/discover/search?q=tacos`.
 
 ## Left out on purpose
-- In-app maps, GPS and real distances. (*Directions* hands off to Google Maps.)
+- In-app maps, GPS and real road distances (positions are a made-up grid, and *Use my current location* picks Provo). (*Directions* hands off to Google Maps.)
 - Restaurant-level scores, menus, hours, photos, prices and reservations.
 - Cuisine, price or dietary filters other than gluten practices.
 - Ads, sponsored results and promotions.

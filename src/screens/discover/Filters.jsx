@@ -20,7 +20,7 @@ export default function Filters() {
   const [sort, setDraftSort] = useState(discover.sort)
   const [filters, setDraft] = useState(discover.filters)
   const patch = (p) => setDraft((f) => ({ ...f, ...p }))
-  const count = findMeals(filters, sort).length
+  const count = findMeals(filters, sort, discover.location).length
 
   const togglePractice = (key, on) =>
     patch({

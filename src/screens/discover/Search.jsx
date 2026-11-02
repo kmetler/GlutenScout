@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { FilterChip, FilterChips, Icon, ListRow, ScreenHeader } from '../../components'
-import { restaurants } from '../../data/sample.js'
-import { useDiscover } from './discoverStore.js'
+import { isNearby, restaurants } from '../../data/sample.js'
+import { useDiscover, useDistance } from './discoverStore.js'
 import { searchMeals, sortMeals } from './evidence.js'
 import { MealResult } from './shared.jsx'
 
@@ -12,15 +12,26 @@ const BY_ID = Object.fromEntries(restaurants.map((r) => [r.id, r]))
 export default function Search() {
   const [params, setParams] = useSearchParams()
   const { discover, addRecent, clearRecent } = useDiscover()
+  const distance = useDistance()
   const [text, setText] = useState(params.get('q') ?? '')
   const query = text.trim()
 
-  const mealHits = useMemo(() => sortMeals(searchMeals(query, BY_ID), discover.sort), [query, discover.sort])
+  const mealHits = useMemo(
+    () =>
+      sortMeals(
+        searchMeals(query, BY_ID).filter((meal) => isNearby(meal, discover.location)),
+        discover.sort,
+        discover.location,
+      ),
+    [query, discover.sort, discover.location],
+  )
   const placeHits = useMemo(() => {
     const q = query.toLowerCase()
     if (!q) return []
-    return restaurants.filter((r) => `${r.name} ${r.cuisine}`.toLowerCase().includes(q))
-  }, [query])
+    return restaurants.filter(
+      (r) => isNearby(r, discover.location) && `${r.name} ${r.cuisine}`.toLowerCase().includes(q),
+    )
+  }, [query, discover.location])
 
   const run = (term) => {
     setText(term)
@@ -103,7 +114,7 @@ export default function Search() {
             ))}
             {mealHits.length === 0 && (
               <p className="t-body ink-secondary">
-                No meals match. Check the spelling, try a dish or restaurant name, or{' '}
+                No meals near {discover.location} match. Check the spelling, try a dish or restaurant name, or{' '}
                 <Link className="link" to="/discover">
                   browse all meals
                 </Link>
@@ -123,7 +134,7 @@ export default function Search() {
                     to={`/discover/restaurants/${r.id}`}
                     icon="meal"
                     title={r.name}
-                    detail={`${r.cuisine} · ${r.distance}`}
+                    detail={`${r.cuisine} · ${distance(r)}`}
                   />
                 ))}
               </div>

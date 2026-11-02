@@ -10,7 +10,6 @@ export const meals = [
     name: 'Gluten-free bun cheeseburger',
     restaurant: 'Juniper Grill',
     phone: '(801) 555-0142',
-    distance: '0.8 mi',
     lastVerified: 'Oct 21, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -28,7 +27,6 @@ export const meals = [
     name: 'Corn tortilla street tacos',
     restaurant: 'Casa Verde',
     phone: '(801) 555-0187',
-    distance: '1.4 mi',
     lastVerified: 'Oct 27, 2026',
     precautions: [
       { key: 'fryer', label: 'Dedicated fryer', state: 'confirmed' },
@@ -44,7 +42,6 @@ export const meals = [
     name: 'Teriyaki rice bowl (tamari)',
     restaurant: 'Koji Kitchen',
     phone: '(801) 555-0119',
-    distance: '2.1 mi',
     lastVerified: 'Mar 3, 2026',
     precautions: [
       { key: 'wok', label: 'Separate wok', state: 'unverified' },
@@ -58,7 +55,6 @@ export const meals = [
     name: 'Grilled salmon with roasted potatoes',
     restaurant: 'Juniper Grill',
     phone: '(801) 555-0142',
-    distance: '0.8 mi',
     lastVerified: 'Oct 23, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -75,7 +71,6 @@ export const meals = [
     name: 'Carnitas burrito bowl',
     restaurant: 'Casa Verde',
     phone: '(801) 555-0187',
-    distance: '1.4 mi',
     lastVerified: 'Aug 2, 2026',
     precautions: [
       { key: 'gloves', label: 'Gloves changed', state: 'confirmed' },
@@ -91,7 +86,6 @@ export const meals = [
     name: 'Pad thai with rice noodles',
     restaurant: 'Lotus Thai Kitchen',
     phone: '(801) 555-0163',
-    distance: '3.2 mi',
     lastVerified: 'Oct 24, 2026',
     precautions: [
       { key: 'sauce', label: 'Tamari on request', state: 'confirmed' },
@@ -108,7 +102,6 @@ export const meals = [
     name: 'Gluten-free crust margherita pizza',
     restaurant: 'Slice Society',
     phone: '(801) 555-0175',
-    distance: '4.6 mi',
     lastVerified: 'May 18, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'unverified' },
@@ -125,7 +118,6 @@ export const meals = [
     name: 'Sweet potato breakfast hash',
     restaurant: 'Sunrise Café',
     phone: '(801) 555-0128',
-    distance: '0.5 mi',
     lastVerified: 'Oct 29, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -142,7 +134,6 @@ export const meals = [
     name: 'Buckwheat pancakes with berries',
     restaurant: 'Sunrise Café',
     phone: '(801) 555-0128',
-    distance: '0.5 mi',
     lastVerified: 'Oct 25, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -156,7 +147,6 @@ export const meals = [
     name: 'Gluten-free cinnamon roll',
     restaurant: 'Honey & Oat Bakery',
     phone: '(801) 555-0147',
-    distance: '0.6 mi',
     lastVerified: 'Oct 30, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -171,7 +161,6 @@ export const meals = [
     name: 'Turkey avocado sandwich on GF bread',
     restaurant: 'Honey & Oat Bakery',
     phone: '(801) 555-0147',
-    distance: '0.6 mi',
     lastVerified: 'Oct 20, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -185,7 +174,6 @@ export const meals = [
     name: 'Chicken shawarma plate with rice',
     restaurant: 'Olive & Thyme',
     phone: '(801) 555-0131',
-    distance: '1.1 mi',
     lastVerified: 'Oct 28, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -200,7 +188,6 @@ export const meals = [
     name: 'Falafel bowl with tahini',
     restaurant: 'Olive & Thyme',
     phone: '(801) 555-0131',
-    distance: '1.1 mi',
     lastVerified: 'Oct 17, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -215,7 +202,6 @@ export const meals = [
     name: 'Roasted chicken harvest bowl',
     restaurant: 'Harvest Bowl',
     phone: '(801) 555-0123',
-    distance: '1.6 mi',
     lastVerified: 'Oct 15, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -229,7 +215,6 @@ export const meals = [
     name: 'Smoked brisket plate',
     restaurant: 'Red Mesa Smokehouse',
     phone: '(801) 555-0154',
-    distance: '1.9 mi',
     lastVerified: 'Oct 22, 2026',
     precautions: [
       { key: 'gloves', label: 'Gloves changed', state: 'confirmed' },
@@ -243,7 +228,6 @@ export const meals = [
     name: 'Miso-glazed salmon with rice',
     restaurant: 'Koji Kitchen',
     phone: '(801) 555-0119',
-    distance: '2.1 mi',
     lastVerified: 'Apr 8, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'unverified' },
@@ -257,7 +241,6 @@ export const meals = [
     name: 'Butter chicken with basmati rice',
     restaurant: 'Saffron Table',
     phone: '(801) 555-0196',
-    distance: '2.6 mi',
     lastVerified: 'Oct 19, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -271,7 +254,6 @@ export const meals = [
     name: 'Chana masala with basmati rice',
     restaurant: 'Saffron Table',
     phone: '(801) 555-0196',
-    distance: '2.6 mi',
     lastVerified: 'Sep 3, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'unverified' },
@@ -285,7 +267,6 @@ export const meals = [
     name: 'Beef pho with rice noodles',
     restaurant: 'Pho Lan',
     phone: '(801) 555-0108',
-    distance: '2.9 mi',
     lastVerified: 'Oct 11, 2026',
     precautions: [
       { key: 'sauce', label: 'Tamari on request', state: 'confirmed' },
@@ -300,7 +281,6 @@ export const meals = [
     name: 'Green curry with jasmine rice',
     restaurant: 'Lotus Thai Kitchen',
     phone: '(801) 555-0163',
-    distance: '3.2 mi',
     lastVerified: 'Oct 14, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'confirmed' },
@@ -314,7 +294,6 @@ export const meals = [
     name: 'Spicy tuna roll with tamari',
     restaurant: 'Tide & Rice Sushi',
     phone: '(801) 555-0112',
-    distance: '3.8 mi',
     lastVerified: 'Sep 27, 2026',
     precautions: [
       { key: 'sauce', label: 'Tamari on request', state: 'confirmed' },
@@ -329,7 +308,6 @@ export const meals = [
     name: 'Chicken Caesar salad, no croutons',
     restaurant: 'Slice Society',
     phone: '(801) 555-0175',
-    distance: '4.6 mi',
     lastVerified: 'Jun 9, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'unverified' },
@@ -344,7 +322,6 @@ export const meals = [
     name: 'Country omelet with hash browns',
     restaurant: 'Canyon Diner',
     phone: '(801) 555-0170',
-    distance: '7.8 mi',
     lastVerified: 'Jul 18, 2026',
     precautions: [
       { key: 'prep', label: 'Separate prep area', state: 'unverified' },
@@ -361,21 +338,59 @@ export function findMeal(id) {
 // Restaurants, for Discover's restaurant list. GlutenScout never scores a restaurant as a whole:
 // each meal keeps its own evidence, so a restaurant page is just a list of its meals.
 export const restaurants = [
-  { id: 'sunrise-cafe', name: 'Sunrise Café', cuisine: 'Breakfast', distance: '0.5 mi', phone: '(801) 555-0128', address: '210 N University Ave, Provo' },
-  { id: 'juniper-grill', name: 'Juniper Grill', cuisine: 'American', distance: '0.8 mi', phone: '(801) 555-0142', address: '48 W Center St, Provo' },
-  { id: 'casa-verde', name: 'Casa Verde', cuisine: 'Mexican', distance: '1.4 mi', phone: '(801) 555-0187', address: '1150 N 900 E, Provo' },
-  { id: 'koji-kitchen', name: 'Koji Kitchen', cuisine: 'Japanese', distance: '2.1 mi', phone: '(801) 555-0119', address: '560 E 1860 S, Provo' },
-  { id: 'lotus-thai', name: 'Lotus Thai Kitchen', cuisine: 'Thai', distance: '3.2 mi', phone: '(801) 555-0163', address: '75 S State St, Orem' },
-  { id: 'slice-society', name: 'Slice Society', cuisine: 'Pizza', distance: '4.6 mi', phone: '(801) 555-0175', address: '1300 S Main St, Springville' },
-  { id: 'honey-oat', name: 'Honey & Oat Bakery', cuisine: 'Bakery', distance: '0.6 mi', phone: '(801) 555-0147', address: '132 W 100 N, Provo' },
-  { id: 'olive-thyme', name: 'Olive & Thyme', cuisine: 'Mediterranean', distance: '1.1 mi', phone: '(801) 555-0131', address: '390 N 100 E, Provo' },
-  { id: 'harvest-bowl', name: 'Harvest Bowl', cuisine: 'Salads & bowls', distance: '1.6 mi', phone: '(801) 555-0123', address: '845 N 700 E, Provo' },
-  { id: 'red-mesa', name: 'Red Mesa Smokehouse', cuisine: 'Barbecue', distance: '1.9 mi', phone: '(801) 555-0154', address: '1420 S State St, Provo' },
-  { id: 'saffron-table', name: 'Saffron Table', cuisine: 'Indian', distance: '2.6 mi', phone: '(801) 555-0196', address: '220 W 1300 S, Orem' },
-  { id: 'pho-lan', name: 'Pho Lan', cuisine: 'Vietnamese', distance: '2.9 mi', phone: '(801) 555-0108', address: '610 E University Pkwy, Orem' },
-  { id: 'tide-rice', name: 'Tide & Rice Sushi', cuisine: 'Sushi', distance: '3.8 mi', phone: '(801) 555-0112', address: '95 N State St, Orem' },
-  { id: 'canyon-diner', name: 'Canyon Diner', cuisine: 'Diner', distance: '7.8 mi', phone: '(801) 555-0170', address: '480 N Main St, Spanish Fork' },
+  { id: 'sunrise-cafe', name: 'Sunrise Café', cuisine: 'Breakfast', at: [0.1, 0.5], phone: '(801) 555-0128', address: '210 N University Ave, Provo' },
+  { id: 'juniper-grill', name: 'Juniper Grill', cuisine: 'American', at: [-0.2, -0.8], phone: '(801) 555-0142', address: '48 W Center St, Provo' },
+  { id: 'casa-verde', name: 'Casa Verde', cuisine: 'Mexican', at: [0.9, 1.1], phone: '(801) 555-0187', address: '1150 N 900 E, Provo' },
+  { id: 'koji-kitchen', name: 'Koji Kitchen', cuisine: 'Japanese', at: [0.8, -1.9], phone: '(801) 555-0119', address: '560 E 1860 S, Provo' },
+  { id: 'lotus-thai', name: 'Lotus Thai Kitchen', cuisine: 'Thai', at: [-0.9, 3.1], phone: '(801) 555-0163', address: '75 S State St, Orem' },
+  { id: 'slice-society', name: 'Slice Society', cuisine: 'Pizza', at: [2.9, -3.6], phone: '(801) 555-0175', address: '1300 S Main St, Springville' },
+  { id: 'honey-oat', name: 'Honey & Oat Bakery', cuisine: 'Bakery', at: [-0.3, 0.5], phone: '(801) 555-0147', address: '132 W 100 N, Provo' },
+  { id: 'olive-thyme', name: 'Olive & Thyme', cuisine: 'Mediterranean', at: [0.4, 1.0], phone: '(801) 555-0131', address: '390 N 100 E, Provo' },
+  { id: 'harvest-bowl', name: 'Harvest Bowl', cuisine: 'Salads & bowls', at: [1.0, 1.25], phone: '(801) 555-0123', address: '845 N 700 E, Provo' },
+  { id: 'red-mesa', name: 'Red Mesa Smokehouse', cuisine: 'Barbecue', at: [0.9, -1.7], phone: '(801) 555-0154', address: '1420 S State St, Provo' },
+  { id: 'saffron-table', name: 'Saffron Table', cuisine: 'Indian', at: [-1.2, 2.3], phone: '(801) 555-0196', address: '220 W 1300 S, Orem' },
+  { id: 'pho-lan', name: 'Pho Lan', cuisine: 'Vietnamese', at: [0.2, 2.9], phone: '(801) 555-0108', address: '610 E University Pkwy, Orem' },
+  { id: 'tide-rice', name: 'Tide & Rice Sushi', cuisine: 'Sushi', at: [-1.3, 3.6], phone: '(801) 555-0112', address: '95 N State St, Orem' },
+  { id: 'canyon-diner', name: 'Canyon Diner', cuisine: 'Diner', at: [4.7, -6.2], phone: '(801) 555-0170', address: '480 N Main St, Spanish Fork' },
 ]
+
+// Example map, in miles east and north of central Provo. `at` on a restaurant uses the same grid.
+export const AREAS = {
+  'Provo, UT': [0, 0],
+  'Orem, UT': [-1, 3.5],
+  'Springville, UT': [3, -3.8],
+  'Spanish Fork, UT': [5, -6.5],
+  'American Fork, UT': [-6, 11],
+  'Lehi, UT': [-9, 15],
+  'Salt Lake City, UT': [-6, 40],
+}
+
+// How far from an area a place still counts as "near" it.
+export const NEARBY_MILES = 15
+
+// The area named by something a person typed, like "orem" or "Orem, UT". null if we don't know it.
+export function matchArea(text) {
+  const q = text.trim().toLowerCase()
+  if (!q) return null
+  return Object.keys(AREAS).find((area) => area.toLowerCase().startsWith(q) || q.startsWith(area.split(',')[0].toLowerCase())) ?? null
+}
+
+// Miles from an area to a restaurant or a meal.
+export function milesFrom(item, area) {
+  const [fromX, fromY] = AREAS[area] ?? AREAS['Provo, UT']
+  const [x, y] = item.at ?? findRestaurant(item.restaurantId).at
+  return Math.hypot(x - fromX, y - fromY)
+}
+
+export function isNearby(item, area) {
+  return milesFrom(item, area) <= NEARBY_MILES
+}
+
+// "0.8 mi", or "13 mi" once the decimal stops being useful.
+export function distanceText(item, area) {
+  const miles = milesFrom(item, area)
+  return `${miles < 10 ? miles.toFixed(1) : Math.round(miles)} mi`
+}
 
 export function findRestaurant(id) {
   return restaurants.find((r) => r.id === id)

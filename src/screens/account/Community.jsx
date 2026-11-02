@@ -2,12 +2,17 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FilterChip, FilterChips, ListRow, ReviewerTag, ScreenHeader } from '../../components'
 import { REVIEWER_TYPES } from '../../data/practices.js'
+import { AREAS, isNearby } from '../../data/sample.js'
 import { useStore } from '../../data/store.jsx'
+import { useDiscover } from '../discover/discoverStore.js'
 import { useAccount } from './accountStore.js'
 import { reviewers } from './data.js'
 import { applyReportOrder, reportOrderLabel } from './shared.jsx'
 
 const ALL = 'All'
+
+// People only have a home area, so that's where they count as being.
+const livesNear = (reviewer, area) => isNearby({ at: AREAS[reviewer.location] }, area)
 
 // Newest visit date among a reviewer's reports in this prototype, or null.
 export function newestReport(reviewer, reports) {
@@ -43,13 +48,14 @@ function ReviewerRow({ reviewer, reports }) {
 export default function Community() {
   const { state } = useStore()
   const { account } = useAccount()
+  const { location } = useDiscover().discover
   const [type, setType] = useState(ALL)
   const order = account.reportOrder
 
   const ordered = applyReportOrder(reviewers, order)
   const shown = type === ALL ? ordered : ordered.filter((r) => r.reviewerType === type)
   const followed = shown.filter((r) => account.following.includes(r.id))
-  const others = shown.filter((r) => !account.following.includes(r.id))
+  const others = shown.filter((r) => !account.following.includes(r.id) && livesNear(r, location))
   const hiddenByOrder = order === 'strict-only' && type === 'Gluten-sensitive'
 
   return (
@@ -57,10 +63,13 @@ export default function Community() {
       <ScreenHeader title="Community" backTo="/account" />
 
       <div className="section stack-3">
-        <h2 className="t-section-header">Reviewers near {state.currentUser.location}</h2>
+        <h2 className="t-section-header">Reviewers near {location}</h2>
         <p className="t-body ink-secondary">
           The people behind the reports. Each one shows how they eat gluten-free, so you can weigh
-          what they share.
+          what they share.{' '}
+          <Link className="link" to="/discover/location">
+            Change location
+          </Link>
         </p>
         <FilterChips label="Reviewer type">
           {[ALL, ...REVIEWER_TYPES].map((t) => (
@@ -96,7 +105,7 @@ export default function Community() {
         {others.map((r) => (
           <ReviewerRow key={r.id} reviewer={r} reports={state.reports} />
         ))}
-        {!shown.length && (
+        {!followed.length && !others.length && (
           <p className="t-body ink-secondary">
             {hiddenByOrder
               ? 'Your settings hide reports from gluten-sensitive diners, so they aren’t listed. Change “Whose reports come first” in Settings to see them.'

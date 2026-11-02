@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react'
+import { distanceText } from '../../data/sample.js'
 import { readStored, removeStored, writeStored } from '../../data/storage.js'
 
 // Section A's own saved state: location, sort, filters, tour and recent searches.
@@ -63,6 +64,12 @@ export const discoverActions = {
     discover = DEFAULTS
     listeners.forEach((listener) => listener())
   },
+}
+
+// For any screen showing a distance: distance(mealOrRestaurant) → "2.6 mi" from the chosen area.
+export function useDistance() {
+  const location = useSyncExternalStore(subscribe, () => discover.location)
+  return (item) => distanceText(item, location)
 }
 
 export function useDiscover() {

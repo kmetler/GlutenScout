@@ -1,16 +1,10 @@
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Button, Icon, Notice, ScreenHeader, StepHeader, TextField } from '../../components'
+import { Button, Icon, ScreenHeader, StepHeader, TextField } from '../../components'
+import { AREAS as AREA_MAP } from '../../data/sample.js'
 import { useDiscover } from './discoverStore.js'
 
-const AREAS = [
-  'Provo, UT',
-  'Orem, UT',
-  'Lehi, UT',
-  'Springville, UT',
-  'American Fork, UT',
-  'Salt Lake City, UT',
-]
+const AREAS = Object.keys(AREA_MAP)
 
 // Set the area to search near. Also step 3 of the tour (?tour=1).
 export default function Location() {
@@ -101,9 +95,6 @@ export default function Location() {
           ))}
         </div>
 
-        <Notice>
-          Prototype note: the example meals and distances are the same whichever area you pick.
-        </Notice>
       </div>
     </>
   )
