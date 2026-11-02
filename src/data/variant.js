@@ -3,7 +3,7 @@ import { readStored, writeStored } from './storage.js'
 // Interview A/B test: "Who verified it".
 // A: verifications say "Verified by diners" and never name a reviewer type.
 // B: every verification names the verifiers' types, e.g. "Confirmed by 3 celiac diners".
-// Review cards show the reviewer type in both versions; only verification wording changes.
+// Version A also leaves reviewer types off reviews, and meal pages don't sort or filter by them.
 //
 // Each browser is assigned A or B at random on its first visit and keeps it. Opening the app
 // with ?v=a or ?v=b switches this browser to that version (handy for checking both).

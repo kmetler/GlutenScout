@@ -1,3 +1,4 @@
+import { NAMES_TYPES } from '../../data/variant.js'
 import { useNavigate } from 'react-router-dom'
 import { ActionBar, Button, Icon, ScreenHeader, StepHeader } from '../../components'
 import { useDiscover } from './discoverStore.js'
@@ -42,8 +43,10 @@ export default function TourWelcome() {
             <b>See when</b> — every claim has a “last verified” date.
           </li>
           <li>
-            <b>See who</b> — every report shows whether the reviewer is Celiac, Strict GF or
-            Gluten-sensitive.
+            <b>See who</b> —{' '}
+            {NAMES_TYPES
+              ? 'every report shows whether the reviewer is Celiac, Strict GF or Gluten-sensitive.'
+              : 'every report shows which diner wrote it and when they visited.'}
           </li>
         </ul>
         <p className="t-body ink-secondary">

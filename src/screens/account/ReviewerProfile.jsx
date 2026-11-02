@@ -2,6 +2,7 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { Button, ReportStatus, ReviewerTag, ScreenHeader, StarRating } from '../../components'
 import { findMeal } from '../../data/sample.js'
 import { useStore } from '../../data/store.jsx'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { ReportClaims } from '../contribute/shared.jsx'
 import { useAccount } from './accountStore.js'
 import { findReviewer } from './data.js'
@@ -68,7 +69,7 @@ export default function ReviewerProfile() {
               <p className="t-meta ink-secondary">{meal?.restaurant}</p>
               <p className="t-caption ink-secondary">
                 {report.name}
-                <ReviewerTag type={report.reviewerType} /> · Visited {report.date}
+                {NAMES_TYPES && <ReviewerTag type={report.reviewerType} />} · Visited {report.date}
               </p>
               {report.claims.length > 0 && (
                 <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
@@ -97,7 +98,7 @@ export default function ReviewerProfile() {
             </Link>
             <p className="t-caption ink-secondary">
               Report by {report.name}
-              <ReviewerTag type={report.reviewerType} /> · Visited {report.date}
+              {NAMES_TYPES && <ReviewerTag type={report.reviewerType} />} · Visited {report.date}
             </p>
             <p className="t-body">
               {vote.kind === 'dispute'

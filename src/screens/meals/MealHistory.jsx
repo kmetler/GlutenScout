@@ -1,3 +1,4 @@
+import { NAMES_TYPES } from '../../data/variant.js'
 import { Link, Navigate } from 'react-router-dom'
 import { Button, Icon, Notice, ReportStatus, ReviewerTag, ScreenHeader } from '../../components'
 import { useStore, VERIFIER_TYPES } from '../../data/store.jsx'
@@ -10,7 +11,7 @@ function Who({ name, reviewerType }) {
   return (
     <>
       <b>{name}</b>
-      <ReviewerTag type={reviewerType} />
+      {NAMES_TYPES && <ReviewerTag type={reviewerType} />}
     </>
   )
 }

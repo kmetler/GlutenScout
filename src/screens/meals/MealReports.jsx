@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { ActionBar, Button, FilterChip, FilterChips, ScreenHeader } from '../../components'
 import { REVIEWER_TYPES } from '../../data/practices.js'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { useAccount } from '../account/accountStore.js'
 import { applyReportOrder, reportOrderLabel } from '../account/shared.jsx'
 import { ReportItem, useMeal } from './shared.jsx'
@@ -31,23 +32,29 @@ export default function MealReports() {
           <h2 className="t-section-header">{meal.name}</h2>
           <p className="t-meta ink-secondary">{meal.restaurant}</p>
         </div>
-        <FilterChips label="Reviewer type">
-          <FilterChip selected={type === ALL} onClick={() => setType(ALL)}>
-            {ALL} · {visible.length}
-          </FilterChip>
-          {TYPES.filter(count).map((t) => (
-            <FilterChip key={t} selected={type === t} onClick={() => setType(t)}>
-              {t} · {count(t)}
-            </FilterChip>
-          ))}
-        </FilterChips>
-        <p className="t-meta ink-secondary">
-          {reportOrderLabel(account.reportOrder)}
-          {hidden > 0 && ` · ${hidden} hidden by your setting`} ·{' '}
-          <Link className="link" to="/account/settings">
-            Change in Settings
-          </Link>
-        </p>
+        {NAMES_TYPES ? (
+          <>
+            <FilterChips label="Reviewer type">
+              <FilterChip selected={type === ALL} onClick={() => setType(ALL)}>
+                {ALL} · {visible.length}
+              </FilterChip>
+              {TYPES.filter(count).map((t) => (
+                <FilterChip key={t} selected={type === t} onClick={() => setType(t)}>
+                  {t} · {count(t)}
+                </FilterChip>
+              ))}
+            </FilterChips>
+            <p className="t-meta ink-secondary">
+              {reportOrderLabel(account.reportOrder)}
+              {hidden > 0 && ` · ${hidden} hidden by your setting`} ·{' '}
+              <Link className="link" to="/account/settings">
+                Change in Settings
+              </Link>
+            </p>
+          </>
+        ) : (
+          <p className="t-meta ink-secondary">{visible.length} reports</p>
+        )}
       </div>
 
       <div className="band" />

@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import StarRating from './StarRating.jsx'
+import { NAMES_TYPES } from '../data/variant.js'
 
 // Reviewer type is required on every report: Celiac / Strict GF / Gluten-sensitive / Restaurant.
+// Version A of the "Who verified it" test (data/variant.js) leaves it off reviews.
 export function ReviewerTag({ type }) {
   return <span className="reviewer-tag">{type}</span>
 }
@@ -44,7 +46,7 @@ export default function ReviewCard({
         <div>
           <div className="t-reviewer-name">
             {name}
-            <ReviewerTag type={reviewerType} />
+            {NAMES_TYPES && <ReviewerTag type={reviewerType} />}
           </div>
           <div className="t-caption ink-secondary">
             {location} · {reportCount} reports

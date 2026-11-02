@@ -10,8 +10,11 @@
 | Safety profile source line | 12 diner reports | 6 celiac / strict reports |
 | Discover meal card | 2 of 3 practices verified by diners | 2 of 3 practices confirmed by 5 celiac and 2 strict GF diners |
 | Peer-review badge on a report | Confirmed by 2 verifiers | Confirmed by 1 celiac and 1 strict GF verifier |
+| Reviews and report lists | Name only | Name + reviewer type tag (Celiac, Strict GF, Gluten-sensitive) |
+| Evidence by diner | No type filters, newest first | Type filters, ordered by the Settings choice |
+| Tour | "which diner wrote it" | "Celiac, Strict GF or Gluten-sensitive" |
 
-Only verification wording changes. Review cards, the "Evidence by diner" filters, Community and onboarding show reviewer types in both versions.
+Community, reviewer profile headers, profile setup, Settings and Help show reviewer types in both versions.
 
 ## How participants get a version
 

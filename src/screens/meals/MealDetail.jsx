@@ -15,6 +15,7 @@ import { applyReportOrder, reportOrderLabel } from '../account/shared.jsx'
 import { useDistance } from '../discover/discoverStore.js'
 import { openDirections } from '../discover/shared.jsx'
 import { useStore } from '../../data/store.jsx'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { mealEvidence, mealSources } from './evidence.js'
 import { datedAgo, ReportItem, StaleNote, useMeal } from './shared.jsx'
 
@@ -120,12 +121,14 @@ export default function MealDetail() {
       <div className="section stack-3">
         <div className="stack-2">
           <h2 className="t-section-header">Latest reports</h2>
-          <p className="t-meta ink-secondary">
-            {reportOrderLabel(account.reportOrder)} ·{' '}
-            <Link className="link" to="/account/settings">
-              Change in Settings
-            </Link>
-          </p>
+          {NAMES_TYPES && (
+            <p className="t-meta ink-secondary">
+              {reportOrderLabel(account.reportOrder)} ·{' '}
+              <Link className="link" to="/account/settings">
+                Change in Settings
+              </Link>
+            </p>
+          )}
         </div>
 
         {visible.length > 0 ? (

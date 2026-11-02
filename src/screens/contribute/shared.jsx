@@ -1,3 +1,4 @@
+import { NAMES_TYPES } from '../../data/variant.js'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
@@ -69,7 +70,7 @@ export function ReportRow({ report }) {
         <span className="list-row__title t-card-header">{meal?.name}</span>
         <span className="list-row__detail t-meta ink-secondary">
           {report.name}
-          <ReviewerTag type={report.reviewerType} /> · {report.date}
+          {NAMES_TYPES && <ReviewerTag type={report.reviewerType} />} · {report.date}
         </span>
         <span>
           <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />

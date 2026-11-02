@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Icon, ReportStatus, ReviewCard, ReviewerTag } from '../../components'
 import { findMeal } from '../../data/sample.js'
 import { useStore } from '../../data/store.jsx'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { STALE_AFTER_DAYS } from '../account/SavedMeals.jsx'
 import { ReportClaims } from '../contribute/shared.jsx'
 import { freshness, mealReports, reviewerIdFor } from './evidence.js'
@@ -67,7 +68,7 @@ export function ReportItem({ report }) {
       {disputes.map((vote) => (
         <p key={vote.by} className="t-body">
           {vote.name}
-          <ReviewerTag type={vote.reviewerType} /> saw something different on {vote.date}
+          {NAMES_TYPES && <ReviewerTag type={vote.reviewerType} />} saw something different on {vote.date}
           {vote.note && <>: “{vote.note}”</>}
         </p>
       ))}

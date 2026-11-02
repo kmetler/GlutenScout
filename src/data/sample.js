@@ -460,7 +460,7 @@ function visit(id, mealId, by, date, rating, body, seen = {}) {
 export const reports = [
   // Gluten-free bun cheeseburger · Juniper Grill. Fryer disputed: 3 saw it shared, 1 saw it dedicated.
   visit('r1', 'gf-burger', 'maya', 'Sep 12, 2026', 4,
-    "Told the server I'm celiac — the cook came out, changed gloves and used a separate board. GF bun was great. Fries share the fryer, so I skipped them.",
+    "Told the server I need gluten-free — the cook came out, changed gloves and used a separate board. GF bun was great. Fries share the fryer, so I skipped them.",
     { prep: 'saw', gloves: 'saw', fryer: 'no' }),
   visit('r2', 'gf-burger', 'devin', 'Sep 4, 2026', 5,
     'Staff said the fries have their own fryer. I did not see the kitchen myself, so I am passing on what they told me.',
@@ -475,10 +475,10 @@ export const reports = [
     'Third time here. The cook changed gloves without me asking and plated mine away from the regular buns. Got the side salad instead of fries.',
     { prep: 'saw', gloves: 'saw' }),
   visit('b6', 'gf-burger', 'hannah', 'Oct 9, 2026', 5,
-    'Best GF bun I have had in Utah County — they toast it in its own pan. Our server knew the drill before I finished saying "celiac".',
+    'Best GF bun I have had in Utah County — they toast it in its own pan. Our server knew the drill before I finished asking.',
     { prep: 'saw', gloves: 'saw' }),
   visit('b7', 'gf-burger', 'ethan', 'Oct 14, 2026', 4,
-    "Server said the fries are fine for gluten-free. I'm sensitive, not celiac, so I had them, but I can't tell you what the fryer is like.",
+    "Server said the fries are fine for gluten-free, so I had them. I can't tell you what the fryer is like.",
     { fryer: 'told' }),
   visit('b8', 'gf-burger', 'rosa', 'Aug 28, 2026', 4,
     'Sat at the bar facing the line. Separate board, fresh gloves, and the bun came out sealed in its bag.',
@@ -720,7 +720,7 @@ export const reports = [
 
   // Chicken shawarma plate with rice · Olive & Thyme
   visit('sw1', 'shawarma-plate', 'theo', 'Oct 28, 2026', 5,
-    'I told them I am strict and the cook changed gloves, cleaned the board and picked up a fresh knife. Garlic sauce is excellent.',
+    'I told them it had to be gluten-free and the cook changed gloves, cleaned the board and picked up a fresh knife. Garlic sauce is excellent.',
     { prep: 'saw', gloves: 'saw', utensils: 'saw' }),
   visit('sw2', 'shawarma-plate', 'ben', 'Oct 13, 2026', 4,
     'They keep pita at the far end of the line, away from the plates. Fresh gloves for mine.',
@@ -752,7 +752,7 @@ export const reports = [
     'On the Friday rush, pita chips and falafel were in the same oil. Ask before you order.',
     { fryer: 'no' }),
   visit('fb4', 'falafel-bowl', 'jess', 'Oct 9, 2026', 5,
-    'Crispy falafel and lots of tahini. I am sensitive, not celiac, and it was fine for me.'),
+    'Crispy falafel and lots of tahini.'),
   visit('fb5', 'falafel-bowl', 'will', 'Aug 30, 2026', 4,
     'Staff told me the falafel has its own fryer.',
     { fryer: 'told' }),

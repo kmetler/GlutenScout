@@ -1,3 +1,4 @@
+import { NAMES_TYPES } from '../../data/variant.js'
 import { Link } from 'react-router-dom'
 import { Icon, Notice, ReviewerTag } from '../../components'
 import { REVIEWER_TYPES } from '../../data/practices.js'
@@ -46,7 +47,9 @@ export function reportOrderLabel(value) {
 
 // Applies the report-order setting to anything with a reviewerType.
 // Other sections can use this too, e.g. Meal detail's list of reports.
+// Version A of the "Who verified it" test doesn't show reviewer types, so it doesn't sort by them.
 export function applyReportOrder(items, order) {
+  if (!NAMES_TYPES) return items
   const strict = (item) => VERIFIER_TYPES.includes(item.reviewerType)
   if (order === 'strict-only') return items.filter(strict)
   if (order === 'newest') return items

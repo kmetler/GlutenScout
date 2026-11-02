@@ -13,6 +13,7 @@ import {
 } from '../../components'
 import { findMeal } from '../../data/sample.js'
 import { useStore, VERIFIER_TYPES } from '../../data/store.jsx'
+import { NAMES_TYPES } from '../../data/variant.js'
 import { useDistance } from '../discover/discoverStore.js'
 import { ReportClaims } from './shared.jsx'
 
@@ -24,7 +25,7 @@ function VoteList({ votes }) {
         <li key={v.by} className="summary-block">
           <p className="t-reviewer-name">
             {v.name}
-            <ReviewerTag type={v.reviewerType} />
+            {NAMES_TYPES && <ReviewerTag type={v.reviewerType} />}
             {v.verifier && <span className="t-caption ink-secondary"> · verifier</span>}
           </p>
           {v.kind === 'match' ? (
