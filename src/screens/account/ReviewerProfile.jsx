@@ -66,7 +66,9 @@ export default function ReviewerProfile() {
                 {report.name}
                 <ReviewerTag type={report.reviewerType} /> · Visited {report.date}
               </p>
-              <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
+              {report.claims.length > 0 && (
+                <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
+              )}
               <ReportClaims claims={report.claims} />
               {report.rating != null && <StarRating value={report.rating} size={14} />}
               <p className="t-body">{report.body}</p>

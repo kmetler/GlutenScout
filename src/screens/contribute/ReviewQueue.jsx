@@ -1,13 +1,21 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Notice, ScreenHeader } from '../../components'
 import { MATCHES_NEEDED, useStore } from '../../data/store.jsx'
+import { newestFirst } from '../meals/evidence.js'
 import { ReportRow } from './shared.jsx'
+
+const FIRST_SHOWN = 8
 
 // Other people's reports that still need checking: pending ones and conflicts.
 export default function ReviewQueue() {
   const { state, statusOf } = useStore()
-  const others = state.reports.filter((r) => r.author !== 'me')
-  const pending = others.filter((r) => statusOf(r).status === 'pending')
+  const others = state.reports.filter((r) => r.author !== 'me' && r.claims.length > 0)
+  const [showAll, setShowAll] = useState(false)
+  // Closest to being confirmed first, then newest, so a single check does the most good.
+  const pending = newestFirst(others.filter((r) => statusOf(r).status === 'pending')).sort(
+    (a, b) => statusOf(b).matches - statusOf(a).matches,
+  )
   const conflicts = others.filter((r) => statusOf(r).status === 'conflict')
 
   return (
@@ -32,9 +40,14 @@ export default function ReviewQueue() {
 
       <div className="section stack-2">
         <h2 className="t-section-header">Waiting for matches ({pending.length})</h2>
-        {pending.map((r) => (
+        {(showAll ? pending : pending.slice(0, FIRST_SHOWN)).map((r) => (
           <ReportRow key={r.id} report={r} />
         ))}
+        {!showAll && pending.length > FIRST_SHOWN && (
+          <button type="button" className="text-btn" onClick={() => setShowAll(true)}>
+            Show all {pending.length}
+          </button>
+        )}
         {!pending.length && <p className="t-body ink-secondary">Nothing waiting right now.</p>}
       </div>
 

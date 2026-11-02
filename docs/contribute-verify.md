@@ -106,7 +106,7 @@ Answers are saved as people tap, so switching to the phone app and back loses no
 - *My reports* always has a sticky green *Write a report*.
 
 ### Reset example data
-*My reports → Reset example data* clears your reports, votes, call answers, draft, reviewer type and verifier status, and brings back the seeded examples. Use it between usability-test sessions. Changes teammates make to `sample.js` only show up after a reset, because saved state takes priority.
+*My reports → Reset example data* clears your reports, votes, call answers, draft, reviewer type and verifier status, and brings back the seeded examples. Use it between usability-test sessions. Only your own reports and votes are saved, so changes teammates make to the examples in `sample.js` show up on the next reload.
 
 ### Seeded example states (for testing)
 | Report | Meal | Starts as | Try |

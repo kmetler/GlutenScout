@@ -10,7 +10,7 @@ export default function ContributeHub() {
   const draftMeal = draft && findMeal(draft.mealId)
 
   const waiting = reports.filter(
-    (r) => r.author !== 'me' && statusOf(r).status !== 'confirmed',
+    (r) => r.author !== 'me' && r.claims.length > 0 && statusOf(r).status !== 'confirmed',
   ).length
   const mine = reports.filter((r) => r.author === 'me').length
 

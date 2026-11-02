@@ -8,7 +8,6 @@ import { readStored, removeStored, writeStored } from './storage.js'
 // Read and write it with useStore() — don't keep separate copies in screens.
 // Full behavior: docs/contribute-verify.md
 
-// Bump the version when the example reports change, so returning browsers pick them up.
 const STORAGE_KEY = 'gs-store-v2'
 
 export const VERIFIER_TYPES = ['Celiac', 'Strict GF']
@@ -45,7 +44,16 @@ function load() {
   const raw = readStored(STORAGE_KEY)
   if (!raw) return initialState()
   try {
-    return { ...initialState(), ...JSON.parse(raw) }
+    // Only what this person did is kept. The example reports and votes always come from
+    // sample.js, so changes to them reach browsers that have used the app before.
+    const saved = JSON.parse(raw)
+    const votes = { ...seedVotes }
+    for (const [reportId, list] of Object.entries(saved.votes ?? {})) {
+      const mine = list.filter((v) => v.by === 'me')
+      if (mine.length) votes[reportId] = [...(votes[reportId] ?? []), ...mine]
+    }
+    const myReports = (saved.reports ?? []).filter((r) => r.author === 'me')
+    return { ...initialState(), ...saved, reports: [...myReports, ...seedReports], votes }
   } catch {
     return initialState()
   }

@@ -59,9 +59,11 @@ export function ReportItem({ report }) {
         {report.body}
       </ReviewCard>
       <ReportClaims claims={report.claims} />
-      <div>
-        <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
-      </div>
+      {report.claims.length > 0 && (
+        <div>
+          <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
+        </div>
+      )}
       {disputes.map((vote) => (
         <p key={vote.by} className="t-body">
           {vote.name}
@@ -70,9 +72,11 @@ export function ReportItem({ report }) {
         </p>
       ))}
       <div className="report-item__links">
-        <Link className="text-btn" to={`/contribute/review/${report.id}`}>
-          {isMine ? 'See who has checked your report' : 'Ate this too? Check this report'}
-        </Link>
+        {(isMine || report.claims.length > 0) && (
+          <Link className="text-btn" to={`/contribute/review/${report.id}`}>
+            {isMine ? 'See who has checked your report' : 'Ate this too? Check this report'}
+          </Link>
+        )}
         {reviewerId && (
           <Link className="text-btn" to={`/account/community/${reviewerId}`}>
             About {report.name.split(' ')[0]}

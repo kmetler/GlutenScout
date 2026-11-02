@@ -43,9 +43,11 @@ function Event({ event }) {
             ? 'answered questions about this meal.'
             : 'ate this and reported on it.'}
         </p>
-        <p>
-          <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
-        </p>
+        {report.claims.length > 0 && (
+          <p>
+            <ReportStatus status={status} matches={matches} matchVotes={matchVotes} />
+          </p>
+        )}
         <Link className="text-btn" to={`/contribute/review/${report.id}`}>
           Read the report
         </Link>
