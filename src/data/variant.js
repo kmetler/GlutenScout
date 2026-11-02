@@ -29,6 +29,16 @@ function assign() {
 
 // Fixed for the whole session, so screens can read it directly.
 export const VERIFIED_BY = assign()
+
+// Editing only the part after # doesn't reload the page, so a new ?v= would otherwise be
+// ignored until a refresh. Reload once so the whole app switches together.
+window.addEventListener('hashchange', () => {
+  const forced = fromUrl()
+  if (forced && forced !== VERIFIED_BY) {
+    writeStored(STORAGE_KEY, forced)
+    window.location.reload()
+  }
+})
 export const NAMES_TYPES = VERIFIED_BY === 'B'
 
 // "2 celiac and 1 strict GF" from anything with a reviewerType (reports, votes, evidence items).
