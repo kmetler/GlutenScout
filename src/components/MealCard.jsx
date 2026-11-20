@@ -2,13 +2,16 @@ import { Link } from 'react-router-dom'
 import Icon from './Icon.jsx'
 import StarRating from './StarRating.jsx'
 import PrecautionBadge from './PrecautionBadge.jsx'
+import { ReviewerTag } from './ReviewCard.jsx'
 
 // Meal / restaurant card, reused on browse, detail and saved screens.
 // Shows the dated evidence before the food rating, and says it can be opened ("See details").
 // evidence: optional { tone: 'confirmed' | 'conflict' | 'unverified', icon, text } — one line in
 //   words that replaces the plain "Last verified" line. The text must include the date.
 // compact: photo, meal and restaurant only, for pick-a-meal lists.
-export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, compact = false }) {
+// verifiedBy: optional { tags: [{ type, count }], none } — who confirmed the practices, as
+//   reviewer-type tags (Celiac ×3). `none` is the words shown when no one counts yet.
+export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, verifiedBy, compact = false }) {
   if (compact) {
     return (
       <Link className="meal-card meal-card--compact" to={to}>
@@ -45,6 +48,20 @@ export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, com
           <p className="meal-card__date t-meta">
             <Icon name="clock" size={14} />
             Last verified {meal.lastVerified}
+          </p>
+        )}
+        {verifiedBy && (
+          <p className="meal-card__who t-meta">
+            {verifiedBy.tags.length ? (
+              <>
+                <span className="ink-secondary">Verified by</span>
+                {verifiedBy.tags.map(({ type, count }) => (
+                  <ReviewerTag key={type} type={`${type} ×${count}`} />
+                ))}
+              </>
+            ) : (
+              <span className="meal-card__who-none">{verifiedBy.none}</span>
+            )}
           </p>
         )}
         <div className="meal-card__badges">

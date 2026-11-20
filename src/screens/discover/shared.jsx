@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Icon, MealCard } from '../../components'
 import { ageText, evidenceOf } from './evidence.js'
-import { useStrictness, withStrictness } from '../../data/verifiers.js'
+import { mealVerifiers, strictnessOf, useStrictness, withStrictness } from '../../data/verifiers.js'
 import { useDiscover } from './discoverStore.js'
 
 // The one-glance answer for a meal, shared by the meal card and the meal page so they never
@@ -43,7 +43,16 @@ export function mealEvidenceLine(meal) {
 export function MealResult({ meal }) {
   const level = useStrictness()
   const shown = withStrictness(meal, level)
-  return <MealCard meal={shown} to={`/meals/${meal.id}`} evidence={mealEvidenceLine(shown)} />
+  const tags = mealVerifiers(meal, level)
+  const verifiedBy = tags && { tags, none: `Not verified by ${strictnessOf(level).phrase} yet` }
+  return (
+    <MealCard
+      meal={shown}
+      to={`/meals/${meal.id}`}
+      evidence={mealEvidenceLine(shown)}
+      verifiedBy={verifiedBy}
+    />
+  )
 }
 
 // Looks like a search field, opens the search screen (one place to type).

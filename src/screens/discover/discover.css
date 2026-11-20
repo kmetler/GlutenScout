@@ -99,3 +99,7 @@
 .strictness-filter > p {
   margin-bottom: var(--space-1);
 }
+.strictness-note {
+  color: var(--brand-ink);
+  font-weight: 700;
+}

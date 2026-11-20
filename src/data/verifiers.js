@@ -10,23 +10,31 @@ import { readStored, writeStored } from './storage.js'
 //   yes = saw it happen (or staff confirmed it)   no = saw it NOT happen
 // Counts match each meal's badges and conflict notes in sample.js.
 export const VERIFIED_BY = {
+  // Verified only by celiac diners: identical under every filter, all green.
+  'breakfast-hash': {
+    prep: { yes: { Celiac: 3 } },
+    gloves: { yes: { Celiac: 2 } },
+    utensils: { yes: { Celiac: 3 } },
+  },
+  'corn-tacos': {
+    fryer: { yes: { Celiac: 2 } },
+    utensils: { yes: { Celiac: 2 } },
+  },
+  // Strict GF diners only: green until "Celiac only", then nothing is confirmed.
+  'salmon-plate': {
+    prep: { yes: { 'Strict GF': 2 } },
+    utensils: { yes: { 'Strict GF': 2 } },
+    gloves: { yes: { 'Strict GF': 1 } },
+  },
+  // Gluten-sensitive diners only: anything stricter than "All diners" shows nothing confirmed.
+  'carnitas-bowl': {
+    gloves: { yes: { 'Gluten-sensitive': 2 } },
+  },
+  // Mixed: some practices hold up under a stricter filter, some don't.
   'gf-burger': {
     prep: { yes: { Celiac: 2, 'Strict GF': 1 } },
     gloves: { yes: { 'Gluten-sensitive': 2 } },
     fryer: { yes: { 'Gluten-sensitive': 1 }, no: { Celiac: 1 } },
-  },
-  'corn-tacos': {
-    fryer: { yes: { Celiac: 2, 'Strict GF': 1 } },
-    utensils: { yes: { 'Strict GF': 1, 'Gluten-sensitive': 1 } },
-  },
-  'rice-bowl': {},
-  'salmon-plate': {
-    prep: { yes: { Celiac: 1, 'Strict GF': 1 } },
-    utensils: { yes: { 'Gluten-sensitive': 1 } },
-    gloves: { yes: { Celiac: 1 } },
-  },
-  'carnitas-bowl': {
-    gloves: { yes: { 'Gluten-sensitive': 1 } },
   },
   'pad-thai': {
     sauce: { yes: { 'Strict GF': 2, 'Gluten-sensitive': 1 } },
@@ -35,11 +43,7 @@ export const VERIFIED_BY = {
   'gf-pizza': {
     utensils: { yes: { 'Strict GF': 1 }, no: { Celiac: 1 } },
   },
-  'breakfast-hash': {
-    prep: { yes: { Celiac: 3, 'Strict GF': 1 } },
-    gloves: { yes: { Celiac: 2, 'Gluten-sensitive': 1 } },
-    utensils: { yes: { 'Strict GF': 2, Celiac: 1 } },
-  },
+  'rice-bowl': {},
 }
 
 // Whose verifications count. Set by the diner with a filter — nothing to sign up for.
@@ -97,6 +101,23 @@ export function withStrictness(meal, level = 'all') {
     return { ...p, state: tally.state, label, tally }
   })
   return { ...meal, precautions, strictness: level }
+}
+
+// "Verified by" summary for a meal card: for each reviewer type that counts under the
+// filter, the most people of that type who confirmed any one practice. Shown as tags
+// (Celiac ×3 · Strict GF ×1) so the filter's effect is visible at a glance.
+const TYPE_ORDER = ['Celiac', 'Strict GF', 'Gluten-sensitive']
+export function mealVerifiers(meal, level = 'all') {
+  const data = VERIFIED_BY[meal?.id]
+  if (!data) return null
+  const { types } = strictnessOf(level)
+  const most = {}
+  for (const practice of Object.values(data)) {
+    for (const [type, n] of Object.entries(practice.yes ?? {})) {
+      if (types.includes(type)) most[type] = Math.max(most[type] ?? 0, n)
+    }
+  }
+  return TYPE_ORDER.filter((t) => most[t]).map((type) => ({ type, count: most[type] }))
 }
 
 // The chosen strictness, remembered in this browser and shared by every screen.

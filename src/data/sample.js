@@ -94,7 +94,7 @@ export const meals = [
     ],
     sources: [
       { label: 'Restaurant answers', detail: 'updated Sep 2, 2026' },
-      { label: '1 celiac / strict report', detail: 'newest Aug 2, 2026' },
+      { label: '2 gluten-sensitive reports', detail: 'newest Aug 2, 2026' },
     ],
   },
   {

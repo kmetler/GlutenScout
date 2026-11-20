@@ -306,6 +306,20 @@
 .meal-card__evidence.is-unverified > .icon {
   color: var(--evidence-unverified);
 }
+/* "Verified by Celiac ×3 · Strict GF ×1" — reviewer types at a glance on a meal card */
+.meal-card__who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+}
+.meal-card__who .reviewer-tag {
+  margin-left: 0;
+}
+.meal-card__who-none {
+  color: var(--ink-tertiary);
+  font-style: italic;
+}
 /* Food rating on the left, "See details" on the right: says the whole card opens */
 .meal-card__foot {
   display: flex;
