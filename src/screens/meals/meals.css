@@ -14,14 +14,88 @@
   gap: var(--space-3);
 }
 
-.stale-note {
+/* Safety check: one status line, then one row per practice. Icon + words + color, always. */
+.safety-check {
   display: flex;
-  align-items: flex-start;
-  gap: var(--space-2);
+  flex-direction: column;
+  gap: var(--space-3);
 }
-.stale-note > .icon {
-  margin-top: 2px;
+.safety-check__status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--evidence-unverified-bg);
+}
+.safety-check__status.is-confirmed {
+  background: var(--evidence-confirmed-bg);
+}
+.safety-check__status.is-conflict {
+  background: var(--evidence-conflict-bg);
+}
+.safety-check__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--space-10);
+  height: var(--space-10);
+  border-radius: var(--radius-circle);
+  background: var(--evidence-unverified);
+  color: var(--surface-raised);
+}
+.is-confirmed > .safety-check__icon {
+  background: var(--evidence-confirmed);
+}
+.is-conflict > .safety-check__icon {
+  background: var(--evidence-conflict);
+}
+.safety-check__stale {
   color: var(--evidence-conflict);
+  font-weight: 700;
+}
+
+.safety-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--touch-target);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--divider);
+  color: var(--ink-secondary);
+}
+.safety-row:active {
+  background: var(--pressed);
+}
+.safety-row__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--space-6);
+  height: var(--space-6);
+  border-radius: var(--radius-circle);
+  background: var(--evidence-unverified-bg);
+  color: var(--evidence-unverified);
+}
+.safety-row.is-confirmed .safety-row__icon {
+  background: var(--evidence-confirmed-bg);
+  color: var(--evidence-confirmed);
+}
+.safety-row.is-conflict .safety-row__icon {
+  background: var(--evidence-conflict-bg);
+  color: var(--evidence-conflict);
+}
+.safety-row__name {
+  flex: 1;
+  min-width: 0;
+  color: var(--ink);
+}
+.safety-row.is-unverified .safety-row__name {
+  color: var(--ink-secondary);
+}
+.safety-row.is-conflict .safety-row__tally {
+  color: var(--evidence-conflict);
+  font-weight: 700;
 }
 
 /* A report on a meal: the shared ReviewCard plus its claims and peer-review status */
@@ -33,10 +107,22 @@
   padding-bottom: 0;
   border-bottom: 0;
 }
-.report-item__links {
+.report-item__foot {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.report-item__dispute {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+.report-item__dispute > .icon {
+  flex: none;
+  margin-top: 2px;
+  color: var(--evidence-conflict);
 }
 
 /* One dated piece of evidence: icon, then who / when / what */

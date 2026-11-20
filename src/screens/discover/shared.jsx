@@ -3,38 +3,34 @@ import { Icon, MealCard } from '../../components'
 import { ageText, evidenceOf } from './evidence.js'
 import { useDiscover } from './discoverStore.js'
 
-// The shared MealCard with one line saying, in words, how strong and how current the evidence
-// is. Order: disagreement first (a risk someone saw), then old evidence, then the count.
-// Every version of the line carries the age, so the date is never dropped.
-export function mealEvidenceLine(meal) {
+// The one-glance answer for a meal, shared by the meal card and the meal page so they never
+// disagree. Disagreement outranks everything; old evidence turns the date into a warning.
+// Never a "safe" verdict — just what diners confirmed and how recently.
+export function safetyStatus(meal) {
   const ev = evidenceOf(meal)
-  const age = `verified ${ev.age == null ? meal.lastVerified : ageText(ev.age)}`
+  const age = ev.age == null ? meal.lastVerified : ageText(ev.age)
+  let tone = 'confirmed'
+  let icon = 'check'
+  let headline = ev.confirmed === ev.total ? `All ${ev.total} practices confirmed` : `${ev.confirmed} of ${ev.total} practices confirmed`
   if (ev.disputed.length) {
-    return {
-      tone: 'conflict',
-      icon: 'triangle',
-      text: `Reports disagree about the ${ev.disputed.join(' and the ')} · ${age}`,
-    }
+    tone = 'conflict'
+    icon = 'triangle'
+    headline = `Reports disagree about the ${ev.disputed.join(' and ')}`
+  } else if (ev.confirmed === 0) {
+    tone = 'unverified'
+    icon = 'clock'
+    headline = 'Not confirmed by diners yet'
+  } else if (ev.confirmed < ev.total) {
+    tone = 'unverified'
   }
-  if (ev.stale) {
-    return {
-      tone: 'unverified',
-      icon: 'clock',
-      text: `Last ${age} — call ahead before you go`,
-    }
-  }
-  if (ev.confirmed === 0) {
-    return {
-      tone: 'unverified',
-      icon: 'clock',
-      text: `Only the restaurant’s word so far · ${age}`,
-    }
-  }
-  return {
-    tone: 'confirmed',
-    icon: 'check',
-    text: `${ev.confirmed} of ${ev.total} practices confirmed by diners · ${age}`,
-  }
+  return { tone, icon, headline, verified: `Verified ${age}`, stale: ev.stale }
+}
+
+// Card version: just the date. The color-coded practice badges under it already show what's
+// confirmed, disputed or open, so the card adds no words on top. Old evidence turns orange.
+export function mealEvidenceLine(meal) {
+  const { verified, stale } = safetyStatus(meal)
+  return { tone: stale ? 'conflict' : 'unverified', icon: 'clock', text: verified }
 }
 
 export function MealResult({ meal }) {
