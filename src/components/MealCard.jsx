@@ -11,7 +11,16 @@ import { ReviewerTag } from './ReviewCard.jsx'
 // compact: photo, meal and restaurant only, for pick-a-meal lists.
 // verifiedBy: optional { tags: [{ type, count }], none } — who confirmed the practices, as
 //   reviewer-type tags (Celiac ×3). `none` is the words shown when no one counts yet.
-export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, verifiedBy, compact = false }) {
+// ingredients: optional { tone, icon, text } — "Ingredients: 2 to ask about", so diners can see
+//   at a glance whether questions remain before ordering (added after user testing).
+export default function MealCard({
+  meal,
+  to = `/meals/${meal.id}`,
+  evidence,
+  verifiedBy,
+  ingredients,
+  compact = false,
+}) {
   if (compact) {
     return (
       <Link className="meal-card meal-card--compact" to={to}>
@@ -62,6 +71,12 @@ export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, ver
             ) : (
               <span className="meal-card__who-none">{verifiedBy.none}</span>
             )}
+          </p>
+        )}
+        {ingredients && (
+          <p className={`meal-card__evidence meal-card__ingredients t-meta is-${ingredients.tone}`}>
+            <Icon name={ingredients.icon} size={14} />
+            <span>Ingredients: {ingredients.text}</span>
           </p>
         )}
         <div className="meal-card__badges">

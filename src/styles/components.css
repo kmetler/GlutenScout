@@ -657,3 +657,11 @@
 .text-btn:active {
   text-decoration: underline;
 }
+/* "Ingredients: 2 to ask about" on a meal card. Unknowns stay gray (like unverified);
+   only "contains gluten" turns orange. */
+.meal-card__ingredients {
+  color: var(--ink-secondary);
+}
+.meal-card__ingredients.is-conflict {
+  font-weight: 700;
+}
