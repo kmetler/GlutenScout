@@ -10,7 +10,8 @@ import {
 import { PRACTICES } from '../../data/practices.js'
 import { useStore } from '../../data/store.jsx'
 import { evidenceSummary, mealEvidence, practiceRows, STATE_WORDS } from './evidence.js'
-import { useMeal } from './shared.jsx'
+import { practiceTally, useStrictness } from '../../data/verifiers.js'
+import { ReviewerTally, useMeal } from './shared.jsx'
 
 // What's known is grouped by how it's known: something a diner watched happen is stronger
 // than something staff said, and a diner who saw otherwise is never hidden.
@@ -61,6 +62,7 @@ function EvidenceRow({ item, practice, tone, icon }) {
 export default function PracticeDetail() {
   const { practiceKey } = useParams()
   const { meal, reports, votes } = useMeal()
+  const strictness = useStrictness()
   if (!meal) return <Navigate to="/discover" replace />
 
   const row = practiceRows(meal, mealEvidence(meal, reports, votes)).find(
@@ -68,6 +70,9 @@ export default function PracticeDetail() {
   )
   if (!row) return <Navigate to={`/meals/${meal.id}`} replace />
 
+  const tally = practiceTally(meal.id, row.key, strictness)
+  const hasTally = Boolean(tally?.yesTotal || tally?.noTotal)
+  const state = tally?.state ?? row.state
   const practice = PRACTICES[row.key]
   const groups = GROUPS.map((group) => ({
     ...group,
@@ -86,9 +91,20 @@ export default function PracticeDetail() {
           </p>
         </div>
         <div>
-          <PrecautionBadge state={row.state}>{STATE_WORDS[row.state]}</PrecautionBadge>
+          <PrecautionBadge state={state}>{STATE_WORDS[state]}</PrecautionBadge>
         </div>
-        <p className="t-meta">{evidenceSummary(row.items)}</p>
+        {hasTally && (
+          <div className="stack-2">
+            <h3 className="t-card-header">What diners reported</h3>
+            <p className="t-body"><ReviewerTally tally={tally} /></p>
+            {!row.items.length && (
+              <p className="t-caption ink-secondary">Only summary counts are available for these reports.</p>
+            )}
+          </div>
+        )}
+        {(!hasTally || row.items.length > 0) && (
+          <p className="t-meta">{evidenceSummary(row.items)}</p>
+        )}
         <p className="t-body ink-secondary">
           <b>Why it matters:</b> {practice.why}
         </p>
@@ -120,7 +136,7 @@ export default function PracticeDetail() {
 
       <div className="section stack-3">
         <h2 className="t-card-header">
-          {row.items.length ? 'Ask the restaurant yourself' : 'Nobody has reported on this yet'}
+          {hasTally || row.items.length ? 'Ask the restaurant yourself' : 'Nobody has reported on this yet'}
         </h2>
         <p className="t-body">“{practice.question}”</p>
         <Button block to={`/contribute/call/${meal.id}`}>
