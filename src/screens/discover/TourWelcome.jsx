@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom'
+import { useGoBackTo } from '../../data/navHistory.js'
 import { ActionBar, Button, Icon, ScreenHeader, StepHeader } from '../../components'
 import { useDiscover } from './discoverStore.js'
 
 // Tour step 1 of 3. Optional: offered on Home, skippable on every step.
 export function SkipTour() {
-  const navigate = useNavigate()
+  const goBackTo = useGoBackTo()
   const { finishTour } = useDiscover()
   return (
     <button
@@ -12,7 +12,7 @@ export function SkipTour() {
       className="text-btn"
       onClick={() => {
         finishTour()
-        navigate('/discover')
+        goBackTo('/discover')
       }}
     >
       Skip
