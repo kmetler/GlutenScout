@@ -4,6 +4,7 @@ import { PRACTICES } from '../../data/practices.js'
 import { safetyStatus } from '../discover/shared.jsx'
 import { mealEvidence, STATE_WORDS } from './evidence.js'
 import { strictnessOf, whoText } from '../../data/verifiers.js'
+import { ReviewerTally } from './shared.jsx'
 
 // The meal page's answer to "can I eat this?", readable in a glance: one status line, then
 // one row per kitchen practice with an icon, its name and a two-word tally. Tap a row for
@@ -27,10 +28,7 @@ function tally(state, items) {
 function whoLine(row, phrase) {
   const t = row.tally
   if (!t) return { text: tally(row.state, row.items) }
-  if (row.state === 'conflict') {
-    const yes = whoText(t.yes)
-    return { text: yes ? `Seen by ${yes} · ${whoText(t.no)} saw otherwise` : `${whoText(t.no)} saw it not happen` }
-  }
+  if (row.state === 'conflict') return { text: <ReviewerTally tally={t} /> }
   if (row.state === 'confirmed') {
     return { text: `Seen by ${whoText(t.yes)}`, thin: t.thin }
   }

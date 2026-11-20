@@ -12,6 +12,27 @@ export function useMeal() {
   return { meal, reports: meal ? mealReports(state.reports, meal.id) : [], votes: state.votes }
 }
 
+// The prototype stores some verification counts without individual report records.
+export function ReviewerTally({ tally }) {
+  const describe = (counts) =>
+    Object.entries(counts)
+      .map(([type, count]) => {
+        const diner = count === 1 ? 'diner' : 'diners'
+        if (type === 'Strict GF') return `${count} ${diner} who strictly ${count === 1 ? 'avoids' : 'avoid'} gluten`
+        if (type === 'Celiac') return `${count} ${diner} with celiac disease`
+        return `${count} gluten-sensitive ${diner}`
+      })
+      .join(', ')
+
+  return (
+    <>
+      {tally.yesTotal > 0 && <span><b>Reported the practice:</b> {describe(tally.yes)}</span>}
+      {tally.yesTotal > 0 && tally.noTotal > 0 && <br />}
+      {tally.noTotal > 0 && <span><b>Reported otherwise:</b> {describe(tally.no)}</span>}
+    </>
+  )
+}
+
 // One report as diners read it: who (with reviewer type), when, what they said, and where it
 // stands in peer review. The practices it mentions are already counted in the safety check.
 export function ReportItem({ report }) {
