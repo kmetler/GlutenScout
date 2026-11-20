@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Icon, MealCard } from '../../components'
 import { ageText, evidenceOf } from './evidence.js'
+import { mealVerifiers, strictnessOf, useStrictness, withStrictness } from '../../data/verifiers.js'
 import { useDiscover } from './discoverStore.js'
 
 // The one-glance answer for a meal, shared by the meal card and the meal page so they never
@@ -28,13 +29,30 @@ export function safetyStatus(meal) {
 
 // Card version: just the date. The color-coded practice badges under it already show what's
 // confirmed, disputed or open, so the card adds no words on top. Old evidence turns orange.
+// Also says when a practice rests on a single person's word (celiac testers wanted 2+).
 export function mealEvidenceLine(meal) {
   const { verified, stale } = safetyStatus(meal)
-  return { tone: stale ? 'conflict' : 'unverified', icon: 'clock', text: verified }
+  const thin = meal.precautions.some((p) => p.tally?.thin)
+  return {
+    tone: stale ? 'conflict' : 'unverified',
+    icon: 'clock',
+    text: thin ? `${verified} · needs more reports` : verified,
+  }
 }
 
 export function MealResult({ meal }) {
-  return <MealCard meal={meal} to={`/meals/${meal.id}`} evidence={mealEvidenceLine(meal)} />
+  const level = useStrictness()
+  const shown = withStrictness(meal, level)
+  const tags = mealVerifiers(meal, level)
+  const verifiedBy = tags && { tags, none: `Not verified by ${strictnessOf(level).phrase} yet` }
+  return (
+    <MealCard
+      meal={shown}
+      to={`/meals/${meal.id}`}
+      evidence={mealEvidenceLine(shown)}
+      verifiedBy={verifiedBy}
+    />
+  )
 }
 
 // Looks like a search field, opens the search screen (one place to type).

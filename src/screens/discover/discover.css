@@ -91,3 +91,15 @@
 .choice__detail {
   display: block;
 }
+
+/* "Count verifications from" — strictness filter above the other chips. */
+.strictness-filter {
+  margin-bottom: var(--space-2);
+}
+.strictness-filter > p {
+  margin-bottom: var(--space-1);
+}
+.strictness-note {
+  color: var(--brand-ink);
+  font-weight: 700;
+}

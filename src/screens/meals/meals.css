@@ -146,3 +146,13 @@
 .event__main > * + * {
   margin-top: var(--space-1);
 }
+
+/* Who verified each practice, under its name (added after user testing). */
+.safety-row__who {
+  display: block;
+  color: var(--ink-secondary);
+}
+.safety-row__thin {
+  color: var(--evidence-conflict);
+  font-weight: 700;
+}

@@ -5,7 +5,7 @@ import { meals } from '../../data/sample.js'
 export default function CallPick() {
   return (
     <>
-      <ScreenHeader title="Call ahead" backTo="/contribute" />
+      <ScreenHeader title="Call ahead" fallbackTo="/contribute" />
       <div className="section stack-4">
         <h2 className="t-section-header">Which meal are you calling about?</h2>
         <Notice icon="phone">

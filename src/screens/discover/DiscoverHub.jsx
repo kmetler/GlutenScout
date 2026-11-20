@@ -3,6 +3,8 @@ import { Button, FilterChip, FilterChips } from '../../components'
 import { useDiscover } from './discoverStore.js'
 import { activeFilterCount, filterSummary, findMeals, sortLabel } from './evidence.js'
 import { DiscoverTop, MealResult } from './shared.jsx'
+import StrictnessFilter from './StrictnessFilter.jsx'
+import { strictnessOf, useStrictness } from '../../data/verifiers.js'
 
 // Discover tab root: meals near you, ranked by evidence, with quick filters one tap away.
 // The top is kept compact so the meals themselves start above the fold.
@@ -10,7 +12,8 @@ export default function DiscoverHub() {
   const navigate = useNavigate()
   const { discover, patchFilters, clearFilters } = useDiscover()
   const { filters, sort } = discover
-  const results = findMeals(filters, sort)
+  const level = useStrictness()
+  const results = findMeals(filters, sort, level)
   const count = activeFilterCount(filters)
   const fryer = filters.practices.includes('fryer')
 
@@ -19,6 +22,7 @@ export default function DiscoverHub() {
       <DiscoverTop view="meals" />
 
       <div className="discover-chips">
+        <StrictnessFilter />
         <FilterChips label="Sort and filter">
           <FilterChip icon="grid" onClick={() => navigate('/discover/filters')}>
             {count ? `Filters (${count})` : 'Filters'}
@@ -66,6 +70,11 @@ export default function DiscoverHub() {
             How is this sorted?
           </Link>
         </div>
+        {level !== 'all' && (
+          <p className="t-meta strictness-note">
+            Counting only {strictnessOf(level).phrase}. Meals they haven't verified move down the list.
+          </p>
+        )}
         {count > 0 && (
           <p className="row row--wrap t-meta ink-secondary">
             <span>{filterSummary(filters)}</span>
