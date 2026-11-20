@@ -10,6 +10,7 @@ import {
 } from '../../components'
 import { PRACTICES } from '../../data/practices.js'
 import { NO_FILTERS, useDiscover } from './discoverStore.js'
+import { useStrictness } from '../../data/verifiers.js'
 import { DISTANCES, FILTER_PRACTICES, RECENCY, SORTS, findMeals } from './evidence.js'
 
 // Sort and filter. Changes are held here until "Show n meals", so people can see the count
@@ -20,7 +21,8 @@ export default function Filters() {
   const [sort, setDraftSort] = useState(discover.sort)
   const [filters, setDraft] = useState(discover.filters)
   const patch = (p) => setDraft((f) => ({ ...f, ...p }))
-  const count = findMeals(filters, sort).length
+  const level = useStrictness()
+  const count = findMeals(filters, sort, level).length
 
   const togglePractice = (key, on) =>
     patch({

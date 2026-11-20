@@ -1,4 +1,5 @@
 import { meals } from '../../data/sample.js'
+import { withStrictness } from '../../data/verifiers.js'
 import { PRACTICES } from '../../data/practices.js'
 import { daysSince } from '../account/data.js'
 
@@ -102,9 +103,10 @@ export function sortMeals(list, sort) {
   return sorted
 }
 
-export function findMeals(filters, sort) {
+// `level` is the strictness filter: whose verifications count (see data/verifiers.js).
+export function findMeals(filters, sort, level = 'all') {
   return sortMeals(
-    meals.filter((meal) => matchesFilters(meal, filters)),
+    meals.map((meal) => withStrictness(meal, level)).filter((meal) => matchesFilters(meal, filters)),
     sort,
   )
 }

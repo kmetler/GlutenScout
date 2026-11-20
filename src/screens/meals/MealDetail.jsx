@@ -16,6 +16,8 @@ import { useAccount } from '../account/accountStore.js'
 import { applyReportOrder } from '../account/shared.jsx'
 import { openDirections } from '../discover/shared.jsx'
 import SafetyCheck from './SafetyCheck.jsx'
+import StrictnessFilter from '../discover/StrictnessFilter.jsx'
+import { useStrictness, withStrictness } from '../../data/verifiers.js'
 import { ReportItem, useMeal } from './shared.jsx'
 
 const PREVIEW_REPORTS = 3
@@ -24,7 +26,9 @@ const PREVIEW_REPORTS = 3
 // one row per kitchen practice, call ahead if anything is open), then the reports behind it.
 // Writing a report sits in the ActionBar so it's in reach without scrolling.
 export default function MealDetail() {
-  const { meal, reports, votes } = useMeal()
+  const { meal: rawMeal, reports, votes } = useMeal()
+  const level = useStrictness()
+  const meal = withStrictness(rawMeal, level)
   const { account, toggleSaved } = useAccount()
   const [type, setType] = useState('All')
   const [showAll, setShowAll] = useState(false)
@@ -76,7 +80,8 @@ export default function MealDetail() {
 
       <div className="band" />
 
-      <div className="section">
+      <div className="section stack-3">
+        <StrictnessFilter />
         <SafetyCheck meal={meal} reports={reports} votes={votes} />
       </div>
 

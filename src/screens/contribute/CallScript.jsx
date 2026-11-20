@@ -66,7 +66,7 @@ export default function CallScript() {
 
   return (
     <>
-      <ScreenHeader title="Call ahead" backTo="/contribute/call" />
+      <ScreenHeader title="Call ahead" fallbackTo="/contribute/call" />
       <div className="section stack-3">
         <h2 className="t-business-name">{meal.restaurant}</h2>
         <p className="t-meta ink-secondary">

@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { useCallback, useLayoutEffect, useRef, useState } from 'react'
+import { Navigate, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
 import { DisclosureModal, TabBar } from './components'
 import Home from './screens/Home.jsx'
 import SectionPlaceholder from './screens/SectionPlaceholder.jsx'
@@ -26,12 +26,16 @@ const SECTION_SCREENS = {
 export default function App() {
   const [showDisclosure, setShowDisclosure] = useState(() => !readStored(DISCLOSURE_KEY))
   const screenRef = useRef(null)
-  const { pathname } = useLocation()
+  const { pathname, key } = useLocation()
+  const navType = useNavigationType()
+  const scrollByEntry = useRef({})
 
-  // Each screen starts at the top.
-  useEffect(() => {
-    screenRef.current?.scrollTo(0, 0)
-  }, [pathname])
+  // A new screen starts at the top; going Back returns to where you were on that screen
+  // (testers lost their place in long lists and reviews after opening a profile or practice).
+  useLayoutEffect(() => {
+    const saved = scrollByEntry.current[key]
+    screenRef.current?.scrollTo(0, navType === 'POP' && saved != null ? saved : 0)
+  }, [key, navType])
 
   const closeDisclosure = useCallback(() => {
     writeStored(DISCLOSURE_KEY, '1')
@@ -51,7 +55,14 @@ export default function App() {
   return (
     <div className="app">
       {/* Keyed by path so each new screen plays the short enter animation (timely feedback). */}
-      <main key={pathname} className="app__screen" ref={screenRef}>
+      <main
+        key={pathname}
+        className="app__screen"
+        ref={screenRef}
+        onScroll={(e) => {
+          scrollByEntry.current[key] = e.currentTarget.scrollTop
+        }}
+      >
         <Routes>
           <Route
             path="/"
