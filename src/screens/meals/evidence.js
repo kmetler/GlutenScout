@@ -1,7 +1,6 @@
 import { PRACTICES, practicesForMeal } from '../../data/practices.js'
 import { VERIFIER_TYPES } from '../../data/store.jsx'
-import { daysSince, reviewers } from '../account/data.js'
-import { STALE_AFTER_DAYS } from '../account/SavedMeals.jsx'
+import { daysSince } from '../account/data.js'
 
 // Section B works out who said what about each kitchen practice from the shared reports and
 // peer-review votes, so a report written in Contribute shows up here straight away.
@@ -15,14 +14,6 @@ export function newestFirst(items) {
 
 export function mealReports(reports, mealId) {
   return newestFirst(reports.filter((r) => r.mealId === mealId))
-}
-
-// How old a shown date is, in words. Evidence older than STALE_AFTER_DAYS is called out.
-export function freshness(shown) {
-  const age = daysSince(shown)
-  if (age == null || age < 0) return { ago: null, stale: false }
-  const ago = age === 0 ? 'today' : age === 1 ? '1 day ago' : `${age} days ago`
-  return { age, ago, stale: age > STALE_AFTER_DAYS }
 }
 
 const SAID_BY = { ' (staff said)': 'staff', ' (restaurant said)': 'restaurant' }
@@ -126,39 +117,4 @@ export function evidenceSummary(items) {
   ]
     .filter(Boolean)
     .join(' · ')
-}
-
-// Source lines for the SafetyProfile, counted from the reports actually listed below it.
-export function mealSources(meal, reports) {
-  const strict = reports.filter((r) => VERIFIER_TYPES.includes(r.reviewerType))
-  const sources = meal.sources.filter((s) => s.label === 'Restaurant answers')
-  if (strict.length) {
-    sources.push({
-      label: `${strict.length} celiac / strict report${strict.length > 1 ? 's' : ''}`,
-      detail: `newest ${strict[0].date}`,
-    })
-  }
-  return sources
-}
-
-// Everything that has happened to a meal's evidence, newest first:
-// restaurant answers, reports, and the peer-review votes on those reports.
-export function mealHistory(meal, reports, votes) {
-  const events = []
-  const restaurant = meal.sources.find((s) => s.label === 'Restaurant answers')
-  if (restaurant) {
-    events.push({ kind: 'restaurant', id: 'restaurant', date: restaurant.detail.replace(/^updated /, '') })
-  }
-  for (const report of reports) {
-    events.push({ kind: 'report', id: report.id, date: report.date, report })
-    for (const vote of votes[report.id] ?? []) {
-      events.push({ kind: vote.kind, id: `${report.id}-${vote.by}`, date: vote.date, vote, report })
-    }
-  }
-  return newestFirst(events)
-}
-
-// Community (Section D) profile for a report's author, if they have one.
-export function reviewerIdFor(name) {
-  return reviewers.find((r) => r.name === name)?.id
 }

@@ -70,11 +70,10 @@ Nothing is stored for this section. `evidence.js` reads the shared reports and v
 | # | Route | Screen |
 |---|---|---|
 | 1 | `/meals` | Redirects to Discover (one tab for finding meals) |
-| 2 | `/meals/:mealId` | Meal detail · safety profile · first reports · save |
-| 3 | `/meals/:mealId/practices` | How each practice was checked |
-| 4 | `/meals/:mealId/practices/:practiceKey` | One practice · evidence grouped by how it's known |
-| 5 | `/meals/:mealId/history` | Last verified date and history |
-| 6 | `/meals/:mealId/reports` | All reports · filter by reviewer type |
+| 2 | `/meals/:mealId` | Meal detail · **safety check** (status line, one row per practice, Call ahead when anything is open) · reports · save |
+| 3 | `/meals/:mealId/practices/:practiceKey` | One practice · evidence grouped by how it's known |
+
+`/meals/:mealId/practices`, `/history` and `/reports` redirect to the meal page. The status line comes from `safetyStatus()` in `src/screens/discover/shared.jsx`, which the meal cards also use, so a card and its meal page always say the same thing. Code: `SafetyCheck.jsx`.
 
 Unknown meals go to `/discover`; unknown practices go to the meal's practice list. Back on the meal page returns the way you came (e.g. to a reviewer's profile), falling back to Discover when opened from a link.
 

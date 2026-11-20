@@ -1,36 +1,44 @@
-import { Link, Navigate } from 'react-router-dom'
+import { useState } from 'react'
+import { Navigate } from 'react-router-dom'
 import {
   ActionBar,
   Button,
+  FilterChip,
+  FilterChips,
   GhostButton,
   Icon,
-  ListRow,
-  SafetyProfile,
   ScreenHeader,
   StarRating,
 } from '../../components'
+import { REVIEWER_TYPES } from '../../data/practices.js'
 import { findRestaurant } from '../../data/sample.js'
 import { useAccount } from '../account/accountStore.js'
-import { applyReportOrder, reportOrderLabel } from '../account/shared.jsx'
+import { applyReportOrder } from '../account/shared.jsx'
 import { openDirections } from '../discover/shared.jsx'
-import { mealEvidence, mealSources } from './evidence.js'
-import { datedAgo, ReportItem, StaleNote, useMeal } from './shared.jsx'
+import SafetyCheck from './SafetyCheck.jsx'
+import { ReportItem, useMeal } from './shared.jsx'
 
-const PREVIEW_REPORTS = 2
+const PREVIEW_REPORTS = 3
 
-// The core screen: what the kitchen does for this meal, when that was last verified, and
-// who says so. Evidence comes before the reports; the food rating stays small.
+// The core screen, in the order a diner decides: the meal, then the safety check (status,
+// one row per kitchen practice, call ahead if anything is open), then the reports behind it.
 // Writing a report sits in the ActionBar so it's in reach without scrolling.
 export default function MealDetail() {
   const { meal, reports, votes } = useMeal()
   const { account, toggleSaved } = useAccount()
+  const [type, setType] = useState('All')
+  const [showAll, setShowAll] = useState(false)
   if (!meal) return <Navigate to="/discover" replace />
 
   const saved = account.saved.includes(meal.id)
   const restaurant = findRestaurant(meal.restaurantId)
-  const practiceCount = Object.keys(mealEvidence(meal, reports, votes)).length
   const visible = applyReportOrder(reports, account.reportOrder)
   const hidden = reports.length - visible.length
+  const types = [...REVIEWER_TYPES, 'Restaurant'].filter((t) =>
+    visible.some((r) => r.reviewerType === t),
+  )
+  const filtered = type === 'All' ? visible : visible.filter((r) => r.reviewerType === type)
+  const shown = showAll ? filtered : filtered.slice(0, PREVIEW_REPORTS)
 
   return (
     <>
@@ -64,87 +72,47 @@ export default function MealDetail() {
           )}
         </div>
         <StarRating value={meal.rating} count={meal.reviewCount} />
-        <p className="t-caption ink-secondary">Stars rate the food, not how gluten is handled.</p>
+      </div>
+
+      <div className="band" />
+
+      <div className="section">
+        <SafetyCheck meal={meal} reports={reports} votes={votes} />
       </div>
 
       <div className="band" />
 
       <div className="section stack-3">
-        <StaleNote date={meal.lastVerified} />
-        <SafetyProfile
-          mealId={meal.id}
-          lastVerified={datedAgo(meal.lastVerified)}
-          precautions={meal.precautions}
-          sources={mealSources(meal, reports)}
-          conflictNote={meal.conflictNote}
-        />
-      </div>
+        <h2 className="t-section-header">Reports · {visible.length}</h2>
+        {types.length > 1 && (
+          <FilterChips label="Reviewer type">
+            <FilterChip selected={type === 'All'} onClick={() => setType('All')}>
+              All
+            </FilterChip>
+            {types.map((t) => (
+              <FilterChip key={t} selected={type === t} onClick={() => setType(t)}>
+                {t}
+              </FilterChip>
+            ))}
+          </FilterChips>
+        )}
 
-      <div className="band" />
-
-      {/* The same evidence three ways, each saying what question it answers. */}
-      <div className="section stack-2">
-        <h2 className="t-section-header">Look closer</h2>
-        <p className="t-body ink-secondary">
-          The safety profile sums up the evidence. Look at it by practice, by date, or by diner.
-        </p>
-        <nav aria-label="Evidence for this meal">
-          <ListRow
-            to={`/meals/${meal.id}/practices`}
-            icon="check"
-            title="By practice"
-            detail={`How each of ${practiceCount} kitchen practices was checked, and by whom`}
-          />
-          <ListRow
-            to={`/meals/${meal.id}/history`}
-            icon="clock"
-            title="By date"
-            detail={`What set “last verified ${meal.lastVerified}”, and what didn’t`}
-          />
-          <ListRow
-            to={`/meals/${meal.id}/reports`}
-            icon="person"
-            title="By diner"
-            detail={`Every report in the diner’s own words · ${visible.length} shown`}
-          />
-        </nav>
-      </div>
-
-      <div className="band" />
-
-      <div className="section stack-3">
-        <div className="stack-2">
-          <h2 className="t-section-header">Latest reports</h2>
-          <p className="t-meta ink-secondary">
-            {reportOrderLabel(account.reportOrder)} ·{' '}
-            <Link className="link" to="/account/settings">
-              Change in Settings
-            </Link>
-          </p>
-        </div>
-
-        {visible.length > 0 ? (
+        {shown.length > 0 ? (
           <div>
-            {visible.slice(0, PREVIEW_REPORTS).map((report) => (
+            {shown.map((report) => (
               <ReportItem key={report.id} report={report} />
             ))}
           </div>
         ) : (
-          <p className="t-body ink-secondary">
-            {hidden
-              ? 'No reports from celiac or strict GF diners yet.'
-              : 'Nobody has reported on this meal yet. Call ahead to ask, or be the first to report.'}
-          </p>
+          <p className="t-body ink-secondary">No reports yet.</p>
         )}
         {hidden > 0 && (
-          <p className="t-caption ink-secondary">
-            {hidden} report{hidden > 1 ? 's' : ''} from other diners hidden by your setting.
-          </p>
+          <p className="t-caption ink-secondary">{hidden} hidden by your settings</p>
         )}
 
-        {visible.length > PREVIEW_REPORTS && (
-          <Button block to={`/meals/${meal.id}/reports`}>
-            See all {visible.length} reports
+        {!showAll && filtered.length > PREVIEW_REPORTS && (
+          <Button block onClick={() => setShowAll(true)}>
+            Show all {filtered.length}
           </Button>
         )}
       </div>

@@ -48,7 +48,7 @@ export default function MealCard({ meal, to = `/meals/${meal.id}`, evidence, com
           </p>
         )}
         <div className="meal-card__badges">
-          {meal.precautions.slice(0, 2).map((p) => (
+          {meal.precautions.map((p) => (
             <PrecautionBadge key={p.label} state={p.state}>
               {p.label}
             </PrecautionBadge>

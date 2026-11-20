@@ -1,10 +1,8 @@
 import { Link, useParams } from 'react-router-dom'
-import { Icon, ReportStatus, ReviewCard, ReviewerTag } from '../../components'
+import { Icon, ReportStatus, ReviewCard } from '../../components'
 import { findMeal } from '../../data/sample.js'
 import { useStore } from '../../data/store.jsx'
-import { STALE_AFTER_DAYS } from '../account/SavedMeals.jsx'
-import { ReportClaims } from '../contribute/shared.jsx'
-import { freshness, mealReports, reviewerIdFor } from './evidence.js'
+import { mealReports } from './evidence.js'
 
 // The meal named in the route, with its reports (newest first) from the shared store.
 export function useMeal() {
@@ -14,34 +12,12 @@ export function useMeal() {
   return { meal, reports: meal ? mealReports(state.reports, meal.id) : [], votes: state.votes }
 }
 
-// "Sep 12, 2026 · 24 days ago" — a date is easier to weigh with its age next to it.
-export function datedAgo(shown) {
-  const { ago } = freshness(shown)
-  return ago ? `${shown} · ${ago}` : shown
-}
-
-// Shown only when a meal's evidence is old (research insight #2: recency matters).
-export function StaleNote({ date }) {
-  const { age, stale } = freshness(date)
-  if (!stale) return null
-  return (
-    <p className="stale-note t-meta">
-      <Icon name="triangle" size={15} />
-      <span>
-        This was last verified {age} days ago, more than {STALE_AFTER_DAYS}. Kitchens and staff
-        change, so call ahead before you go.
-      </span>
-    </p>
-  )
-}
-
-// One report as diners read it on a meal: who (with reviewer type), when, what they
-// reported, and where it stands in peer review. Checking it happens in Contribute.
+// One report as diners read it: who (with reviewer type), when, what they said, and where it
+// stands in peer review. The practices it mentions are already counted in the safety check.
 export function ReportItem({ report }) {
   const { state, statusOf } = useStore()
   const { status, matches } = statusOf(report)
   const disputes = (state.votes[report.id] ?? []).filter((v) => v.kind === 'dispute')
-  const reviewerId = reviewerIdFor(report.name)
   const isMine = report.author === 'me'
 
   return (
@@ -58,26 +34,19 @@ export function ReportItem({ report }) {
       >
         {report.body}
       </ReviewCard>
-      <ReportClaims claims={report.claims} />
-      <div>
-        <ReportStatus status={status} matches={matches} />
-      </div>
       {disputes.map((vote) => (
-        <p key={vote.by} className="t-body">
-          {vote.name}
-          <ReviewerTag type={vote.reviewerType} /> saw something different on {vote.date}
-          {vote.note && <>: “{vote.note}”</>}
+        <p key={vote.by} className="report-item__dispute t-meta">
+          <Icon name="triangle" size={14} />
+          <span>
+            {vote.name} saw something different{vote.note && <>: “{vote.note}”</>}
+          </span>
         </p>
       ))}
-      <div className="report-item__links">
-        <Link className="text-btn" to={`/contribute/review/${report.id}`}>
-          {isMine ? 'See who has checked your report' : 'Ate this too? Check this report'}
+      <div className="report-item__foot">
+        <ReportStatus status={status} matches={matches} />
+        <Link className="text-btn t-meta" to={`/contribute/review/${report.id}`}>
+          {isMine ? 'Who checked it' : 'Check this report'}
         </Link>
-        {reviewerId && (
-          <Link className="text-btn" to={`/account/community/${reviewerId}`}>
-            About {report.name.split(' ')[0]}
-          </Link>
-        )}
       </div>
     </div>
   )

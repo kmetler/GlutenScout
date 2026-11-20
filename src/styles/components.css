@@ -299,6 +299,7 @@
 .meal-card__evidence.is-confirmed > .icon {
   color: var(--evidence-confirmed);
 }
+.meal-card__evidence.is-conflict,
 .meal-card__evidence.is-conflict > .icon {
   color: var(--evidence-conflict);
 }

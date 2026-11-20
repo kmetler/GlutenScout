@@ -66,7 +66,7 @@ export default function PracticeDetail() {
   const row = practiceRows(meal, mealEvidence(meal, reports, votes)).find(
     (r) => r.key === practiceKey,
   )
-  if (!row) return <Navigate to={`/meals/${meal.id}/practices`} replace />
+  if (!row) return <Navigate to={`/meals/${meal.id}`} replace />
 
   const practice = PRACTICES[row.key]
   const groups = GROUPS.map((group) => ({
@@ -76,7 +76,7 @@ export default function PracticeDetail() {
 
   return (
     <>
-      <ScreenHeader title={practice.label} backTo={`/meals/${meal.id}/practices`} />
+      <ScreenHeader title={practice.label} backTo={`/meals/${meal.id}`} />
 
       <div className="section stack-3">
         <div className="stack-2">
