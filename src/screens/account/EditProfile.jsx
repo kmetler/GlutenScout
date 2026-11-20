@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { ActionBar, Button, ScreenHeader, TextField } from '../../components'
 import { useStore } from '../../data/store.jsx'
+import { useGoBackTo } from '../../data/navHistory.js'
 import { NAME_MAX, nameError } from './SetupAbout.jsx'
 
 export default function EditProfile() {
   const { state, actions } = useStore()
-  const navigate = useNavigate()
+  const goBackTo = useGoBackTo()
   const user = state.currentUser
   const [name, setName] = useState(user.name === 'You' ? '' : user.name)
   const [location, setLocation] = useState(user.location)
@@ -15,7 +15,7 @@ export default function EditProfile() {
 
   const save = () => {
     actions.updateProfile({ name: name.trim(), location: location.trim() || user.location })
-    navigate('/account/settings', { state: { saved: 'Name and home area saved.' } })
+    goBackTo('/account/settings', { message: 'Name and home area saved.' })
   }
 
   return (

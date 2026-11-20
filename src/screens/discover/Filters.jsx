@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useGoBackTo } from '../../data/navHistory.js'
 import {
   ActionBar,
   Button,
@@ -16,7 +16,7 @@ import { DISTANCES, FILTER_PRACTICES, RECENCY, SORTS, findMeals } from './eviden
 // Sort and filter. Changes are held here until "Show n meals", so people can see the count
 // before committing (visibility of system status) and back out with Cancel.
 export default function Filters() {
-  const navigate = useNavigate()
+  const goBackTo = useGoBackTo()
   const { discover, setFilters, setSort } = useDiscover()
   const [sort, setDraftSort] = useState(discover.sort)
   const [filters, setDraft] = useState(discover.filters)
@@ -32,7 +32,7 @@ export default function Filters() {
   const apply = () => {
     setSort(sort)
     setFilters(filters)
-    navigate('/discover')
+    goBackTo('/discover')
   }
 
   return (
@@ -148,7 +148,7 @@ export default function Filters() {
         <Button variant="primary" block disabled={count === 0} onClick={apply}>
           {count === 0 ? 'No meals match' : `Show ${count} ${count === 1 ? 'meal' : 'meals'}`}
         </Button>
-        <Button block to="/discover">
+        <Button block onClick={() => goBackTo('/discover')}>
           Cancel
         </Button>
       </ActionBar>

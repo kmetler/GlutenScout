@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+import { useGoBackTo } from '../../data/navHistory.js'
 import { Button, Icon, Notice, ScreenHeader, StepHeader, TextField } from '../../components'
 import { useDiscover } from './discoverStore.js'
 
@@ -14,7 +15,7 @@ const AREAS = [
 
 // Set the area to search near. Also step 3 of the tour (?tour=1).
 export default function Location() {
-  const navigate = useNavigate()
+  const goBackTo = useGoBackTo()
   const [params] = useSearchParams()
   const inTour = params.get('tour') === '1'
   const { discover, setLocation, finishTour } = useDiscover()
@@ -25,7 +26,7 @@ export default function Location() {
   const choose = (area) => {
     setLocation(area)
     if (inTour) finishTour()
-    navigate('/discover')
+    goBackTo('/discover')
   }
 
   return (
@@ -40,7 +41,7 @@ export default function Location() {
               className="text-btn"
               onClick={() => {
                 finishTour()
-                navigate('/discover')
+                goBackTo('/discover')
               }}
             >
               Skip

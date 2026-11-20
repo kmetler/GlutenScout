@@ -156,3 +156,75 @@
   color: var(--evidence-conflict);
   font-weight: 700;
 }
+
+/* Ingredients & hidden gluten (added after user testing). Same icon + words + color pattern
+   as the safety check rows; rows aren't links, so no chevron or pressed state. */
+.ingredients__summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  color: var(--ink-secondary);
+}
+.ingredients__summary > .icon {
+  flex: none;
+  margin-top: 2px;
+}
+.ingredients__summary.is-confirmed > .icon {
+  color: var(--evidence-confirmed);
+}
+.ingredients__summary.is-conflict {
+  color: var(--evidence-conflict);
+  font-weight: 700;
+}
+.ingredients__label {
+  color: var(--ink-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ingredient-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--divider);
+}
+.ingredient-row__icon {
+  margin-top: 2px;
+}
+.ingredient-row.is-confirmed .ingredient-row__icon {
+  background: var(--evidence-confirmed-bg);
+  color: var(--evidence-confirmed);
+}
+.ingredient-row.is-conflict .ingredient-row__icon {
+  background: var(--evidence-conflict-bg);
+  color: var(--evidence-conflict);
+}
+.ingredient-row__main {
+  flex: 1;
+  min-width: 0;
+}
+.ingredient-row__main > * + * {
+  margin-top: var(--space-1);
+}
+.ingredient-row__kind {
+  color: var(--ink-secondary);
+}
+.ingredient-row__status {
+  font-weight: 700;
+  color: var(--ink-secondary);
+}
+.ingredient-row.is-confirmed .ingredient-row__status {
+  color: var(--evidence-confirmed);
+}
+.ingredient-row.is-conflict .ingredient-row__status {
+  color: var(--evidence-conflict);
+}
+.ingredient-row__tip {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--ink);
+}
+.ingredient-row.is-conflict .ingredient-row__tip {
+  background: var(--evidence-conflict-bg);
+}

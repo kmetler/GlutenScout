@@ -3,6 +3,7 @@ import { Icon, MealCard } from '../../components'
 import { ageText, evidenceOf } from './evidence.js'
 import { mealVerifiers, strictnessOf, useStrictness, withStrictness } from '../../data/verifiers.js'
 import { useDiscover } from './discoverStore.js'
+import { ingredientSummary } from '../../data/ingredients.js'
 
 // The one-glance answer for a meal, shared by the meal card and the meal page so they never
 // disagree. Disagreement outranks everything; old evidence turns the date into a warning.
@@ -51,6 +52,7 @@ export function MealResult({ meal }) {
       to={`/meals/${meal.id}`}
       evidence={mealEvidenceLine(shown)}
       verifiedBy={verifiedBy}
+      ingredients={ingredientSummary(meal.id)}
     />
   )
 }

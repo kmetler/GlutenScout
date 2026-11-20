@@ -83,7 +83,18 @@ Unknown meals go to `/discover`; unknown practices go to the meal's practice lis
 - **Discover:** Discover's cards link to `/meals/{meal.id}`. Directions use Discover's `openDirections()`.
 
 ## Left out on purpose
-- Ingredient lists, menus, prices, hours, photos and sharing — insight #4 puts prep before ingredients, and the rest is ordinary restaurant-app content.
+- Menus, prices, hours, photos and sharing — ordinary restaurant-app content. (Ingredient lists were left out at first because insight #4 puts prep before ingredients; user testing changed that, see below.)
 - An overall score or a "safe / not safe" verdict. The page shows evidence, dates and sources; the diner decides.
 - Voting on reports from this section (see decision 8), comments and replies.
 - Sorting reports by anything other than the Account setting.
+
+---
+
+## Changes after user testing (confidence to order)
+
+**Finding.** In the 29-person test, GlutenScout raised confidence about ordering a safe meal less clearly than it raised trust. Asked "What would you still want to know before ordering that meal?", most participants named ingredients, sauces, seasonings, marinades or flour/breading (e.g. "I'd also verify that there's no soy sauce on the salmon, since it often has wheat in it"). Only 5 said they needed nothing more.
+
+1. **Ingredients & hidden gluten, on every meal page.** Directly below the safety check: the meal's main ingredients, then the higher-risk components (sauces, seasoning blends, marinades, flour/breading, oils and fryer use). Each has a status in icon + words: *Gluten-free confirmed*, *Contains gluten* (with how to order around it, e.g. "Ask for none") or *Unknown – ask staff* (with a question to ask). Each status says where it came from and when: "Listed by restaurant, {date}" or "Reported by 2 celiac diners, {date}", and a single diner's word gets "needs more reports" like the safety check. Code: `src/screens/meals/Ingredients.jsx`.
+2. **Ingredient summary on meal cards.** Discover, Search and restaurant pages show "Ingredients: all confirmed", "2 to ask about" or "1 contains gluten" so diners can see whether questions remain. Code: `ingredients` prop on `MealCard`, `ingredientSummary()`.
+
+Example data: `INGREDIENTS` in `src/data/ingredients.js`, one entry per meal. Restaurant-listed items use the date of that meal's "Restaurant answers" source in `sample.js`. The strictness filter doesn't recount ingredient reports yet; reviewer types are shown in the source line instead.

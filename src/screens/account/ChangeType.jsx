@@ -1,20 +1,20 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { ActionBar, Button, ScreenHeader } from '../../components'
 import { useStore } from '../../data/store.jsx'
+import { useGoBackTo } from '../../data/navHistory.js'
 import { ReviewerTypePicker, TypeChangeNotice } from './shared.jsx'
 
 // The one place to change reviewer type after setup.
 export default function ChangeType() {
   const { state, actions } = useStore()
-  const navigate = useNavigate()
+  const goBackTo = useGoBackTo()
   const user = state.currentUser
   const [type, setType] = useState(user.reviewerType)
   const changed = type && type !== user.reviewerType
 
   const save = () => {
     actions.setReviewerType(type)
-    navigate('/account/settings', { state: { saved: `Reviewer type saved: ${type}.` } })
+    goBackTo('/account/settings', { message: `Reviewer type saved: ${type}.` })
   }
 
   return (

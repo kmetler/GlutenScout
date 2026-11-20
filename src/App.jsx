@@ -11,6 +11,7 @@ import AccountRoutes from './screens/account/index.jsx'
 import MyMeals from './screens/account/MyMeals.jsx'
 import { SECTIONS } from './screens/sections.js'
 import { readStored, writeStored } from './data/storage.js'
+import { recordEntry } from './data/navHistory.js'
 
 const DISCLOSURE_KEY = 'gs-disclosure-seen'
 const THEME_KEY = 'gs-theme'
@@ -26,9 +27,14 @@ const SECTION_SCREENS = {
 export default function App() {
   const [showDisclosure, setShowDisclosure] = useState(() => !readStored(DISCLOSURE_KEY))
   const screenRef = useRef(null)
-  const { pathname, key } = useLocation()
+  const { pathname, search, key } = useLocation()
   const navType = useNavigationType()
   const scrollByEntry = useRef({})
+
+  // Lets Back tell whether its destination is the previous screen (see ScreenHeader).
+  useLayoutEffect(() => {
+    recordEntry(pathname + search)
+  }, [key, pathname, search])
 
   // A new screen starts at the top; going Back returns to where you were on that screen
   // (testers lost their place in long lists and reviews after opening a profile or practice).

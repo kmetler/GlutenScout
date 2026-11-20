@@ -19,6 +19,7 @@ import {
   TextField,
 } from '../components'
 import { meals, reports } from '../data/sample.js'
+import { ingredientSummary } from '../data/ingredients.js'
 
 const CHIPS = ['Celiac reports', 'Dedicated fryer', 'Within 2 mi', 'Verified this month']
 
@@ -115,7 +116,7 @@ export default function StyleGuide() {
       <div className="section">
         <h2 className="t-section-header">Meal cards</h2>
         {meals.map((m) => (
-          <MealCard key={m.id} meal={m} />
+          <MealCard key={m.id} meal={m} ingredients={ingredientSummary(m.id)} />
         ))}
       </div>
 

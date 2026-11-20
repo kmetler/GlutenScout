@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { clearFlash, peekFlash } from '../../data/navHistory.js'
 import { Checkbox, ConfirmDialog, ListRow, Notice, ScreenHeader } from '../../components'
 import { useStore } from '../../data/store.jsx'
 import { discoverActions } from '../discover/discoverStore.js'
@@ -21,7 +22,10 @@ export default function Settings() {
   const [confirmReset, setConfirmReset] = useState(false)
   const [resetDone, setResetDone] = useState(false)
   const user = state.currentUser
-  const message = resetDone ? 'Account data reset.' : navState?.saved
+  // "Saved" message from Name / Reviewer type, shown once on return.
+  const [savedMessage] = useState(peekFlash)
+  useEffect(clearFlash, [])
+  const message = resetDone ? 'Account data reset.' : (savedMessage ?? navState?.saved)
 
   return (
     <>
